@@ -1,0 +1,12 @@
+{
+  "name": "wxtiles-api-docs",
+  "version": "0.0.1",
+  "description": "wxTiles API Docs",
+  "scripts": {
+    "build-swagger": "npm run build-swagger-json && npm run build-swagger-js-client",
+    "build-swagger-json": "java -jar ./swagger-codegen-cli.jar generate -i ./swagger-definitions/swagger.yaml -l swagger -o ./swagger-definitions/",
+    "build-swagger-js-client": "java -jar ./swagger-codegen-cli.jar generate -i ./swagger-definitions/swagger.yaml -l javascript -o ./clients/javascript"
+  },
+  "author": "MetOcean",
+  "license": "MIT"
+}
