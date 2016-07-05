@@ -9,7 +9,7 @@ function mountLeafletMap(mountPointId) {
 		maxZoom: 6,
 	}).addTo(leafletExample.leafletMap);
 
-	leafletExample.lightning = L.tileLayer('https://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/{z}/{x}/{y}.png', {
+	leafletExample.lightning = L.tileLayer('http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/{z}/{x}/{y}.png', {
 		maxZoom: 6,
 		tms: true
 	}).addTo(leafletExample.leafletMap);
