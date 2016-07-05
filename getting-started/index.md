@@ -1,12 +1,16 @@
-Getting Started
-========
+#API Documentation
+View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
+
+#Getting Started
 
 wxTiles will render datasets into tiles.
 
-##Getting Layers
+##Concepts
+
+wxTiles 
 
 ```shell
-curl https://http://api.wxtiles.com/wxtiles/layer/
+curl https://api.wxtiles.com/wxtiles/layer/
 ```
 ```javascript
 wxTile.getLayer("wxTiles");
