@@ -37,11 +37,11 @@ Then setup the leaflet map and add a base map tile layer.
 ```js
 var leafletMap = L.map('leafletMap', {
     zoom: 5,
-    attributionControl: false
   }).setView([-38, 80], 2)
 
   var baseMap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-    maxZoom: 18
+    maxZoom: 18,
+    attribution: '<a href="http://www.openstreetmap.org/copyright">© OpenStreetMap</a> contributors <a href="https://cartodb.com/attributions">© CartoDB</a>'
   }).addTo(leafletMap)
 ```
 And we end up with the map below:
@@ -68,7 +68,7 @@ var lightningLayer = L.tileLayer('http://api.wxtiles.com/wxtiles/tile/noaa-mrms-
 Note: We must set tms to true so Leaflet knows to flip the y coordinate when requesting tiles. See the bottom of [this page](http://leafletjs.com/examples/wms/wms.html) for more information. 
 <p id="leaflet-example" class="leaflet-example-map"></p>
 
-##Getting tiles
+#Anatomy of a tile URL
 
 This is a URL of a tile:
 ```
@@ -79,21 +79,21 @@ It produces this image:
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
 ```
-http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{zCoord}/{xCoord}/{yCoord}.{extension}
+http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
   
   
-| Parameter     | Example       						| Meaning |
-| -------------	| -------------							| ----- |
-| ownerId       | wxtiles								| The owner of the dataset.	|
-| layerId       | noaa-mrms-us-lightning-probability	| The id of the layer.		|
-| instanceId    | Next30min								| The id of the instance.	|
-| time			| 2016-07-05T01:14:36Z					| TBA
-| level			| 0										| TBA
-| zCoord		| 7										| TBA
-| xCoord		| 38									| TBA
-| yCoord		| 78									| TBA
-| extention		| png									| TBA
+| Parameter     | Example       						          | Meaning
+| -------------	| -------------							          | -----
+| ownerId       | wxtiles								              | The owner of the dataset.
+| layerId       | noaa-mrms-us-lightning-probability	| The id of the layer.
+| instanceId    | Next30min								            | The id of the instance.
+| time			    | 2016-07-05T01:14:36Z                | The time slice in the dataset to display.
+| level			    | 0										                | The vertical level in the dataset to display.
+| z     		    | 7										                | The map zoom level. Set by the map library.
+| x     		    | 38									                | The map x position. Set by the map library.
+| y     		    | 78									                | The map x position. Set by the map library.
+| extention	    | png									                | PNG
 
 In order to get a usable url that you can feed to a map library you must substitute some of the parameters in the url before you hand it off to the map library.
 
