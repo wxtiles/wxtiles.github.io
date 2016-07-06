@@ -72,10 +72,10 @@ Note: We must set tms to true so Leaflet knows to flip the y coordinate when req
 
 This is a URL of a tile:
 ```
-http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/7/38/78.png
+http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/6/18/39.png
 ```
 It produces this image:  
-![An example tile](http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/7/38/78.png "An example tile")
+![An example tile](http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/6/18/39.png "An example tile")
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
 ```
