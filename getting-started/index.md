@@ -37,7 +37,7 @@ And some css to define the height of the map:
 
 Then setup the leaflet map and add a base map tile layer.
 ```js
-var leafletMap = L.map('leafletMap', {
+var leafletMap = L.map('leaflet-map', {
     zoom: 5,
   }).setView([-38, 80], 2)
 
