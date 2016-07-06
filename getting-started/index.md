@@ -7,7 +7,7 @@ wxTiles will render datasets into tiles.
 
 ##Getting tiles
 
-This is a URL of a tile.
+This is a URL of a tile:
 ```
 http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/7/38/78.png
 ```
@@ -36,19 +36,61 @@ In order to get a usable url that you can feed to a map library you must substit
 
 
 ##Leaflet
-<code>Put a leaflet example map here.
-Will have to include the js in the index.html and use a js hook to know when to mount the map.
-See: http://ricostacruz.com/flatdoc/#customizing-basic-javascript-hooks</code>
 
-<p id="leaflet-example"></p>
+This example uses the [Leaflet](http://leafletjs.com/) library for interactive maps. If you are not familiar with Leaflet then you should check out their [quick start guide](http://leafletjs.com/examples/quick-start.html). 
 
+###Preparing the map
+The first step is to setup the leaflet map. Include the Leaflet css and javascript files in the head of your page. 
+```html
+<head>
+...
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+...
+</head>
+```
+Include a container to place the map inside:
+```html
+<div id="leaflet-map"></div>
+```
+And some css to define the height of the map:
+```css
+#leaflet-map {
+  height: 225px;
+}
+```
+
+Then setup the leaflet map and a base map tile layer.
 ```js
-var leafletMap = leaflet.map('leafletMap', {
+var leafletMap = L.map('leafletMap', {
     zoom: 5,
     attributionControl: false
   }).setView([-38, 80], 2)
 
-  var baseMap = leaflet.tileLayer('https://c.tiles.mapbox.com/v4/aj.Sketchy2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWV0b2NlYW4iLCJhIjoia1hXZjVfSSJ9.rQPq6XLE0VhVPtcD9Cfw6A', {
+  var baseMap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     maxZoom: 18
   }).addTo(leafletMap)
-  ```
+```
+And we end up with the map below:
+<p id="leaflet-example-no-overlay" class="leaflet-example-map"></p>
+
+###Adding wxtiles
+Now that we have a map we can add a WXTile overlay. We will use the "Cloud-to-gound lightning probability (MRMS)" layer. This layer has a single instance: "Next30min" and no vertical levels. Given that we also know a time and that the id of this layer is "noaa-mrms-us-lightning-probability" we can fill in all the parameters in the url to request PNG tiles to place on a map.  
+
+So this:
+```
+http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
+```
+Will become this:
+```
+http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/{z}/{x}/{y}.png
+```
+The {z}, {x}, and {y} parameters will be filled in by the map library when it requests tiles. Now we just need construct another layer with our url and add it to the map.  
+```js
+var lightningLayer = L.tileLayer('http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/{z}/{x}/{y}.png', {
+		maxZoom: 9,
+		tms: true
+	}).addTo(leafletMap);
+```
+Note: We must set tms to true so Leaflet knows to flip the y coordinate when requesting tiles. See the bottom of [this page](http://leafletjs.com/examples/wms/wms.html) for more information. 
+<p id="leaflet-example" class="leaflet-example-map"></p>

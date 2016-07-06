@@ -38,7 +38,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
   <script src="./getting-started/leaflet-example.js"></script>
   <style>
-    #leaflet-example {
+    .leaflet-example-map {
       height: 225px;
       max-width: 500px;
       margin: 20px;
@@ -58,12 +58,12 @@
     $(document).on('flatdoc:ready', function() {
       //Load the leaflet example.
       mountLeafletMap('leaflet-example');
+      mountLeafletMapNoOverlay('leaflet-example-no-overlay');
     });
   </script>
 </head>
 
-<body role='flatdoc'>
-
+<body role='flatdoc' class='no-literate'>
   <div class='header'>
     <div class='left'>
       <h1>Your Project</h1>
