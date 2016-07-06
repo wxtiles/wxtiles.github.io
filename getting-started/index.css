@@ -1,0 +1,9 @@
+.leaflet-example-map {
+	height: 225px;
+	max-width: 500px;
+	margin: 20px;
+}
+
+#leaflet-example-start {
+	margin-bottom: 0px;
+}

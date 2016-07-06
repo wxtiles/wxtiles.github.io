@@ -7,6 +7,8 @@ wxTiles will render datasets into tiles and allow you to request those tiles for
 In this example we will create the map below and add the Cloud-to-gound lightning probability (MRMS) layer from WXTiles.
 <p id="leaflet-example-start" class="leaflet-example-map"></p>
 
+![Lightning probability legend](http://api.wxtiles.com/wxtiles/legend/noaa-mrms-us-lightning-probability/Next30min/small/horizontal.png "Lightning probability")
+
 ###Leaflet
 
 This example uses the [Leaflet](http://leafletjs.com/) library for interactive maps. If you are not familiar with Leaflet then you should check out their [quick start guide](http://leafletjs.com/examples/quick-start.html).
