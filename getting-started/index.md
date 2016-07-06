@@ -93,7 +93,7 @@ http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/
 | z     		    | 7										                | The map zoom level. Set by the map library.
 | x     		    | 38									                | The map x position. Set by the map library.
 | y     		    | 78									                | The map x position. Set by the map library.
-| extention	    | png									                | PNG
+| extension	    | png									                | PNG
 
 In order to get a usable url that you can feed to a map library you must substitute some of the parameters in the url before you hand it off to the map library.
 
