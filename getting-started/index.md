@@ -70,6 +70,11 @@ var lightningLayer = L.tileLayer('http://api.wxtiles.com/wxtiles/tile/noaa-mrms-
 Note: We must set tms to true so Leaflet knows to flip the y coordinate when requesting tiles. See the bottom of [this page](http://leafletjs.com/examples/wms/wms.html) for more information. 
 <p id="leaflet-example" class="leaflet-example-map"></p>
 
+###Adding the legend
+
+In order for users to interpret the data we need to display a legend for the layer we have added to the map. WXTiles provides a legend as a PNG image for each layer it renders.
+
+
 #Anatomy of a tile URL
 
 This is a URL of a tile:
