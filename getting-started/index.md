@@ -72,8 +72,26 @@ Note: We must set tms to true so Leaflet knows to flip the y coordinate when req
 
 ###Adding the legend
 
-In order for users to interpret the data we need to display a legend for the layer we have added to the map. WXTiles provides a legend as a PNG image for each layer it renders.
+In order for users to interpret the data we need to display a legend for the layer we have added to the map. WXTiles provides a legend as a PNG image for each layer it renders. If we know the information needed to get a tile url, then we can get the legend.  
+A legend URL looks like:
 
+```
+https://api.wxtiles.com/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png
+```
+
+So when we substitute:
+
+* "small" or "large" for the size
+* "horizontal" or "vertical" for the orientation
+* the same values for ownerId, layerId, and instanceId as in the tile URL
+
+then we end up with:
+```
+https://api.wxtiles.com/wxtiles/legend/noaa-mrms-us-lightning-probability/Next30min/small/horizontal.png
+```
+
+That produces the following image:  
+![Lightning probability legend](http://api.wxtiles.com/wxtiles/legend/noaa-mrms-us-lightning-probability/Next30min/small/horizontal.png "Lightning probability")
 
 #Anatomy of a tile URL
 
