@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
   
-  <script src="./getting-started/leaflet-example.js"></script>
+  <script src="./getting-started/bundle.js"></script>
   <link rel="stylesheet" href="./getting-started/index.css" />
 
   <!-- Initializer -->
@@ -46,11 +46,10 @@
       fetcher: Flatdoc.file('./getting-started/index.md')
     });
 
+    var main = require('main');
     $(document).on('flatdoc:ready', function() {
-      //Load the leaflet example.
-      mountLeafletMap('leaflet-example-start');
-      mountLeafletMapNoOverlay('leaflet-example-no-overlay');
-      mountLeafletMap('leaflet-example');
+      //Load the leaflet example maps.
+      main.mountExamples();
     });
   </script>
 </head>

@@ -5,8 +5,12 @@
   "scripts": {
     "build-swagger": "npm run build-swagger-json && npm run build-swagger-js-client",
     "build-swagger-json": "java -jar ./swagger-codegen-cli.jar generate -i ./swagger-definitions/swagger.yaml -l swagger -o ./swagger-definitions/",
-    "build-swagger-js-client": "java -jar ./swagger-codegen-cli.jar generate -i ./swagger-definitions/swagger.yaml -l javascript -o ./clients/javascript"
+    "build-swagger-js-client": "java -jar ./swagger-codegen-cli.jar generate -i ./swagger-definitions/swagger.yaml -l javascript -o ./clients/javascript",
+    "build-docs": "browserify -r ./getting-started/main.js:main > ./getting-started/bundle.js"
   },
   "author": "MetOcean",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "wx-tiles": "github:wxtiles/wxtilesjs"
+  }
 }
