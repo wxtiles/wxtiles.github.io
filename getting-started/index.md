@@ -1,13 +1,15 @@
 #API Documentation
 View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
 
+
 #Getting Started
 
 wxTiles will render datasets into tiles and allow you to request those tiles for display with popular map libraries.  
 In this example we will create the map below and add the Cloud-to-gound lightning probability (MRMS) layer from WXTiles.
-<p id="leaflet-example-start" class="leaflet-example-map"></p>
 
-![Lightning probability legend](http://api.wxtiles.com/wxtiles/legend/noaa-mrms-us-lightning-probability/Next30min/small/horizontal.png "Lightning probability")
+![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
+
+![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
 ###Leaflet
 
@@ -47,10 +49,10 @@ var leafletMap = L.map('leaflet-map', {
   }).addTo(leafletMap)
 ```
 And we end up with the map below:
-<p id="leaflet-example-no-overlay" class="leaflet-example-map"></p>
+![Leaflet example map without overlay](./getting-started/map-without-layer-small.png "Leaflet example map without overlay")
 
 ###Adding wxtiles
-Now that we have a map we can add a WXTiles overlay. We will use the "Cloud-to-gound lightning probability (MRMS)" layer. This layer has a single instance: "Next30min" and no vertical levels. Given that we also know a time and that the id of this layer is "noaa-mrms-us-lightning-probability" we can fill in all the parameters in the url to request PNG tiles to place on a map.  
+Now that we have a map we can add a WXTiles overlay. We will use the "" layer. This layer has a single instance: "" and no vertical levels. Given that we also know a time and that the id of this layer is "noaa-mrms-us-lightning-probability" we can fill in all the parameters in the url to request PNG tiles to place on a map.  
 
 So this:
 ```
@@ -58,17 +60,18 @@ http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/
 ```
 Will become this:
 ```
-http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/{z}/{x}/{y}.png
+https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png
 ```
 The {z}, {x}, and {y} parameters will be filled in by the map library when it requests tiles. Now we just need construct another layer with our url and add it to the map.  
 ```js
-var lightningLayer = L.tileLayer('http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/{z}/{x}/{y}.png', {
+var lightningLayer = L.tileLayer('https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png', {
 		maxZoom: 9,
 		tms: true
 	}).addTo(leafletMap);
 ```
 Note: We must set tms to true so Leaflet knows to flip the y coordinate when requesting tiles. See the bottom of [this page](http://leafletjs.com/examples/wms/wms.html) for more information. 
-<p id="leaflet-example" class="leaflet-example-map"></p>
+
+![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
 
 ###Adding the legend
 
@@ -87,20 +90,19 @@ So when we substitute:
 
 then we end up with:
 ```
-https://api.wxtiles.com/wxtiles/legend/noaa-mrms-us-lightning-probability/Next30min/small/horizontal.png
+https://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png
 ```
-
 That produces the following image:  
-![Lightning probability legend](http://api.wxtiles.com/wxtiles/legend/noaa-mrms-us-lightning-probability/Next30min/small/horizontal.png "Lightning probability")
+![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
 #Anatomy of a tile URL
 
 This is a URL of a tile:
 ```
-http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/6/18/39.png
+https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
 ```
 It produces this image:  
-![An example tile](http://api.wxtiles.com/wxtiles/tile/noaa-mrms-us-lightning-probability/Next30min/2016-07-05T01:14:36Z/0/6/18/39.png "An example tile")
+![An example tile](./getting-started/example-tile.png "An example tile")
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
 ```
