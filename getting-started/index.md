@@ -4,14 +4,14 @@ View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-doc
 
 #Getting Started
 
-wxTiles will render datasets into tiles and allow you to request those tiles for display with popular map libraries.  
+WXTiles will render datasets into tiles and allow you to request those tiles for display with popular map libraries.  
 In this example we will create the map below and add the Cloud-to-gound lightning probability (MRMS) layer from WXTiles.
 
 ![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
 
 ![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
-###Leaflet
+##Setting up Leaflet
 
 This example uses the [Leaflet](http://leafletjs.com/) library for interactive maps. If you are not familiar with Leaflet then you should check out their [quick start guide](http://leafletjs.com/examples/quick-start.html).
 
@@ -51,8 +51,9 @@ var leafletMap = L.map('leaflet-map', {
 And we end up with the map below:
 ![Leaflet example map without overlay](./getting-started/map-without-layer-small.png "Leaflet example map without overlay")
 
-###Adding wxtiles
-Now that we have a map we can add a WXTiles overlay. We will use the "" layer. This layer has a single instance: "" and no vertical levels. Given that we also know a time and that the id of this layer is "noaa-mrms-us-lightning-probability" we can fill in all the parameters in the url to request PNG tiles to place on a map.  
+##Adding WXTiles
+###Adding a tile layer
+Now that we have a map we can add a WXTiles overlay. We will use the Reflectivity at Lowest Altitude (MRMS RALA) layer. This layer has a single instance: "QCComposite" and no vertical levels. Given that we also know a time and that the id of this layer is "ncep-mrms-us-reflectivity" we can fill in all the parameters in the url to request PNG tiles to place on a map.  
 
 So this:
 ```
@@ -113,9 +114,9 @@ http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/
 | Parameter     | Example       						          | Meaning
 | -------------	| -------------							          | -----
 | ownerId       | wxtiles								              | The owner of the dataset.
-| layerId       | noaa-mrms-us-lightning-probability	| The id of the layer.
-| instanceId    | Next30min								            | The id of the instance.
-| time			    | 2016-07-05T01:14:36Z                | The time slice in the dataset to display.
+| layerId       | ncep-mrms-us-reflectivity         	| The id of the layer.
+| instanceId    | QCComposite							            | The id of the instance.
+| time			    | 2016-07-17T21:16:37Z                | The time slice in the dataset to display.
 | level			    | 0										                | The vertical level in the dataset to display.
 | z     		    | 7										                | The map zoom level. Set by the map library.
 | x     		    | 38									                | The map x position. Set by the map library.
