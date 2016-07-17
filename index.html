@@ -36,7 +36,7 @@
   <!-- Leaflet Example -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
-
+  
   <script src="./getting-started/bundle.js"></script>
   <link rel="stylesheet" href="./getting-started/index.css" />
 
@@ -50,11 +50,6 @@
     $(document).on('flatdoc:ready', function() {
       //Load the leaflet example maps.
       main.mountExamples();
-
-      var mainContent = document.getElementById("main-content");
-      mainContent.innerHTML = mainContent.innerHTML.replace(/{replace-tile-url-here}/g, "https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite");
-      mainContent.innerHTML = mainContent.innerHTML.replace(/{replace-legend-url-here}/g, "https://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite");
-      mainContent.innerHTML = mainContent.innerHTML.replace(/{replace-time-here}/g, "2016-07-14T15:00:37Z");
     });
   </script>
 </head>
@@ -70,8 +65,7 @@
     </div>
     <div class='right'>
       <!-- GitHub buttons: see http://ghbtns.com -->
-      <iframe src="https://ghbtns.com/github-btn.html?user=wxtiles&amp;repo=wxtiles-docs&amp;type=watch&amp;count=true" allowtransparency="true"
-        frameborder="0" scrolling="0" width="110" height="20"></iframe>
+      <iframe src="https://ghbtns.com/github-btn.html?user=wxtiles&amp;repo=wxtiles-docs&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
     </div>
   </div>
 
@@ -79,7 +73,7 @@
     <div class='menubar'>
       <div class='menu section' role='flatdoc-menu'></div>
     </div>
-    <div role='flatdoc-content' class='content' id="main-content"></div>
+    <div role='flatdoc-content' class='content'></div>
   </div>
 
 </body>
