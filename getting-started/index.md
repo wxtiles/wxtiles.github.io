@@ -96,6 +96,34 @@ https://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/sma
 That produces the following image:  
 ![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
+#Using the Javascript library
+
+##Querying for metadata
+
+The above example shows you how to add a single layer to a map. However you must already know the ids of the layer and instance to display, as well as the times and levels that are available. In order to get that information you need to query the metadata from the WXTiles api. You can do this by using the API directly (API documentation is [here](https://wxtiles.github.io/wxtiles-docs/api-docs/)), but for this example we will use the javascript library provided at https://github.com/wxtiles/wxtilesjs.  
+
+###Installing the library
+To install the library in to your project you should install via npm:
+```shell
+npm install wxtiles/wxtilesjs --save
+```
+(See [installation instructions](https://github.com/wxtiles/wxtilesjs#installation) for more information.)
+
+###Import the module
+Once the library is installed into your project you can require in the API library:
+```js
+var WxTiles = require('wx-tiles');
+var tilesApi = new WxTiles.TilesApi();
+```
+
+###Getting layers
+
+
+
+
+
+
+
 #Reference
 
 ###Anatomy of a tile URL
