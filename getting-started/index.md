@@ -98,9 +98,6 @@ That produces the following image:
 
 #Using the Javascript library
 
-##Querying for metadata
-
-The above example shows you how to add a single layer to a map. However you must already know the ids of the layer and instance to display, as well as the times and levels that are available. In order to get that information you need to query the metadata from the WXTiles api. You can do this by using the API directly (API documentation is [here](https://wxtiles.github.io/wxtiles-docs/api-docs/)), but for this example we will use the javascript library provided at https://github.com/wxtiles/wxtilesjs.  
 
 ###Installing the library
 To install the library in to your project you should install via npm:
@@ -116,12 +113,90 @@ var WxTiles = require('wx-tiles');
 var tilesApi = new WxTiles.TilesApi();
 ```
 
+##Querying for metadata
+
+The above example shows you how to add a single layer to a map. However you must already know the ids of the layer and instance to display, as well as the times and levels that are available. In order to get that information you need to query the metadata from the WXTiles api. You can do this by using the API directly (API documentation is [here](https://wxtiles.github.io/wxtiles-docs/api-docs/)), but for this example we will use the javascript library provided at https://github.com/wxtiles/wxtilesjs.  
+
+###Setting up the callback
+The following examples use a callback to provide the data retrieved from the API back to your program. A simple callback that will just log the response to the console is shown below.
+```js
+var callback = function(error, response)
+{
+  if(error) {
+    //Do something with the error.
+  }
+
+  console.log(response);
+}
+```
+
 ###Getting layers
+Assuming that we have setup a callback function, then querying for layers is as easy as passing the id of the owner of the layers, in this case 'wxtiles', any empty options object, and the callback we set up earlier.
+```js
+tilesApi.getLayers('wxtiles', {}, callback);
+```
 
+This will get all the layers provided by WXTiles and log them to the console, which (for a single layer) will look something like this:
+```json
+[
+  {
+    "id": "ncep-mrms-us-rotation-track-30",
+    "instances": [
+      {
+        "id": "RotationTrack30min",
+        "created": "2016-07-19T01:21:32.212193Z"
+      }
+    ],
+    "bounds": {
+      "west": -129.9975,
+      "east": -60.002502,
+      "north": 54.9975,
+      "south": 20.002501
+    },
+    "meta": {
+      "name": "Rotation track 0-2km AGL 30 minutes (MRMS)",
+      "description": "Rotation track 0-2km AGL 30 minutes, 500m above mean sea level",
+      "organisation": "NOAA",
+      "source": "MRMS",
+      "regions": [
+        "840"
+      ],
+      "unit_system": "metric"
+    },
+    "resources": {
+      "tile": "\/wxtiles\/tile\/ncep-mrms-us-rotation-track-30\/<instance>\/<time>\/<level>\/{z}\/{x}\/{y}.png",
+      "legend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.png",
+      "jsonlegend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.json"
+    }
+  }
+]
+```
+The layer metadata includes an array of instances. In this case there is only one instance for this layer. That instance id, "RotationTrack30min", will be used to query for the times and levels that are available for this dataset.
 
+###Getting times
+Once we have the ownerId ("wxtiles"), the layerId ("ncep-mrms-us-rotation-track-30"), and the instanceId ("RotationTrack30min") we can query the API for a list of times that are currently available for the dataset.
+```js
+tilesApi.getTimes('wxtiles', 'ncep-mrms-us-rotation-track-30', 'RotationTrack30min', callback);
+```
+This will produce:
+```json
+[
+  "2016-07-18T14:00:37Z",
+  "2016-07-18T14:02:39Z",
+  "2016-07-18T14:04:35Z",
 
+  ...
 
+  "2016-07-19T02:46:38Z",
+  "2016-07-19T02:48:37Z",
+  "2016-07-19T02:50:38Z"
+]
+```
 
+###Getting levels
+get some levels
+
+###Getting the tile URL
 
 
 #Reference
