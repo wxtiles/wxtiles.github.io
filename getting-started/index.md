@@ -207,7 +207,7 @@ Now that we have the instance id and the times we can plug those into the tile U
     }
 ```
 
-Using the tile url provided and substituting in an instance id and a time, and assuming that the level is 0, we can transform :
+Using the tile url provided and substituting in an instance id and a time, and assuming that the level is 0, we can transform:
 ```
 /wxtiles/tile/ncep-mrms-us-rotation-track-30/<instance>/<time>/<level>/{z}/{x}/{y}.png
 ```
@@ -244,6 +244,4 @@ http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/
 | x     		    | 38									                | The map x position. Set by the map library.
 | y     		    | 78									                | The map x position. Set by the map library.
 | extension	    | png									                | PNG
-
-In order to get a usable url that you can feed to a map library you must substitute some of the parameters in the url before you hand it off to the map library.
 
