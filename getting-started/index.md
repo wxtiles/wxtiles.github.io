@@ -194,10 +194,27 @@ This will produce:
 ```
 
 ###Getting levels
-get some levels
+This dataset has no levels, so we can just set this to zero.
 
 ###Getting the tile URL
+Now that we have the instance id and the times we can plug those into the tile URL. The response from the first request to get the layers included a resources field in the definition of each layer.
 
+```json
+ "resources": {
+      "tile": "\/wxtiles\/tile\/ncep-mrms-us-rotation-track-30\/<instance>\/<time>\/<level>\/{z}\/{x}\/{y}.png",
+      "legend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.png",
+      "jsonlegend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.json"
+    }
+```
+
+Using the tile url provided and substituting in an instance id and a time, and assuming that the level is 0, we can transform :
+```
+/wxtiles/tile/ncep-mrms-us-rotation-track-30/<instance>/<time>/<level>/{z}/{x}/{y}.png
+```
+into a URL that is ready to be passed to mapping libraries:
+```
+/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
+```
 
 #Reference
 
