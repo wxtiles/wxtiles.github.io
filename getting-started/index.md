@@ -129,6 +129,9 @@ var callback = function(error, response)
   console.log(response);
 }
 ```
+###Trying it out
+This page has been setup with the javascript library and the simple callback above so you can open the dev tools of your browser and try out any of the examples below.
+
 
 ###Getting layers
 Assuming that we have setup a callback function, then querying for layers is as easy as passing the id of the owner of the layers, in this case 'wxtiles', any empty options object, and the callback we set up earlier.
@@ -207,13 +210,13 @@ Now that we have the instance id and the times we can plug those into the tile U
     }
 ```
 
-Using the tile url provided and substituting in an instance id and a time, and assuming that the level is 0, we can transform:
+Using the tile path provided with the api root (https://api.wxtiles.com) and substituting in an instance id and a time, and assuming that the level is 0, we can transform:
 ```
 /wxtiles/tile/ncep-mrms-us-rotation-track-30/<instance>/<time>/<level>/{z}/{x}/{y}.png
 ```
 into a URL that is ready to be passed to mapping libraries:
 ```
-/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
+https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
 ```
 
 #Reference
@@ -229,7 +232,7 @@ It produces this image:
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
 ```
-http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
+https://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
   
   
