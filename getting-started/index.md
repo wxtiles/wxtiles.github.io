@@ -7,9 +7,7 @@ View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-doc
 WXTiles will render datasets into tiles and allow you to request those tiles for display with popular map libraries.  
 In this example we will create the map below and add the Cloud-to-gound lightning probability (MRMS) layer from WXTiles.
 
-```
 ![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
-```
 
 ![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
@@ -51,9 +49,7 @@ var leafletMap = L.map('leaflet-map', {
   }).addTo(leafletMap)
 ```
 And we end up with the map below:
-```
 ![Leaflet example map without overlay](./getting-started/map-without-layer-small.png "Leaflet example map without overlay")
-```
 
 ##Adding WXTiles
 ###Adding a tile layer
@@ -76,9 +72,7 @@ var lightningLayer = L.tileLayer('https://api.wxtiles.com/wxtiles/tile/ncep-mrms
 ```
 Note: We must set tms to true so Leaflet knows to flip the y coordinate when requesting tiles. See the bottom of [this page](http://leafletjs.com/examples/wms/wms.html) for more information. 
 
-```
 ![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
-```
 
 ###Adding the legend
 
@@ -234,9 +228,7 @@ This is a URL of a tile:
 https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
 ```
 It produces this image:  
-```
 ![An example tile](./getting-started/example-tile.png "An example tile")
-```
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
 ```
