@@ -7,3 +7,8 @@
 #leaflet-example-start {
 	margin-bottom: 0px;
 }
+
+/* Override the css we import for the nav bar. */
+html#root {
+	background: #fff;
+}
