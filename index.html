@@ -38,15 +38,10 @@
   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>-->
 
   <script src="./getting-started/bundle.js"></script>
-  <!--<link rel="stylesheet" href="./getting-started/index.css" />-->
+  <link rel="stylesheet" href="./getting-started/index.css" />
 
-  <!--From Wordpress site-->
-
-
-
-
-  <!-- Initializer -->
   <script>
+    //From Wordpress site.  
     //This is terible and I hate it.
     //Download the page to get the html.
     $.get('https://wxtiles.wpengine.com/blank/', function (html) {
@@ -55,7 +50,7 @@
       $("head").append(headHtml);
     });
      
-    
+    //Initializer    
     Flatdoc.run({
       fetcher: Flatdoc.file('./getting-started/index.md')
     });
