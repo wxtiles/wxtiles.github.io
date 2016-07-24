@@ -2,6 +2,8 @@ API Docs
 =======
 Swagger-ui based API documentation is found in the api-docs directory.
 
+Go here https://wxtiles.github.io/wxtiles-docs/
+
 Code-Gen
 ========
 The yaml file found at swagger-definitions/swagger.yaml is the source of truth for these api docs.
