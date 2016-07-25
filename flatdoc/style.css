@@ -824,21 +824,6 @@ html {
 .flatdoc .menu a.active:hover {
   color: #505050 !important;
 }
-.flatdoc .menu a.active:after {
-  content: '';
-  display: block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  position: absolute;
-  top: 10px;
-  right: 30px;
-  width: 9px;
-  height: 3px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  background: #2badad;
-}
 .flatdoc code .string,
 .flatdoc code .number {
   color: #3ac;
