@@ -16,3 +16,7 @@ html#root {
 html#root pre {
 	background-image: none;
 }
+
+html#root .container.av-logo-container {
+	padding: 0px 50px;
+}
