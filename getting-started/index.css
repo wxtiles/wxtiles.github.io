@@ -12,3 +12,7 @@
 html#root {
 	background: #fff;
 }
+
+html#root pre {
+	background-image: none;
+}
