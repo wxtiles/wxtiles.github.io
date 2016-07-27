@@ -23,3 +23,11 @@ html#root td {
 html#root p {
 	margin: 0;
 }
+
+html#root .swagger-section .container {
+	padding: 0;
+}
+
+html#root .swagger-section .container ul {
+	margin-left: 0;
+}
