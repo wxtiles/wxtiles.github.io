@@ -9,7 +9,6 @@ html#root .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoint
 
 /* Override the css we import for the nav bar. */
 html#root {
-	/*background: #fff;*/
   background: transparent;
 }
 
@@ -20,10 +19,7 @@ html#root pre {
 html#root td {
   border-width: 0; 
 }
-    /*background: transparent;*/
 
-/*clear: both;
-  display: block;
-  font-size: 1.1em;
-  margin: 0;
-  padding: 15px 0 5px;*/
+html#root p {
+	margin: 0;
+}
