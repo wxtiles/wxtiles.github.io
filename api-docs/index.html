@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="root">
 
 <head>
   <meta charset="UTF-8">
@@ -29,7 +29,7 @@
   <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
   <!-- <script src='lang/en.js' type='text/javascript'></script> -->
 
-  <link href='css/branding.css' rel='stylesheet' type='text/css' />
+  <link href='css/branding.css' media='screen' rel='stylesheet' type='text/css' />
 
   <script type="text/javascript">
     $(function () {
@@ -112,25 +112,25 @@
   </script>
 
   <script>
-    //From Wordpress site.  
-    //This is terible and I hate it.
-    //Download the page to get the html.
-    // debugger;
-    // $.get('https://wxtiles.wpengine.com/blank/', function (html) {
-    //   //Get the head element from the downloaded html and add it to this head.
-    //   var headHtml = /<head.*?>([\s\S]*)<\/head>/.exec(html)[1];
-    //   $("head").append(headHtml);
-    //   debugger;
-    // });
-
-     //Load the nav bar from the sales site.
-     $('#wp-nav').load('https://wxtiles.wpengine.com/blank/ #header'); 
+    $(document).ready(function(){
+      //From Wordpress site.
+      //This is terible and I hate it.
+      //Download the page to get the html.
       
-    
+      $.get('https://wxtiles.wpengine.com/blank/', function (html) {
+        //Get the head element from the downloaded html and add it to this head.
+        var headHtml = /<head.*?>([\s\S]*)<\/head>/.exec(html)[1];
+        $("head").append(headHtml);
+      });
+
+      //Load the nav bar from the sales site.
+      $('#wp-nav').load('https://wxtiles.wpengine.com/blank/ #header');
+
+    });
   </script>
 </head>
 
-<body class="swagger-section">
+<body >
   <div id="top">
     <div id="wp-nav">
     </div>
@@ -146,9 +146,10 @@
     </form>
   </div>
 </div>-->
-
+<div class="swagger-section">
   <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
   <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+  </div>
 </body>
 
 </html>
