@@ -94,7 +94,7 @@ then we end up with:
 https://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png
 ```
 That produces the following image:  
-![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
+![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
 #Using the Javascript library
 
