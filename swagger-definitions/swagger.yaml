@@ -9,7 +9,7 @@ host: api.wxtiles.com
 schemes:
   - https
 # will be prefixed to all paths
-basePath: /
+basePath: /v0/
 produces:
   - application/json
   - application/x-protobuf
@@ -17,7 +17,7 @@ produces:
 tags:
   - name: Tiles
     description: WXTiles API
-  
+
 paths:
   /{ownerId}/layer/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
@@ -51,7 +51,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /{ownerId}/layer/{layerId}/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
@@ -76,7 +76,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /{ownerId}/layer/{layerId}/instance/{instanceId}/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
@@ -102,7 +102,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /{ownerId}/layer/{layerId}/instance/{instanceId}/times/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: times
@@ -130,7 +130,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /{ownerId}/layer/{layerId}/instance/{instanceId}/levels/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
@@ -158,7 +158,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: tile
@@ -182,7 +182,7 @@ paths:
       responses:
         200:
           description: A rendered map tile as a PNG
-          schema: 
+          schema:
             type: file
         # 404:
         #   description: "**Not Found**: the owner, layer or instance does not exist, or the time or level does not exist for the instance. <time> and <level> should be set to 0 when no temporal or vertical dimension is present (the `resources` of a layer does this automatically)."
@@ -190,7 +190,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
@@ -218,7 +218,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.json:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
@@ -326,7 +326,7 @@ parameters:
     enum:
       - small
       - large
-    
+
 definitions:
   Layers:
     type: array
@@ -585,7 +585,7 @@ definitions:
       unit_system:
         type: string
         description: The system of units that the layer renders quantitative values in. Examples include "metric" and "uscs", for layers that render with metric and United States customary system (USCS) units, respectively. A null value indicates that the unit system is unspecified or does not fit into a category (e.g. knots). This does not indicate exactly which units a plot will render, only a broad classification. This can be used to filter duplicate layers that only differ in whether they render the same physical phenomenon as, for example, millimetres or inches. There is no restriction on what value this string may take.
-        
+
   Error:
     type: object
     properties:
