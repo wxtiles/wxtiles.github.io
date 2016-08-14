@@ -9,7 +9,7 @@ In this example we will create the map below and add the Cloud-to-gound lightnin
 
 ![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
 
-![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
+![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
 ##Setting up Leaflet
 
@@ -94,7 +94,7 @@ then we end up with:
 https://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png
 ```
 That produces the following image:  
-![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
+![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
 #Using the Javascript library
 
