@@ -9,7 +9,7 @@ host: api.wxtiles.com
 schemes:
   - https
 # will be prefixed to all paths
-basePath: /v0/
+basePath: /v0
 produces:
   - application/json
   - application/x-protobuf
