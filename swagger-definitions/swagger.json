@@ -6,7 +6,7 @@
     "title" : "WXTiles"
   },
   "host" : "api.wxtiles.com",
-  "basePath" : "/",
+  "basePath" : "/v0",
   "tags" : [ {
     "name" : "Tiles",
     "description" : "WXTiles API"
@@ -26,7 +26,8 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "tags",
           "in" : "query",
@@ -68,13 +69,15 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         } ],
         "responses" : {
           "200" : {
@@ -108,19 +111,22 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "instanceId",
           "in" : "path",
           "description" : "The id of the instance.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         } ],
         "responses" : {
           "200" : {
@@ -154,19 +160,22 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "instanceId",
           "in" : "path",
           "description" : "The id of the instance.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         } ],
         "responses" : {
           "200" : {
@@ -203,19 +212,22 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "instanceId",
           "in" : "path",
           "description" : "The id of the instance.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         } ],
         "responses" : {
           "200" : {
@@ -252,33 +264,38 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "instanceId",
           "in" : "path",
           "description" : "The id of the instance.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "size",
           "in" : "path",
           "description" : "The size.",
           "required" : true,
           "type" : "string",
-          "enum" : [ "small", "large" ]
+          "enum" : [ "small", "large" ],
+          "x-example" : "small"
         }, {
           "name" : "orientation",
           "in" : "path",
           "description" : "The orientation.",
           "required" : true,
           "type" : "string",
-          "enum" : [ "horizontal", "vertical" ]
+          "enum" : [ "horizontal", "vertical" ],
+          "x-example" : "horizontal"
         } ],
         "responses" : {
           "200" : {
@@ -312,33 +329,38 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "instanceId",
           "in" : "path",
           "description" : "The id of the instance.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "size",
           "in" : "path",
           "description" : "The size.",
           "required" : true,
           "type" : "string",
-          "enum" : [ "small", "large" ]
+          "enum" : [ "small", "large" ],
+          "x-example" : "small"
         }, {
           "name" : "orientation",
           "in" : "path",
           "description" : "The orientation.",
           "required" : true,
           "type" : "string",
-          "enum" : [ "horizontal", "vertical" ]
+          "enum" : [ "horizontal", "vertical" ],
+          "x-example" : "horizontal"
         } ],
         "responses" : {
           "200" : {
@@ -369,57 +391,66 @@
           "in" : "path",
           "description" : "The owner of the dataset.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "instanceId",
           "in" : "path",
           "description" : "The id of the instance.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "wxtiles"
         }, {
           "name" : "time",
           "in" : "path",
           "description" : "The time.",
           "required" : true,
           "type" : "string",
-          "format" : "date-time"
+          "format" : "date-time",
+          "x-example" : "wxtiles"
         }, {
           "name" : "level",
           "in" : "path",
           "description" : "The level.",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "x-example" : "0"
         }, {
           "name" : "z",
           "in" : "path",
           "description" : "The z.",
           "required" : true,
-          "type" : "integer"
+          "type" : "integer",
+          "x-example" : 8
         }, {
           "name" : "x",
           "in" : "path",
           "description" : "The x.",
           "required" : true,
-          "type" : "integer"
+          "type" : "integer",
+          "x-example" : 1
         }, {
           "name" : "y2",
           "in" : "path",
           "description" : "The y.",
           "required" : true,
-          "type" : "integer"
+          "type" : "integer",
+          "x-example" : 1
         }, {
           "name" : "extension",
           "in" : "path",
           "description" : "The extension.",
           "required" : true,
           "type" : "string",
-          "enum" : [ "png", "mvt" ]
+          "enum" : [ "png", "mvt" ],
+          "x-example" : "png"
         } ],
         "responses" : {
           "200" : {
@@ -811,21 +842,24 @@
       "in" : "path",
       "description" : "The owner of the dataset.",
       "required" : true,
-      "type" : "string"
+      "type" : "string",
+      "x-example" : "wxtiles"
     },
     "layerId" : {
       "name" : "layerId",
       "in" : "path",
       "description" : "The id of the layer.",
       "required" : true,
-      "type" : "string"
+      "type" : "string",
+      "x-example" : "wxtiles"
     },
     "instanceId" : {
       "name" : "instanceId",
       "in" : "path",
       "description" : "The id of the instance.",
       "required" : true,
-      "type" : "string"
+      "type" : "string",
+      "x-example" : "wxtiles"
     },
     "time" : {
       "name" : "time",
@@ -833,35 +867,40 @@
       "description" : "The time.",
       "required" : true,
       "type" : "string",
-      "format" : "date-time"
+      "format" : "date-time",
+      "x-example" : "wxtiles"
     },
     "level" : {
       "name" : "level",
       "in" : "path",
       "description" : "The level.",
       "required" : true,
-      "type" : "string"
+      "type" : "string",
+      "x-example" : "0"
     },
     "z" : {
       "name" : "z",
       "in" : "path",
       "description" : "The z.",
       "required" : true,
-      "type" : "integer"
+      "type" : "integer",
+      "x-example" : 8
     },
     "x" : {
       "name" : "x",
       "in" : "path",
       "description" : "The x.",
       "required" : true,
-      "type" : "integer"
+      "type" : "integer",
+      "x-example" : 1
     },
     "y2" : {
       "name" : "y2",
       "in" : "path",
       "description" : "The y.",
       "required" : true,
-      "type" : "integer"
+      "type" : "integer",
+      "x-example" : 1
     },
     "extension" : {
       "name" : "extension",
@@ -869,7 +908,8 @@
       "description" : "The extension.",
       "required" : true,
       "type" : "string",
-      "enum" : [ "png", "mvt" ]
+      "enum" : [ "png", "mvt" ],
+      "x-example" : "png"
     },
     "orientation" : {
       "name" : "orientation",
@@ -877,7 +917,8 @@
       "description" : "The orientation.",
       "required" : true,
       "type" : "string",
-      "enum" : [ "horizontal", "vertical" ]
+      "enum" : [ "horizontal", "vertical" ],
+      "x-example" : "horizontal"
     },
     "size" : {
       "name" : "size",
@@ -885,7 +926,8 @@
       "description" : "The size.",
       "required" : true,
       "type" : "string",
-      "enum" : [ "small", "large" ]
+      "enum" : [ "small", "large" ],
+      "x-example" : "small"
     }
   }
 }
