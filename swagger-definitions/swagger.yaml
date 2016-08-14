@@ -336,12 +336,8 @@ parameters:
     enum:
       - small
       - large
-<<<<<<< HEAD
     x-example: small
-    
-=======
 
->>>>>>> b29d935810978feeae7d920eafb42b939e3592dc
 definitions:
   Layers:
     type: array
