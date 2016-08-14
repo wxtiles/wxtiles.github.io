@@ -256,18 +256,21 @@ parameters:
     required: true
     in: path
     type: string
+    x-example: wxtiles
   layerId:
     name: layerId
     description: The id of the layer.
     required: true
     in: path
     type: string
+    x-example: wxtiles
   instanceId:
     name: instanceId
     description: The id of the instance.
     required: true
     in: path
     type: string
+    x-example: wxtiles
   time:
     name: time
     description: The time.
@@ -275,30 +278,35 @@ parameters:
     in: path
     type: string
     format: date-time
+    x-example: wxtiles
   level:
     name: level
     description: The level.
     required: true
     in: path
     type: string
+    x-example: '0'
   z:
     name: z
     description: The z.
     required: true
     in: path
     type: integer
+    x-example: 8
   x:
     name: x
     description: The x.
     required: true
     in: path
     type: integer
+    x-example: 1
   y2:
     name: y2
     description: The y.
     required: true
     in: path
     type: integer
+    x-example: 1
   extension:
     name: extension
     description: The extension.
@@ -308,6 +316,7 @@ parameters:
     enum:
       - png
       - mvt
+    x-example: png
   orientation:
     name: orientation
     description: The orientation.
@@ -317,6 +326,7 @@ parameters:
     enum:
       - horizontal
       - vertical
+    x-example: horizontal
   size:
     name: size
     description: The size.
@@ -326,6 +336,7 @@ parameters:
     enum:
       - small
       - large
+    x-example: small
     
 definitions:
   Layers:
