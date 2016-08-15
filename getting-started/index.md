@@ -1,3 +1,9 @@
+#Beta Status
+The WXTiles service is currently in beta. As such you should expect that there will be changes to the WXTiles API, WXTiles clients, and this documentation.  
+
+The API is versioned by a path parameter: api.wxtiles.com/v0 is the current root of all api calls.  
+Once version one of the api is released, breaking changes will only be made by increasing the version path parameter. Until then you should expect breaking changes with out a change in version.
+
 #API Documentation
 View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
 
@@ -9,7 +15,7 @@ In this example we will create the map below and add the Cloud-to-gound lightnin
 
 ![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
 
-![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
+![Reflectivity at lowest altitude legend](http://api.wxtiles.com/v0/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
 ##Setting up Leaflet
 
@@ -57,15 +63,15 @@ Now that we have a map we can add a WXTiles overlay. We will use the Reflectivit
 
 So this:
 ```
-http://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
+http://api.wxtiles.com/v0/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
 Will become this:
 ```
-https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png
+https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png
 ```
 The {z}, {x}, and {y} parameters will be filled in by the map library when it requests tiles. Now we just need construct another layer with our url and add it to the map.  
 ```js
-var lightningLayer = L.tileLayer('https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png', {
+var lightningLayer = L.tileLayer('https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png', {
 		maxZoom: 9,
 		tms: true
 	}).addTo(leafletMap);
@@ -80,7 +86,7 @@ In order for users to interpret the data we need to display a legend for the lay
 A legend URL looks like:
 
 ```
-https://api.wxtiles.com/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png
+https://api.wxtiles.com/v0/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png
 ```
 
 So when we substitute:
@@ -91,10 +97,10 @@ So when we substitute:
 
 then we end up with:
 ```
-https://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png
+https://api.wxtiles.com/v0/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png
 ```
 That produces the following image:  
-![Reflectivity at lowest altitude legend](http://api.wxtiles.com/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
+![Reflectivity at lowest altitude legend](http://api.wxtiles.com/v0/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
 
 #Using the Javascript library
 
@@ -216,7 +222,7 @@ Using the tile path provided with the api root (https://api.wxtiles.com) and sub
 ```
 into a URL that is ready to be passed to mapping libraries:
 ```
-https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
+https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
 ```
 
 #Reference
@@ -225,14 +231,14 @@ https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationTrac
 
 This is a URL of a tile:
 ```
-https://api.wxtiles.com/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
+https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
 ```
 It produces this image:  
 ![An example tile](./getting-started/example-tile.png "An example tile")
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
 ```
-https://api.wxtiles.com/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
+https://api.wxtiles.com/v0/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
   
   
