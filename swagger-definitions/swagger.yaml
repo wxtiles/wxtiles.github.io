@@ -17,6 +17,9 @@ produces:
 tags:
   - name: Tiles
     description: WXTiles API
+security:
+  - apiKeyHeader: []
+  - apiKeyQuery: []
 
 paths:
   /{ownerId}/layer/:
@@ -248,6 +251,18 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+
+securityDefinitions:
+  apiKeyHeader:
+    type: apiKey
+    name: apikey
+    description: The API Key issued to you by wxtiles.com.
+    in: header
+  apiKeyQuery:
+    type: apiKey
+    name: apikey
+    description: The API Key issued to you by wxtiles.com.
+    in: query
 
 parameters:
   ownerId:
