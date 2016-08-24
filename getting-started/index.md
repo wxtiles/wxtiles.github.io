@@ -83,6 +83,11 @@ Will become this:
 ```
 https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png
 ```
+And then we add our API key in the query string:
+```
+https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png?apikey=your_api_key_here
+```
+
 The {z}, {x}, and {y} parameters will be filled in by the map library when it requests tiles. Now we just need construct another layer with our url and add it to the map.  
 ```js
 var lightningLayer = L.tileLayer('https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png', {
@@ -108,10 +113,11 @@ So when we substitute:
 * "small" or "large" for the size
 * "horizontal" or "vertical" for the orientation
 * the same values for ownerId, layerId, and instanceId as in the tile URL
+* and add our API key
 
 then we end up with:
 ```
-https://api.wxtiles.com/v0/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png
+https://api.wxtiles.com/v0/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png?apikey=your_api_key_here
 ```
 That produces the following image:  
 ![Reflectivity at lowest altitude legend](http://api.wxtiles.com/v0/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
