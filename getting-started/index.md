@@ -2,10 +2,24 @@
 The WXTiles service is currently in beta. As such you should expect that there will be changes to the WXTiles API, WXTiles clients, and this documentation.  
 
 The API is versioned by a path parameter: api.wxtiles.com/v0 is the current root of all api calls.  
-Once version one of the api is released, breaking changes will only be made by increasing the version path parameter. Until then you should expect breaking changes with out a change in version.
+Once version one of the api is released, breaking changes will only be made by increasing the version path parameter. Until then you should expect breaking changes without a change in version.
 
 #API Documentation
 View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
+
+#API Keys
+Access to the WXTiles API requires an API Key. This key can be obtained by signing up for a free account at [wxtiles.wpengine.com](https://wxtiles.wpengine.com/my-account/). Once you have signed up, you can find your API Key on your account page.
+
+The API Key must be submitted with every request to the WXTiles API. This can be done by either adding an "apikey" header:
+
+```
+curl https://api.wxtiles.com/v0/wxtiles/layer/ --header 'apikey: your_api_key_here'
+```
+or by adding an "apikey" parameter to the query string:
+
+```
+curl https://api.wxtiles.com/v0/wxtiles/layer/?apikey=your_api_key_here
+```
 
 
 #Getting Started
