@@ -8,7 +8,7 @@ Once version one of the api is released, breaking changes will only be made by i
 View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
 
 #API Keys
-Access to the WXTiles API requires an API Key. This key can be obtained by signing up for a free account at [wxtiles.wpengine.com](https://wxtiles.wpengine.com/my-account/). Once you have signed up, you can find your API Key on your account page.
+Access to the WXTiles API requires an API Key. This key can be obtained by signing up for a free account at [wxtiles.com](https://wxtiles.wpengine.com/my-account/). Once you have signed up, you can find your API Key on your account page.
 
 The API Key must be submitted with every request to the WXTiles API. This can be done by either adding an "apikey" header:
 
