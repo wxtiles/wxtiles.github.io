@@ -1,8 +1,3 @@
-/*.swagger-section #header {
-	display: none;
-	#11abd6
-}*/
-
 html#root .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.http_method a {
   background-color: #11abd6;
 }
@@ -23,10 +18,6 @@ html#root td {
 html#root p {
 	margin: 0;
 }
-
-/*html#root .swagger-section .container {
-	padding: 0;
-}*/
 
 html#root .swagger-section .container ul {
 	margin-left: 0;
