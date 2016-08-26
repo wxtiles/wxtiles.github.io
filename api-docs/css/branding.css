@@ -1,8 +1,3 @@
-/*.swagger-section #header {
-	display: none;
-	#11abd6
-}*/
-
 html#root .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.http_method a {
   background-color: #11abd6;
 }
@@ -24,10 +19,93 @@ html#root p {
 	margin: 0;
 }
 
-html#root .swagger-section .container {
-	padding: 0;
-}
-
 html#root .swagger-section .container ul {
 	margin-left: 0;
+}
+
+html#root #header {
+	padding-top: 100px;
+	background-color: #FFFFFF;
+}
+html#root #header #auth_container .authorize__btn {
+	background-color: #11abd6;
+	margin-top: 100px;
+}
+
+header {
+margin-top: 0px; 
+border-color: rgb(225, 225, 225); 
+bottom: 638px; 
+box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 2px 1px; 
+box-sizing: border-box; 
+color: rgb(51, 51, 51); 
+font-family: HelveticaNeue, "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif; 
+font-size: 13px; 
+height: 90px; 
+left: 0px; 
+line-height: 21.45px; 
+outline-color: rgb(51, 51, 51); 
+position: fixed; 
+right: 0px; 
+top: 0px; 
+
+z-index: 501; 
+column-rule-color: rgb(51, 51, 51); -webkit-locale: "en-US"; 
+perspective-origin: 634px 45px; 
+-webkit-text-emphasis-color: rgb(51, 51, 51);
+-webkit-text-fill-color: rgb(51, 51, 51); 
+-webkit-text-stroke-color: rgb(51, 51, 51); 
+transform-origin: 634px 45px 0px;
+}
+
+header .container {
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+header .container a {
+	text-decoration: none;
+}
+
+.inner-container {
+	position: relative;
+}
+
+header .container img {
+	height: 89.9844px;
+	position: relative;
+	width: 195.609px;
+	z-index: 2;
+}
+
+header nav {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	z-index: 100; 
+}
+
+.menu-text {
+	font-family: "Varela Round", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 90px;
+	outline-color: rgb(16, 41, 75);
+	text-transform: uppercase;
+	-webkit-text-emphasis-color: rgb(51, 51, 51);
+	-webkit-text-fill-color: rgb(51, 51, 51);
+	-webkit-text-stroke-color: rgb(51, 51, 51);
+}
+
+header .header_bg {
+	border-color: rgb(225, 225, 225);
+	position: absolute;
+	height: 90px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+
+
+	z-index: 0;
+
+	background-color: rgb(255, 255, 255);
 }

@@ -38,11 +38,12 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        //url = "http://petstore.swagger.io/v2/swagger.json";
-        // url = "http://" + window.location.host;
-        // url = url + "/swagger-definitions/swagger.yaml";
-        url = "https://wxtiles.github.io/wxtiles-docs/swagger-definitions/swagger.yaml";
+         url = "/swagger-definitions/swagger.yaml";
       }
+
+      hljs.configure({
+        highlightSizeThreshold: 5000
+      });
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
@@ -59,7 +60,7 @@
               clientSecret: "your-client-secret-if-required",
               realm: "your-realms",
               appName: "your-app-name",
-              scopeSeparator: ",",
+              scopeSeparator: " ",
               additionalQueryStringParams: {}
             });
           }
@@ -67,40 +68,15 @@
           if(window.SwaggerTranslator) {
             window.SwaggerTranslator.translate();
           }
-
-          $('pre code').each(function(i, e) {
-            hljs.highlightBlock(e)
-          });
-
-          //addApiKeyAuthorization();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
         docExpansion: "list",
         jsonEditor: false,
-        //apisSorter: "alpha",
-        //operationsSorter: "alpha",
         defaultModelRendering: 'schema',
         showRequestHeaders: false
       });
-
-      function addApiKeyAuthorization(){
-        var key = encodeURIComponent($('#input_apiKey')[0].value);
-        if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-            log("added key " + key);
-        }
-      }
-
-      $('#input_apiKey').change(addApiKeyAuthorization);
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
-      */
 
       window.swaggerUi.load();
 
@@ -112,45 +88,41 @@
   });
   </script>
 
-  <script>
-    $(document).ready(function(){
-      //From Wordpress site.
-      //This is terible and I hate it.
-      //Download the page to get the html.
-      
-      $.get('https://wxtiles.wpengine.com/blank/', function (html) {
-        //Get the head element from the downloaded html and add it to this head.
-        var headHtml = /<head.*?>([\s\S]*)<\/head>/.exec(html)[1];
-        $("head").append(headHtml);
-      });
-
-      //Load the nav bar from the sales site.
-      $('#wp-nav').load('https://wxtiles.wpengine.com/blank/ #header');
-
-    });
-  </script>
+  <link rel="stylesheet" id="avia-google-webfont" href="//fonts.googleapis.com/css?family=Varela+Round" type="text/css" media="all"
+    cph-ssorder="5">
+  <link rel="stylesheet" id="font-awesome-css-css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css?ver=4.0.3"
+    type="text/css" media="all" cph-ssorder="11">
 </head>
 
-<body >
-  <div id="top">
-    <div id="wp-nav">
+<body class="swagger-section">
+
+  <header>
+      <div class="container av-logo-container" >
+        <div class="inner-container" >
+          <strong class="logo" >
+            <a href="https://wxtiles.com/" >
+              <img height="100" width="300" src="https://wxtiles.com/wp-content/uploads/2016/07/wxtiles-logo-1-300x138-beta2-1-300x138.png" alt="WXTiles" scale="0">
+            </a>
+          </strong>
+          <nav class="main_menu">
+                   <a href="https://wxtiles.com/" >
+                    <span class="menu-text" >Return to wxtiles.com</span>
+                  </a>
+          </nav>
+        </div>
+    </div>
+    <div class="header_bg"></div>
+  </header>
+
+  <div id='header'>
+    <div class="swagger-ui-wrap">
+      <form id='api_selector'>
+        <div id='auth_container'></div>
+      </form>
     </div>
   </div>
 
-  <!--<div id='header'>
-  <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.io">swagger</a>
-    <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-    </form>
-  </div>
-</div>-->
-<div class="swagger-section">
-  <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
   <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-  </div>
 </body>
 
 </html>
