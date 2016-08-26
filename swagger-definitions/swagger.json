@@ -470,6 +470,18 @@
       "x-swagger-router-controller" : "tile"
     }
   },
+  "securityDefinitions" : {
+    "apiKeyQuery" : {
+      "type" : "apiKey",
+      "name" : "apikey",
+      "in" : "query"
+    },
+    "apiKeyHeader" : {
+      "type" : "apiKey",
+      "name" : "apikey",
+      "in" : "header"
+    }
+  },
   "definitions" : {
     "Layers" : {
       "type" : "array",
@@ -929,5 +941,10 @@
       "enum" : [ "small", "large" ],
       "x-example" : "small"
     }
-  }
+  },
+  "securityRequirement" : [ {
+    "apiKeyHeader" : [ ]
+  }, {
+    "apiKeyQuery" : [ ]
+  } ]
 }
