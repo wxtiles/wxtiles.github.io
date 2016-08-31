@@ -37,7 +37,7 @@ This example uses the [Leaflet](http://leafletjs.com/) library for interactive m
 
 
 ###Preparing the map
-The first step is to setup the leaflet map. Include the Leaflet css and javascript files in the head of your page. 
+The first step is to setup the leaflet map. Include the Leaflet css and javascript files in the head of your page.
 ```html
 <head>
 ...
@@ -91,11 +91,11 @@ https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/20
 The {z}, {x}, and {y} parameters will be filled in by the map library when it requests tiles. Now we just need construct another layer with our url and add it to the map.  
 ```js
 var lightningLayer = L.tileLayer('https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png', {
-		maxZoom: 9,
+		maxNativeZoom: 11,
 		tms: true
 	}).addTo(leafletMap);
 ```
-Note: We must set tms to true so Leaflet knows to flip the y coordinate when requesting tiles. See the bottom of [this page](http://leafletjs.com/examples/wms/wms.html) for more information. 
+Note: We must set tms to true so Leaflet knows to flip the y coordinate when requesting tiles. See the bottom of [this page](http://leafletjs.com/examples/wms/wms.html) for more information.
 
 ![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
 
@@ -176,6 +176,8 @@ This will get all the layers provided by WXTiles and log them to the console, wh
         "created": "2016-07-19T01:21:32.212193Z"
       }
     ],
+    "minNativeZoom": 1,
+    "maxNativeZoom": 11,
     "bounds": {
       "west": -129.9975,
       "east": -60.002502,
@@ -260,8 +262,8 @@ The URL of a tile contains a number of parameters that must be substituted into 
 ```
 https://api.wxtiles.com/v0/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
-  
-  
+
+
 | Parameter     | Example       						          | Meaning
 | -------------	| -------------							          | -----
 | ownerId       | wxtiles								              | The owner of the dataset.
@@ -273,4 +275,3 @@ https://api.wxtiles.com/v0/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/
 | x     		    | 38									                | The map x position. Set by the map library.
 | y     		    | 78									                | The map x position. Set by the map library.
 | extension	    | png									                | PNG
-
