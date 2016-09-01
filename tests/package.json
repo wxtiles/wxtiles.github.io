@@ -50,7 +50,6 @@
     "strings.js": "latest",
     "swagger-model-validator": "^2.1.1",
     "swagger-parser": "latest",
-    "swagger2": "0.0.9",
     "unirest": "latest",
     "vision": "latest",
     "winston": "latest",
