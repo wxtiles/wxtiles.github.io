@@ -1,0 +1,63 @@
+{
+  "name": "apispots-testing-bdd",
+  "version": "1.0.2",
+  "description": "Adds a BDD layer to API automated testing.",
+  "author": "Chris Spiliotopoulos (@chefArchitect)",
+  "contributors": [
+    {
+      "name": "Chris Spiliotopoulos",
+      "email": "chrysanthos.spiliotopoulos@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "bugs": {
+    "url": "https://github.com/chefArchitect/apispots-testing-bdd/issues"
+  },
+  "keywords": [
+    "APIs",
+    "api",
+    "testing",
+    "automation",
+    "BDD"
+  ],
+  "private": false,
+  "analyze": true,
+  "license": "MIT",
+  "main": "./server/server.js",
+  "scripts": {
+    "start": "node ./rest/server.js",
+    "test": "node ./node_modules/cucumber/bin/cucumber.js --require lib/cucumber --format pretty  test/features"
+  },
+  "dependencies": {
+    "async": "latest",
+    "chai": "latest",
+    "cucumber": "latest",
+    "good": "latest",
+    "good-console": "latest",
+    "hapi": "latest",
+    "hapi-swaggered": "latest",
+    "hapi-swaggered-ui": "latest",
+    "hoek": "latest",
+    "inert": "latest",
+    "joi": "latest",
+    "lodash.clonedeep": "^2.4.1",
+    "nconf": "latest",
+    "request": "*",
+    "strformat": "latest",
+    "strings.js": "latest",
+    "swagger-model-validator": "^2.1.1",
+    "swagger-parser": "latest",
+    "swagger2": "0.0.9",
+    "unirest": "latest",
+    "vision": "latest",
+    "winston": "latest",
+    "xml2js": "latest"
+  },
+  "devDependencies": {},
+  "directories": {
+    "lib": "./lib"
+  }
+}
