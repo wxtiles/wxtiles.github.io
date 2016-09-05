@@ -14,11 +14,23 @@ module.exports = function () {
 	/**
 	 * ... response type '$mimeType'
 	 */
-	Given(/^response type "([^"]*)"$/, function (type, callback) {
+	Given(/^response type is "([^"]*)"$/, function (expectedType, callback) {
 
-		// set the 'Accepts' header
 		var op = this.Api.getCurrentOperation();
-		op.request.headers['Accepts'] = type;
+
+
+		var actualType = null;
+		Object.keys(op.response.headers).forEach((headerKey) => {
+			if(headerKey.toUpperCase() === "CONTENT-TYPE") {
+				actualType = op.response.headers[headerKey];
+			}
+		});
+
+		if (expectedType != actualType){
+			callback(new Error('Response type was not ' + expectedType));
+		}
+		
+		callback();
 	});
 
 	/**

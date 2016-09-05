@@ -67,7 +67,7 @@ Feature: WXTiles API
     And request path param "extension" equals "png"
    When the request is executed
    Then response status is "ok"
-    #TODO: add a check that we get a png back.
+    And response type is "image/png"
 
   Scenario: Get the PNG legend.
   Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-ndfd-us-windspd-knots"
@@ -79,7 +79,7 @@ Feature: WXTiles API
     And request path param "orientation" equals "horizontal"
    When the request is executed
    Then response status is "ok"
-    #TODO: add a check that we get a png back.
+    And response type is "image/png"
 
   Scenario: Get the JSON legend.
   Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-ndfd-us-windspd-knots"  
