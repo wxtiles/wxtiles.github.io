@@ -362,6 +362,9 @@ definitions:
   Layer:
     type: object
     description: A layer representing a spatial dataset that can be rendered by Cloudburst
+    required:
+      - minNativeZoom
+      - maxNativeZoom
     properties:
       id:
         type: string
@@ -426,7 +429,7 @@ definitions:
   MaxNativeZoom:
     type: number
     format: integer
-    description: The largest scale supported natively by the layer. 
+    description: The largest scale supported natively by the layer.
   Resources:
     type: object
     description: Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text "instance" (enclosed in angle brackets) must be substituted by a valid instance ID.
