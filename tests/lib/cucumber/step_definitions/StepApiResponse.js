@@ -5,7 +5,6 @@ var expect = require('chai').expect;
 var assert = require('chai').assert;
 var xmlToJs = require('xml2js').parseString;
 var Strings = require('strings.js');
-var swagger2 = require('swagger2');
 
 
 module.exports = function () {
@@ -67,28 +66,6 @@ module.exports = function () {
 
 			return callback(new Error(msg));
 		}
-
-		// //Swagger2 testing
-		// // load YAML swagger file
-		// const document = swagger2.loadDocumentSync('./specs/swagger.yaml');
-		// let compiled = swagger2.compileDocument(document);
-		// let compiledPath = compiled(op.path);
-		// // check the response matches the swagger schema
-		// let error = swagger2.validateResponse(compiledPath, op.method, op.response.code, op.response.body);
-		// if (error) {
-		// 	error.where = 'response';
-		// 	context.status = 500;
-		// 	context.body = {
-		// 		code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-		// 		errors: [error]
-		// 	};
-		// }
-
-		var Validator = require('swagger-model-validator');
-		var swagger = this.Api.getDefinition().spec;
-		var validator = new Validator(swagger);
-
-		var validation = swagger.validateModel("Instance", op.response.body[0].instances[0], false, true)
 
 		callback();
 	});
