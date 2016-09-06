@@ -492,6 +492,7 @@
     },
     "Layer" : {
       "type" : "object",
+      "required" : [ "maxNativeZoom", "minNativeZoom" ],
       "properties" : {
         "id" : {
           "type" : "string",
@@ -506,6 +507,12 @@
         },
         "bounds" : {
           "$ref" : "#/definitions/Bounds"
+        },
+        "minNativeZoom" : {
+          "$ref" : "#/definitions/MinNativeZoom"
+        },
+        "maxNativeZoom" : {
+          "$ref" : "#/definitions/MaxNativeZoom"
         },
         "meta" : {
           "$ref" : "#/definitions/Metadata"
@@ -565,6 +572,16 @@
         }
       },
       "description" : "An object representing the layer instance's bounding box (derived from the dataset)"
+    },
+    "MinNativeZoom" : {
+      "type" : "number",
+      "format" : "integer",
+      "description" : "The smallest scale supported natively by the layer."
+    },
+    "MaxNativeZoom" : {
+      "type" : "number",
+      "format" : "integer",
+      "description" : "The largest scale supported natively by the layer."
     },
     "Resources" : {
       "type" : "object",
