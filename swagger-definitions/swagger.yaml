@@ -373,6 +373,12 @@ definitions:
           $ref: '#/definitions/Instance'
       bounds:
         $ref: '#/definitions/Bounds'
+      instanceType:
+        type: string
+        description: One of a typology of instance types. Currently these are "cyclic" (for model cycles), and "observational" (for observational timestamps).
+      instanceDescription:
+        type: string
+        description: Free-form text explaining the role of instances for the associated layer
       meta:
         $ref: '#/definitions/Metadata'
       resources:
@@ -384,15 +390,9 @@ definitions:
       id:
         type: string
         description: Instance ID
-      name:
+      displayName:
         type: string
         description: Instance name, intended for display to end users
-      type:
-        type: string
-        description: One of a typology of instance types. Currently these are "cyclic" (for model cycles), "observational" (for observational timestamps), and "model" (for classes of scientific models)
-      description:
-        type: string
-        description: Free-form text explaining the role of instances for the associated layer
       created:
         type: string
         format: date-time
