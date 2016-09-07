@@ -1,13 +1,16 @@
-#To run the tests.
+To run the tests.
+=========
 
 1. Add .feature files in ./test/features.
-2. Set the SWAGGER_HOST environment variable. (The .vscode/launch.json is a good place to do this if debugging locally.)
+2. Set the SWAGGER_HOST environment variable.
+* The .vscode/launch.json is a good place to do this if debugging locally.
 ```json
 "env": {
 	"NODE_ENV": "development",
 	"SWAGGER_HOST": "127.0.0.1"
 },
 ```
+* Or just do it in the shell.
 ```sh
 export SWAGGER_HOST=127.0.0.1
 ```
