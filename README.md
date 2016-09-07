@@ -1,8 +1,12 @@
 API Docs
-=======
+========
 Swagger-ui based API documentation is found in the api-docs directory.
 
 Go here https://wxtiles.github.io/wxtiles-docs/
+
+API Docs Testing
+========
+The tests directory contains a node project based on [apispots-testing-bdd](https://github.com/chefArchitect/apispots-testing-bdd/). Apispots-testing-bdd (and not the rest of this repository) is MIT licensed. See the tests/LICENSE for details.
 
 Code-Gen
 ========
