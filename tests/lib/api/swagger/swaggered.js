@@ -36,7 +36,7 @@ module.exports = function () {
 		/**
 		 * Tries to parse a Swagger definition
 		 */
-		'parse': function (url, cb) {
+		'parse': function (url, finishedParsing) {
 
 			if (url.startsWith("file://")) {
 				var fs = require('fs');
@@ -48,7 +48,7 @@ module.exports = function () {
 				/*
 			 * get the definition resource
 			 */
-				_private.getResourceAtUrl(url, _private.parseSwagger);
+				_private.getResourceAtUrl(url, _private.parseSwagger, finishedParsing);
 			}
 
 		},
@@ -56,16 +56,16 @@ module.exports = function () {
 		/**
 		 * Sends an HTTP GET request to fetch the resource at the specified URL.
 		 */
-		'getResourceAtUrl': function (url, cb) {
+		'getResourceAtUrl': function (url, parseSwagger, finishedParsing) {
 
 			// GET the resource
 			unirest.get(url).end(function (response) {
 
-				cb(response.error, response.body);
+				parseSwagger(response.error, response.body, finishedParsing);
 			});
 		},
 
-		'parseSwagger': function (err, content) {
+		'parseSwagger': function (err, content, finishedParsing) {
 
 			var opts = {
 				validateSchema: false,
@@ -78,7 +78,7 @@ module.exports = function () {
 			parser.parse(content, opts, function (err, api) {
 
 				if (!err)
-					return cb(null, api);
+					return finishedParsing(null, api);
 
 				/*
 				 * try to convert the old Swagger doc into the new format
@@ -86,9 +86,9 @@ module.exports = function () {
 				SwaggerConverter(url, function (err, api) {
 
 					if (err)
-						return cb(err);
+						return finishedParsing(err);
 					else
-						return cb(null, api);
+						return finishedParsing(null, api);
 				});
 
 			});
