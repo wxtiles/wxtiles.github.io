@@ -6,6 +6,7 @@ Feature: WXTiles API
 
   Background:
   Given a "Swagger" API definition at "https://wxtiles.github.io/wxtiles-docs/swagger-definitions/swagger.json"
+  #Given a "Swagger" API definition at "file://./../swagger-definitions/swagger.json"
 
   Scenario: Get all layers.
   Given an operation with Id "getLayers"
