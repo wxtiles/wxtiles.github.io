@@ -5,7 +5,6 @@ Feature: WXTiles API
   In order to validate the API
 
   Background:
-  #Given a "Swagger" API definition at "https://wxtiles.github.io/wxtiles-docs/swagger-definitions/swagger.yaml"
   Given a "Swagger" API definition at "file://./../swagger-definitions/swagger.json"
 
   Scenario: Get all layers.
@@ -16,7 +15,6 @@ Feature: WXTiles API
     And the response body is a valid "Layers" model
 
   Scenario: Get a single layer.
-    #TODO: This should fail, but this issue means that sub-models are not validated properly: https://github.com/atlantishealthcare/swagger-model-validator/issues/59
   Given an operation with Id "getLayer"
     And request path param "ownerId" equals "wxtiles"
     And request path param "layerId" equals "ncep-ndfd-us-windspd-knots"
