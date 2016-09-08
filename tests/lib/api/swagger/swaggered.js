@@ -40,29 +40,18 @@ module.exports = function () {
 
 			if (url.startsWith("file://")) {
 				var fs = require('fs');
-				var swaggerFile = fs.readFileSync(url.replace("file://", ""), 'utf8');
+				var swaggerFilePath = url.replace("file://", "");
 
-				_private.parseSwagger(null, swaggerFile)
+				_private.parseSwagger(null, swaggerFilePath, finishedParsing)
+				
 			}
 			else {
 				/*
 			 * get the definition resource
 			 */
-				_private.getResourceAtUrl(url, _private.parseSwagger, finishedParsing);
+				_private.parseSwagger(null, url, finishedParsing);
 			}
 
-		},
-
-		/**
-		 * Sends an HTTP GET request to fetch the resource at the specified URL.
-		 */
-		'getResourceAtUrl': function (url, parseSwagger, finishedParsing) {
-
-			// GET the resource
-			unirest.get(url).end(function (response) {
-
-				parseSwagger(response.error, response.body, finishedParsing);
-			});
 		},
 
 		'parseSwagger': function (err, content, finishedParsing) {
@@ -77,19 +66,10 @@ module.exports = function () {
 			 */
 			parser.parse(content, opts, function (err, api) {
 
-				if (!err)
-					return finishedParsing(null, api);
-
-				/*
-				 * try to convert the old Swagger doc into the new format
-				 */
-				SwaggerConverter(url, function (err, api) {
-
-					if (err)
+				if (err)
 						return finishedParsing(err);
 					else
 						return finishedParsing(null, api);
-				});
 
 			});
 		}
