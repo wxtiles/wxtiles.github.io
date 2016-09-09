@@ -1,3 +1,9 @@
 node_modules/*
 .vscode/*
 clients/*
+
+#We will decide our own license, thank you very much swagger-codegen
+swagger-definitions/LICENSE
+#Ignore the swagger codegen ignore file for now because it doesn't work and is just noise.
+#Un ignore this when we can use it to not overwrite the LICENSE.
+.swagger-codegen-ignore
