@@ -390,9 +390,9 @@ definitions:
         $ref: '#/definitions/Metadata'
       resources:
         $ref: '#/definitions/Resources'
-  Instance:
+  PartialInstance:
     type: object
-    description: A named instance of a dataset, typically used to represent a forecast model cycle
+    description: A named instance of a dataset, typically used to represent a forecast model cycle.
     properties:
       id:
         type: string
@@ -404,14 +404,24 @@ definitions:
         type: string
         format: date-time
         description: ISO 8601 datetime string representing when the instance configuration was created
-      start_time:
+      start:
         type: string
         format: date-time
         description: ISO 8601 datetime string representing the earliest retrievable time-step for an instance
-      end_time:
+      end:
         type: string
         format: date-time
         description: ISO 8601 datetime string representing the latest retrievable time-step for an instance
+  Instance:
+    type: object
+    description: A named instance of a dataset, typically used to represent a forecast model cycle. Includes information on available times and vertical levels (if any).
+    properties:
+      instance:
+        $ref: '#/definitions/PartialInstance'
+      times:
+        $ref: '#/definitions/Times'
+      levels:
+        $ref: '#/definitions/Levels'
   Bounds:
     type: object
     description: An object representing the layer instance's bounding box (derived from the dataset)
