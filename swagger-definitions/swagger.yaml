@@ -373,7 +373,7 @@ definitions:
         type: array
         description: A list of the instances of this layer.
         items:
-          $ref: '#/definitions/Instance'
+          $ref: '#/definitions/PartialInstance'
       bounds:
         $ref: '#/definitions/Bounds'
       instanceType:
