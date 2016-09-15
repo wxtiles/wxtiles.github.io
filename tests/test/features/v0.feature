@@ -5,7 +5,7 @@ Feature: WXTiles API
   In order to validate the API
 
   Background:
-  Given a "Swagger" API definition at "file://./../swagger-definitions/swagger.json"
+  Given a "Swagger" API definition at "file://./../swagger-definitions/swagger.yaml"
 
   Scenario: Get all layers.
   Given an operation with Id "getLayers"
