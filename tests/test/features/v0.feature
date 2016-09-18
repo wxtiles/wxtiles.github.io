@@ -5,7 +5,7 @@ Feature: WXTiles API
   In order to validate the API
 
   Background:
-  Given a "Swagger" API definition at "file://./../swagger-definitions/swagger.json"
+  Given a "Swagger" API definition at "file://./../swagger-definitions/swagger.yaml"
 
   Scenario: Get all layers.
   Given an operation with Id "getLayers"
@@ -79,17 +79,3 @@ Feature: WXTiles API
    When the request is executed
    Then response status is "ok"
     And response type is "image/png"
-
-  Scenario: Get the JSON legend.
-  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-ndfd-us-windspd-knots"  
-    And an operation with Id "getJSONLegend"
-    And request path param "ownerId" equals "wxtiles"
-    And request path param "layerId" equals "ncep-ndfd-us-windspd-knots"
-    And request path param "instanceId" equals the "id" of the last instance of the layer request
-    And request path param "size" equals "small"
-    And request path param "orientation" equals "horizontal"
-   When the request is executed
-   Then response status is "ok"
-    And the response body is a valid "Legend" model
-    #TODO: Check the JSON legend on a layer by layer basis?
-    #The legend model doesn't seem to have much relation to the thing that is returned.

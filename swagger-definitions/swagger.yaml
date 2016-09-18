@@ -222,36 +222,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.json:
-    #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
-    x-swagger-router-controller: mock
-    parameters:
-      - $ref: '#/parameters/ownerId'
-      - $ref: '#/parameters/layerId'
-      - $ref: '#/parameters/instanceId'
-      - $ref: '#/parameters/size'
-      - $ref: '#/parameters/orientation'
-    get:
-      operationId: getJSONLegend
-      produces: [application/json]
-      summary: A JSON representation of the legend for PNG map tiles
-      description: "Legends are inferred from plot configurations for each layer. When a legend is disabled on a per-layer basis (or if a legend cannot be rendered due to the plot type), then this endpoint will return a 204 No Content response. Cloudburst internally uses this JSON representation to render the PNG version of the legend, and this endpoint is exposed to support client-side legend rendering and the interaction that implies. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`."
-      tags:
-        - Tiles
-      responses:
-        200:
-          description: JSON representation of the legend (Cloudburst uses thus to render the PNG legend server-side)
-          schema:
-            $ref: '#/definitions/Legend'
-        204:
-          description: "**No Content**: The layer/instance being requested does not have a legend."
-        # 403:
-        #   description: "**Unauthorised**: A request was made to retrieve a legend resource for which the user does not have adequate permissions."
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
 securityDefinitions:
   apiKeyHeader:
     type: apiKey
@@ -373,7 +343,7 @@ definitions:
         type: array
         description: A list of the instances of this layer.
         items:
-          $ref: '#/definitions/Instance'
+          $ref: '#/definitions/PartialInstance'
       bounds:
         $ref: '#/definitions/Bounds'
       instanceType:
@@ -390,9 +360,9 @@ definitions:
         $ref: '#/definitions/Metadata'
       resources:
         $ref: '#/definitions/Resources'
-  Instance:
+  PartialInstance:
     type: object
-    description: A named instance of a dataset, typically used to represent a forecast model cycle
+    description: A named instance of a dataset, typically used to represent a forecast model cycle.
     properties:
       id:
         type: string
@@ -404,14 +374,24 @@ definitions:
         type: string
         format: date-time
         description: ISO 8601 datetime string representing when the instance configuration was created
-      start_time:
+      start:
         type: string
         format: date-time
         description: ISO 8601 datetime string representing the earliest retrievable time-step for an instance
-      end_time:
+      end:
         type: string
         format: date-time
         description: ISO 8601 datetime string representing the latest retrievable time-step for an instance
+  Instance:
+    type: object
+    description: A named instance of a dataset, typically used to represent a forecast model cycle. Includes information on available times and vertical levels (if any).
+    properties:
+      instance:
+        $ref: '#/definitions/PartialInstance'
+      times:
+        $ref: '#/definitions/Times'
+      levels:
+        $ref: '#/definitions/Levels'
   Bounds:
     type: object
     description: An object representing the layer instance's bounding box (derived from the dataset)
@@ -462,139 +442,6 @@ definitions:
       jsonlegend:
         type: string
         description: URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. The "size" and "orientation" elements in the path (enclosed in angle brackets) need to be substituted.
-  Legend:
-    type: object
-    description: Legend configuration for the given `plotID` (a unique identifier for a plot), derived from the respective plot configuration. A plot can consist of multiple sub-plots (e.g. a map of precipitation with a pressure overlay), only one of which will have a value associated with its key.
-    properties:
-      plotID:
-        $ref: '#/definitions/LegendPlot'
-  LegendPlot:
-    type: object
-    description: A Matplotlib plot type (e.g. 'pcolormesh', 'contourf') as key, with the value representing the information for the legend for that particular sub-plot.
-    properties:
-      plotType:
-        $ref: '#/definitions/LegendItem'
-  LegendItem:
-    type: object
-    properties:
-      cmap:
-        type: string
-        description: The named colourmap used by the plot. Possibly represents one of the default Matplotlib colourmaps, a cmocean Matplotlib colourmap, or a user-defined colourmap.
-      cmap_discrete:
-        type: array
-        description: A sorted array of discrete values in the colourmap. If the plot uses levels (e.g. contours), then the array will include the actual class colour. Otherwise, if the plot uses a continuous colour ramp (e.g. a pcolormesh), the array includes ten values sampled evenly between the low and the high value.
-        items:
-          type: string
-          description: Hex value of colour
-      colors:
-        type: array
-        description: A sorted array of values referencing named colours for the lines in the plot (contour-style plots only). If the value is a string (rather than an array), that value applies to all lines.
-        items:
-          type: string
-          description: Named colour (HTML convention) or hex value.
-      extend:
-        type: string
-        description: Indicates whether the upper- or lower-boundary of the colourmap should be extended. Unless this is 'neither' or null, contour levels are automatically added to one or both ends of the range so that all data are included. These added ranges are then mapped to the special colormap values which default to the ends of the colormap range.
-        enum: ['neither', 'both', 'min', 'max', 'null']
-      hatches:
-        type: array
-        description: Sorted array of hatch styles for the plot's levels
-        items:
-          type: string
-          description: The hatch style for the sub-plot
-          enum: ['/', '//', '///', '\', '\\', '\\\', '|', '||', '|||', '-', '--', '---', '+', '++', '+++', 'x', 'xx', 'xxx', 'o', 'oo', 'ooo', 'O', 'OO', 'OOO', '.', '..', '...', '*', '**', '***']
-      levels:
-        type: array
-        description: A sorted array of values in the dataset where breaks are to be drawn (e.g. contour lines)
-        items:
-          type: number
-          format: float
-      ticks:
-        type: array
-        description: A sorted array of values where "ticks" (small leader lines) are to be drawn on the legend. With this property, some levels can be left without a tick, or ticks added between class breaks.
-        items:
-          type: number
-          format: real
-      tick_labels:
-        type: array
-        description: A sorted array of values for the legend's ticks. With this property, ticks can be given non-default labels (such as human interpretations of critical numerical values).
-        items:
-          type: string
-      linestyles:
-        type: array
-        description: A sorted array of linestyles for the plot levels
-        items:
-          type: string
-          description: The linestyle for the sub-plot
-          enum: ['solid', 'dashed', 'dashdot', 'dotted', '-', '--', '-.', ':', ' ', '', 'null']
-      linewidths:
-        type: array
-        description: A sorted array of linewidths for the plot levels
-        items:
-          type: number
-          format: float
-      norm:
-        $ref: '#/definitions/Norm'
-      unit:
-        type: string
-        description: Text that is used to indicate the units on the scale; may include additional text beyond a representation of a unit (e.g. "Low-level azimuthal shear (0.001/s)")
-      vmax:
-        type: number
-        format: float
-        description: If present, indicates the upper colour boundary of a continuous plot (such as a pcolormesh).
-      vmin:
-        type: number
-        format: float
-        description: If present, indicates the lower colour boundary of a continuous plot (such as a pcolormesh).
-      mplkwargs:
-        $ref: '#/definitions/MplKwargs'
-  MplKwargs:
-    type: object
-    description: Additional, arbitrary Matplotlib keyword arguments. All are optional. Additional properties are possible.
-    properties:
-      extend:
-        type: string
-        enum: ['neither', 'both', 'min', 'max', 'null']
-        description: See "extend" for the LegendItem; indicates if the extend method of the legend has been set independently to the plot.
-      spacing:
-        type: string
-        enum: ['proportional', 'uniform', 'null']
-        description: Indicates whether class breaks are separated uniformly, or in proportion to their actual value between the highest and the lowest breaks.
-      alpha:
-        type: number
-        format: float
-        description: Transparency of the legend, from 0 (opaque) to 1 (transparent). Absence of this property implies full opacity.
-      format:
-        type: string
-        description: Python string formatter (e.g. "%.3f") indicating how values in the levels should be translated into ticks. This can be used to round values for display on a legend.
-      drawedges:
-        type: boolean
-        description: Whether edges should be drawn at colour boundaries within the legend.
-  Norm:
-    type: object
-    description: Normalisation technique and parameters for mapping values to colours. Corresponds to valid Matplotlib colorbar normalisation methods. If not null, the only required property is "method", with the rest depending on the normalisation technique.
-    properties:
-      method:
-        type: string
-        description: Normalisation technique, corresponding to one of the Matplotlib colorbar normalisation methods.
-        enum: ['LogNorm', 'SymLogNorm', 'PowerNorm', 'BoundaryNorm', 'OffsetNorm']
-      vmin:
-        type: number
-        format: integer
-      vmax:
-        type: number
-        format: integer
-      clip:
-        type: boolean
-      gamma:
-        type: number
-        format: float
-      linthresh:
-        type: number
-        format: float
-      linscale:
-        type: number
-        format: float
   Levels:
     type: array
     items:
