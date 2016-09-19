@@ -124,15 +124,24 @@ That produces the following image:
 
 #Using the Javascript library
 
+###Including the JavaScript file
+You can just include a reference to the wxtiles JavaScript client library by including the following HTML:
+```html
+<script src="https://wxtiles.github.io/wxtilesjs/dist/wxtiles.js" type="text/javascript"></script>
+```
 
-###Installing the library
-To install the library in to your project you should install via npm:
+The WXTiles api client will available on the wxTiiles global object. For example:
+```js
+wxTiles.getLayers("wxtiles", {}, callback);
+```
+
+###Installing the library via npm
+To install the library in to your project using npm you should:
 ```shell
 npm install wxtiles/wxtilesjs --save
 ```
 (See [installation instructions](https://github.com/wxtiles/wxtilesjs#installation) for more information.)
 
-###Import the module
 Once the library is installed into your project you can require in the API library:
 ```js
 var WxTiles = require('wx-tiles');
