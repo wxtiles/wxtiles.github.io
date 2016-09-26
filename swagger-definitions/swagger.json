@@ -1,7 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the Cloudburst API",
+    "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API",
     "version" : "1.2.0",
     "title" : "WXTiles"
   },
@@ -11,14 +11,14 @@
     "name" : "Tiles",
     "description" : "WXTiles API"
   } ],
-  "schemes" : [ "https" ],
+  "schemes" : [ "http", "https" ],
   "produces" : [ "application/json", "application/x-protobuf", "image/png" ],
   "paths" : {
     "/{ownerId}/layer/" : {
       "get" : {
         "tags" : [ "Tiles" ],
-        "summary" : "Information about available Cloudburst layers",
-        "description" : "This endpoint returns information about all current *Cloudburst* layers that can be requested, and metadata about map layers, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
+        "summary" : "Information about available WXTiles layers",
+        "description" : "This endpoint returns information about all current *WXTiles* layers that can be requested, and metadata about map layers, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
         "operationId" : "getLayers",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -28,14 +28,6 @@
           "required" : true,
           "type" : "string",
           "x-example" : "wxtiles"
-        }, {
-          "name" : "tags",
-          "in" : "query",
-          "description" : "Filter layers by tags, separated by commas. Using multiple `tags` parameters is equivalent to an `AND` operation. For example, `tags=x,y` is `x OR y`; `tags=x&tags=y` is `x AND y`; and `tags=x,y&tags=z` is `(x OR y) AND z`",
-          "required" : false,
-          "type" : "string",
-          "collectionFormat" : "csv",
-          "format" : "string"
         } ],
         "responses" : {
           "200" : {
@@ -43,9 +35,6 @@
             "schema" : {
               "$ref" : "#/definitions/Layers"
             }
-          },
-          "404" : {
-            "description" : "**Not Found**: the owner does not exist"
           },
           "default" : {
             "description" : "Unexpected error",
@@ -61,7 +50,7 @@
       "get" : {
         "tags" : [ "Tiles" ],
         "summary" : "Information about a specific layer",
-        "description" : "This endpoint provides information about a specific *Cloudburst* layer that can be requested as map tiles, and its metadata, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
+        "description" : "This endpoint provides information about a specific *WXTiles* layer that can be requested as map tiles, and its metadata, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
         "operationId" : "getLayer",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -103,7 +92,7 @@
       "get" : {
         "tags" : [ "Tiles" ],
         "summary" : "Information about a particular (potentially non-persistant) instance of a layer",
-        "description" : "This endpoint provides information about an instance of a specific *Cloudburst* layer that can be requested as map tiles. Instances are typically added and removed as the data underlying a dataset changes with time (e.g. forecasts expire, and forecast horizons continuously move forward). Therefore a particular instance of a layer may not be persistant.",
+        "description" : "This endpoint provides information about an instance of a specific *WXTiles* layer that can be requested as map tiles. Instances are typically added and removed as the data underlying a dataset changes with time (e.g. forecasts expire, and forecast horizons continuously move forward). Therefore a particular instance of a layer may not be persistant.",
         "operationId" : "getInstance",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -318,7 +307,7 @@
       "get" : {
         "tags" : [ "Tiles" ],
         "summary" : "A tiled map image, for use by map clients capable of consuming PNG map images in OGC TMS coordinate notation.",
-        "description" : "Cloudburst produces map tiles, and PNG map tiles are the traditional format for representing these. Other possibilities include protocol-buffer vector tiles in the Mapbox vector tile specification, and others. This endpoint will most often be used by map clients (such as Leaflet, Mapbox GL JS, OpenLayers, and Google Maps), which know exactly which tiles to request for a given geographical map view and zoom level. **The Cloudburst Javascript API is responsible for completing the resource URI via these client libraries, based on what a user is authenticated to request, and what these layers support, via requests to other endpoints. Manual requests are possible but are not recommended.** The resources for a particular layer can be discovered through a `GET` request to `/layer/<layerId>/` and inspecting the response's `resources` property. The `/layer/<layerId>/<instanceID>/times/` endpoints can be used to request the times that are valid (many layer instances have only one time and/or vertical level).",
+        "description" : "WXTiles produces map tiles, and PNG map tiles are the traditional format for representing these. Other possibilities include protocol-buffer vector tiles in the Mapbox vector tile specification, and others. This endpoint will most often be used by map clients (such as Leaflet, Mapbox GL JS, OpenLayers, and Google Maps), which know exactly which tiles to request for a given geographical map view and zoom level. **The WXTiles Javascript API is responsible for completing the resource URI via these client libraries, based on what a user is authenticated to request, and what these layers support, via requests to other endpoints. Manual requests are possible but are not recommended.** The resources for a particular layer can be discovered through a `GET` request to `/layer/<layerId>/` and inspecting the response's `resources` property. The `/layer/<layerId>/<instanceID>/times/` endpoints can be used to request the times that are valid (many layer instances have only one time and/or vertical level).",
         "operationId" : "getTile",
         "produces" : [ "image/png" ],
         "parameters" : [ {
@@ -427,7 +416,7 @@
     },
     "Layer" : {
       "type" : "object",
-      "required" : [ "maxNativeZoom", "minNativeZoom" ],
+      "required" : [ "bounds", "id", "instances", "maxNativeZoom", "meta", "minNativeZoom", "resources" ],
       "properties" : {
         "id" : {
           "type" : "string",
@@ -464,10 +453,11 @@
           "$ref" : "#/definitions/Resources"
         }
       },
-      "description" : "A layer representing a spatial dataset that can be rendered by Cloudburst"
+      "description" : "A layer representing a spatial dataset that can be rendered by WXTiles"
     },
     "PartialInstance" : {
       "type" : "object",
+      "required" : [ "created", "displayName", "id" ],
       "properties" : {
         "id" : {
           "type" : "string",
@@ -485,18 +475,19 @@
         "start" : {
           "type" : "string",
           "format" : "date-time",
-          "description" : "ISO 8601 datetime string representing the earliest retrievable time-step for an instance"
+          "description" : "ISO 8601 datetime string representing the earliest retrievable time-step for an instance, if an instance has a time dimension."
         },
         "end" : {
           "type" : "string",
           "format" : "date-time",
-          "description" : "ISO 8601 datetime string representing the latest retrievable time-step for an instance"
+          "description" : "ISO 8601 datetime string representing the latest retrievable time-step for an instance, if an instance has a time dimension."
         }
       },
       "description" : "A named instance of a dataset, typically used to represent a forecast model cycle."
     },
     "Instance" : {
       "type" : "object",
+      "required" : [ "instance", "levels", "times" ],
       "properties" : {
         "instance" : {
           "$ref" : "#/definitions/PartialInstance"
@@ -512,6 +503,7 @@
     },
     "Bounds" : {
       "type" : "object",
+      "required" : [ "east", "north", "south", "west" ],
       "properties" : {
         "west" : {
           "type" : "number",
@@ -557,14 +549,6 @@
           "type" : "string",
           "description" : "Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
         },
-        "gtile" : {
-          "type" : "string",
-          "description" : "Template URL for requesting UTFGrid tiles in the Mapbox UTFGrid specification, as JSON (a format for rasterised interaction data). Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
-        },
-        "rtile" : {
-          "type" : "string",
-          "description" : "Template URL for requesting raw data tiles. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
-        },
         "legend" : {
           "type" : "string",
           "description" : "URL for requesting legends as PNG images that correspond to the PNG image tiles. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are \"small\" and \"large\". Valid values for orientation are \"horizontal\" and \"vertical\"."
@@ -584,7 +568,7 @@
     },
     "Level" : {
       "type" : "string",
-      "description" : "A potential value of a vertical dimension of an instance. Values in this array is used to substitute {level} in a tile URL."
+      "description" : "A potential value of a vertical dimension of an instance. Values in this array is used to substitute <level> in a tile URL."
     },
     "Times" : {
       "type" : "array",
@@ -627,7 +611,7 @@
           "description" : "The system of units that the layer renders quantitative values in. Examples include \"metric\" and \"uscs\", for layers that render with metric and United States customary system (USCS) units, respectively. A null value indicates that the unit system is unspecified or does not fit into a category (e.g. knots). This does not indicate exactly which units a plot will render, only a broad classification. This can be used to filter duplicate layers that only differ in whether they render the same physical phenomenon as, for example, millimetres or inches. There is no restriction on what value this string may take."
         }
       },
-      "description" : "Metadata for a layer. Cloudburst supports an arbitrary metadata document, but these specified keys are useful and will tend to exist, but none of them is mandatory, and a property may exist but have a null value."
+      "description" : "Metadata for a layer. WXTiles supports an arbitrary metadata document, but these specified keys are useful and will tend to exist, but none of them is mandatory, and a property may exist but have a null value."
     },
     "Error" : {
       "type" : "object",
