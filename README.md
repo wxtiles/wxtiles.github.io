@@ -38,3 +38,11 @@ npm run build-swagger
 ```
 
 Swagger code generator from here: https://github.com/swagger-api/swagger-codegen
+
+Dev Requirements
+========
+####Tests
+The tests require ES6 support. I have only tested them in Node v6 so that is probably the best bet.
+
+####Build Swagger
+Building the JSON version of the swagger uses [Swagger CodeGen](https://github.com/swagger-api/swagger-codegen) which requires a Java 7 runtime.
