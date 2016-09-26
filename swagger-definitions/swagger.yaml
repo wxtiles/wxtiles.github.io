@@ -7,6 +7,7 @@ info:
 host: api.wxtiles.com
 # array of all schemes that your API supports
 schemes:
+  - http
   - https
 # will be prefixed to all paths
 basePath: /v0
@@ -323,8 +324,6 @@ definitions:
     description: A layer representing a spatial dataset that can be rendered by WXTiles
     required:
       - id
-      - instanceType
-      - instanceDescription
       - bounds
       - instances
       - meta
@@ -363,8 +362,6 @@ definitions:
       - id
       - displayName
       - created
-      - start
-      - end
     properties:
       id:
         type: string
@@ -379,11 +376,11 @@ definitions:
       start:
         type: string
         format: date-time
-        description: ISO 8601 datetime string representing the earliest retrievable time-step for an instance
+        description: ISO 8601 datetime string representing the earliest retrievable time-step for an instance, if an instance has a time dimension.
       end:
         type: string
         format: date-time
-        description: ISO 8601 datetime string representing the latest retrievable time-step for an instance
+        description: ISO 8601 datetime string representing the latest retrievable time-step for an instance, if an instance has a time dimension.
   Instance:
     type: object
     description: A named instance of a dataset, typically used to represent a forecast model cycle. Includes information on available times and vertical levels (if any).
@@ -453,7 +450,7 @@ definitions:
       $ref: '#/definitions/Level'
   Level:
     type: string
-    description: A potential value of a vertical dimension of an instance. Values in this array is used to substitute {level} in a tile URL.
+    description: A potential value of a vertical dimension of an instance. Values in this array is used to substitute <level> in a tile URL.
   Times:
     type: array
     items:
@@ -468,11 +465,6 @@ definitions:
     type: object
     description: Metadata for a layer. WXTiles supports an arbitrary metadata document, but these specified keys are useful and will tend to exist, but none of them is mandatory, and a property may exist but have a null value.
     required:
-      - name
-      - description
-      - unit_system
-      - organisation
-      - source
     properties:
       name:
         type: string
