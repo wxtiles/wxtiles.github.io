@@ -1,7 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the wxtiles API",
+    "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API",
     "version" : "1.2.0",
     "title" : "WXTiles"
   },
