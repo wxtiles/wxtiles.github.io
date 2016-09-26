@@ -48,7 +48,7 @@
     "request": "*",
     "strformat": "latest",
     "strings.js": "latest",
-    "swagger-model-validator": "^2.1.2",
+    "swagger-model-validator": "metocean/swagger-model-validator",
     "swagger-parser": "latest",
     "unirest": "latest",
     "vision": "latest",
