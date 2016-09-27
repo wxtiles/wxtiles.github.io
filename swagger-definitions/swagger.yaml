@@ -464,7 +464,6 @@ definitions:
   Metadata:
     type: object
     description: Metadata for a layer. WXTiles supports an arbitrary metadata document, but these specified keys are useful and will tend to exist, but none of them is mandatory, and a property may exist but have a null value.
-    required:
     properties:
       name:
         type: string
