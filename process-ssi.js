@@ -30,6 +30,7 @@ var fileNames = glob.sync("**/*.shtml", {ignore: "node_modules/**/*"});
 
 //Rewrite the files.
 fileNames.forEach((filePath) => {
+	filePath = path.resolve(filePath);
 	var fileContent = fs.readFileSync(filePath, 'utf8');
 	fileContent = ssiParser.parse(filePath, fileContent);
 
