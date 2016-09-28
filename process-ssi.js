@@ -36,9 +36,10 @@ fileNames.forEach((filePath) => {
 
 	//Change the extension.
 	var newFilePath = path.parse(filePath);
-	newFilePath.ext = 'html';
+	newFilePath.base = null;
+	newFilePath.ext = '.html';
 	newFilePath = path.format(newFilePath);
 
 	//And write the new tile out.
-	fs.writeFileSync(filePath, fileContent, 'utf8');
+	fs.writeFileSync(newFilePath, fileContent.contents, 'utf8');
 });
