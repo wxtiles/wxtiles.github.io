@@ -24,6 +24,7 @@
     "flatdoc": "^0.9.0",
     "glob": "^7.1.0",
     "less": "^2.7.1",
-    "ssi": "^0.3.0"
+    "ssi": "^0.3.0",
+    "wx-tiles": "github:wxtiles/wxtilesjs"
   }
 }
