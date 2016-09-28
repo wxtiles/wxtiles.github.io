@@ -39,30 +39,20 @@
 
   <script src="./getting-started/bundle.js"></script>
   <link rel="stylesheet" href="./getting-started/index.css" />
+  
+  <link href='/templates/header.css' media='screen' rel='stylesheet' type='text/css' />
+
 
   <script>
-    //From Wordpress site.  
-    //This is terible and I hate it.
-    //Download the page to get the html.
-    $.get('https://wxtiles.wpengine.com/blank/', function (html) {
-      //Get the head element from the downloaded html and add it to this head.
-      var headHtml = /<head.*?>([\s\S]*)<\/head>/.exec(html)[1];
-      $("head").append(headHtml);
-    });
-     
     //Initializer    
     Flatdoc.run({
       fetcher: Flatdoc.file('./getting-started/index.md')
     });
 
-    var main = require('main');
-    $(document).on('flatdoc:ready', function() {
+$(document).on('flatdoc:ready', function() {
      
-     //Load the nav bar from the sales site.
-     $('#wp-nav').load('https://wxtiles.wpengine.com/blank/ #header', {}, function () {
-       main.mountExamples();
        $(window).trigger('resize.sidestick');
-     }); 
+      
       
       
     });
@@ -71,11 +61,10 @@
 </head>
 
 <body role='flatdoc' class='no-literate'>
-  <div id="header-head" style="display:none"></div>
-  <div id="top">
-    <div id="wp-nav">
-    </div>
-  </div>
+
+      <!--#include virtual="/templates/header.html" -->
+    
+  
 
   <div class='content-root'>
     <div class='menubar'>
