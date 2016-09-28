@@ -9,11 +9,12 @@
     "build-swagger": "npm run build-swagger-json && npm run build-swagger-js-client",
     "build-swagger-json": "java -jar ./swagger-codegen-cli-2.2.1.jar generate -i ./swagger-definitions/swagger.yaml -l swagger -o ./swagger-definitions/",
     "build-swagger-js-client": "java -jar ./swagger-codegen-cli-2.2.1.jar generate -i ./swagger-definitions/swagger.yaml -l javascript -o ./clients/javascript",
-    "build-docs": "npm run browserify-docs && npm run build-css && echo \"Build Complete\"",
+    "build-docs": "npm run ssi && npm run browserify-docs && npm run build-css && echo \"Build Complete\"",
     "ssi": "node ./process-ssi.js",
     "build-css": "lessc ./flatdoc/style.less ./flatdoc/style.css",
     "browserify-docs": "browserify -r ./getting-started/main.js:main > ./getting-started/bundle.js",
-    "cp-flatdoc": "mkdir -p ./flatdoc && cp ./node_modules/flatdoc/flatdoc.js ./flatdoc/ && cp ./node_modules/flatdoc/legacy.js ./flatdoc/ && cp ./node_modules/flatdoc/theme-white/script.js ./flatdoc/ && cp ./node_modules/flatdoc/theme-white/style.css ./flatdoc/"
+    "cp-flatdoc": "mkdir -p ./flatdoc && cp ./node_modules/flatdoc/flatdoc.js ./flatdoc/ && cp ./node_modules/flatdoc/legacy.js ./flatdoc/ && cp ./node_modules/flatdoc/theme-white/script.js ./flatdoc/ && cp ./node_modules/flatdoc/theme-white/style.css ./flatdoc/",
+    "prepare-deploy": "npm run build-swagger-json && npm run build-docs"
   },
   "author": "MetOcean",
   "license": "MIT",

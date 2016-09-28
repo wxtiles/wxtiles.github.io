@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "6"
+sudo: false
+
+script: bash ./deploy.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: "8caf3539c409"
+  - COMMIT_AUTHOR_EMAIL: "wxtiles-deploy@metocean.co.nz"
