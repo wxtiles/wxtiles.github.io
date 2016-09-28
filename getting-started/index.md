@@ -5,7 +5,10 @@ The API is versioned by a path parameter: api.wxtiles.com/v0 is the current root
 Once version one of the api is released, breaking changes will only be made by increasing the version path parameter. Until then you should expect breaking changes without a change in version.
 
 #API Documentation
-View the api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
+View the web api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
+
+#JS Client Documentation
+View the api documentation for the wxTilesjs library [here](./wxtilesjs-docs).
 
 #API Keys
 Access to the WXTiles API requires an API Key. This key can be obtained by signing up for a free account at [wxtiles.com](https://wxtiles.wpengine.com/my-account/). Once you have signed up, you can find your API Key on your account page.
