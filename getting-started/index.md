@@ -5,7 +5,7 @@ The API is versioned by a path parameter: api.wxtiles.com/v0 is the current root
 Once version one of the api is released, breaking changes will only be made by increasing the version path parameter. Until then you should expect breaking changes without a change in version.
 
 #API Documentation
-View the web api documentation [here](https://wxtiles.github.io/wxtiles-docs/api-docs/).
+View the web api documentation [here](./api-docs/).
 
 #JS Client Documentation
 View the api documentation for the wxTilesjs library [here](./wxtilesjs-docs).

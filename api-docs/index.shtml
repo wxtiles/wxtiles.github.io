@@ -40,11 +40,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        //If you are deving localy then use this:
         url = "/swagger-definitions/swagger.yaml";
-
-        //If you are deploying to ghpages then use this:
-        //url = "/wxtiles-docs/swagger-definitions/swagger.yaml";
       }
 
       hljs.configure({
