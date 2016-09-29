@@ -49,12 +49,8 @@
       fetcher: Flatdoc.file('./getting-started/index.md')
     });
 
-$(document).on('flatdoc:ready', function() {
-     
+    $(document).on('flatdoc:ready', function() {
        $(window).trigger('resize.sidestick');
-      
-      
-      
     });
 
   </script>

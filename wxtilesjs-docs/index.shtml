@@ -45,23 +45,7 @@
 </head>
 
 <body role='flatdoc' class='no-literate'>
-   <header>
-      <div class="container av-logo-container" >
-        <div class="inner-container" >
-          <strong class="logo" >
-            <a href="https://wxtiles.com/" >
-              <img height="100" width="300" src="https://wxtiles.com/wp-content/uploads/2016/07/wxtiles-logo-1-300x138-beta2-1-300x138.png" alt="WXTiles" scale="0">
-            </a>
-          </strong>
-          <nav class="main_menu">
-                   <a href="https://wxtiles.com/" >
-                    <span class="menu-text" >Return to wxtiles.com</span>
-                  </a>
-          </nav>
-        </div>
-    </div>
-    <div class="header_bg"></div>
-  </header>
+   <!--#include virtual="/templates/header.html" -->
 
   <div class='content-root'>
     <div class='menubar'>
