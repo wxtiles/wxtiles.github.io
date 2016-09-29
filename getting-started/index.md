@@ -11,7 +11,7 @@ View the web api documentation [here](./api-docs/).
 View the api documentation for the wxTilesjs library [here](./wxtilesjs-docs).
 
 #API Keys
-Access to the WXTiles API requires an API Key. This key can be obtained by signing up for a free account at [wxtiles.com](https://wxtiles.wpengine.com/my-account/). Once you have signed up, you can find your API Key on your account page.
+Access to the WXTiles API requires an API Key. This key can be obtained by signing up for a free account at [wxtiles.com](https://wxtiles.com/my-account/). Once you have signed up, you can find your API Key on your account page.
 
 The API Key must be submitted with every request to the WXTiles API. This can be done by either adding an "apikey" header:
 
