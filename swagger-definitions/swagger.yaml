@@ -471,6 +471,9 @@ definitions:
       description:
         type: string
         description: A long description of a layer, possibly including HTML tags to navigate users to glossaries or other sources of additional information.
+      layperson_description:
+        type: string
+        description: A long description of a layer, which is intended for display to a "layperson" who should not be confronted with technical, meteological or other jargon when browsing layer information.
       organisation:
         type: string
         description: Organisation responsible for publishing the data used in the layer.
