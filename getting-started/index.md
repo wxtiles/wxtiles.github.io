@@ -24,6 +24,7 @@ or by adding an "apikey" parameter to the query string:
 curl https://api.wxtiles.com/v0/wxtiles/layer/?apikey=your_api_key_here
 ```
 
+Requests without an API key will not return a successful response.
 
 #Getting Started
 
