@@ -7,3 +7,8 @@ swagger-definitions/LICENSE
 #Ignore the swagger codegen ignore file for now because it doesn't work and is just noise.
 #Un ignore this when we can use it to not overwrite the LICENSE.
 .swagger-codegen-ignore
+
+#Ignore html files because we build them from shmtl
+*.html
+#Ignore other build output
+bundle.js
