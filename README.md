@@ -1,3 +1,11 @@
+[![Build Status](https://travis-ci.org/wxtiles/wxtiles-docs.svg?branch=master)](https://travis-ci.org/wxtiles/wxtiles-docs)
+
+* These docs are auto-deployed to Github Pages by the Travis build: https://travis-ci.org/wxtiles/wxtiles-docs
+* html files are .gitignored because we build them from shmtl.
+* use `npm run build-docs` to build the html and js files locally.
+
+The docs can be found at: http://docs.wxtiles.com
+
 API Docs
 ========
 Swagger-ui based API documentation is found in the api-docs directory.
