@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: WXTiles
   description: Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
-  version: "1.2.0"
+  version: "3.0.0"
 # the domain of the service
 host: api.wxtiles.com
 # array of all schemes that your API supports
@@ -10,7 +10,7 @@ schemes:
   - http
   - https
 # will be prefixed to all paths
-basePath: /v0
+# basePath: /v0
 produces:
   - application/json
   - application/x-protobuf
@@ -23,7 +23,7 @@ security:
   - apiKeyQuery: []
 
 paths:
-  /{ownerId}/layer/:
+  /v0/{ownerId}/layer/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
     parameters:
@@ -45,7 +45,29 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/layer/{layerId}/:
+  /v1/{ownerId}/layer/:
+    #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
+    x-swagger-router-controller: mock
+    parameters:
+      - $ref: '#/parameters/ownerId'
+    get:
+      operationId: getLayers
+      produces: [application/json]
+      summary: Information about available WXTiles layers
+      description: This endpoint returns information about all current *WXTiles* layers that can be requested, and metadata about map layers, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.
+      tags:
+        - Tiles
+      responses:
+        200:
+          description: Matched layers' configurations
+          schema:
+            $ref: '#/definitions/v1Layers'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /v0/{ownerId}/layer/{layerId}/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
     parameters:
@@ -70,7 +92,32 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/layer/{layerId}/instance/{instanceId}/:
+  /v1/{ownerId}/layer/{layerId}/:
+    #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
+    x-swagger-router-controller: mock
+    parameters:
+      - $ref: '#/parameters/ownerId'
+      - $ref: '#/parameters/layerId'
+    get:
+      operationId: getLayer
+      produces: [application/json]
+      summary: Information about a specific layer
+      description: This endpoint provides information about a specific *WXTiles* layer that can be requested as map tiles, and its metadata, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.
+      tags:
+        - Tiles
+      responses:
+        200:
+          description: Matched layers' configurations
+          schema:
+            $ref: '#/definitions/v1Layer'
+        404:
+          description: "**Not Found**: the owner or layer does not exist"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /v0/{ownerId}/layer/{layerId}/instance/{instanceId}/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
     parameters:
@@ -96,7 +143,10 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/layer/{layerId}/instance/{instanceId}/times/:
+  /v1/{ownerId}/layer/{layerId}/instance/{instanceId}/:
+    $ref: '#/path/v1/{ownerId}/layer/{layerId}/instance/{instanceId}/'
+
+  /v0/{ownerId}/layer/{layerId}/instance/{instanceId}/times/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: times
     parameters:
@@ -124,7 +174,10 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/layer/{layerId}/instance/{instanceId}/levels/:
+  /v1/{ownerId}/layer/{layerId}/instance/{instanceId}/times/:
+    $ref: '#/paths/v0/{ownerId}/layer/{layerId}/instance/{instanceId}/times/'
+
+  /v0/{ownerId}/layer/{layerId}/instance/{instanceId}/levels/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
     parameters:
@@ -152,7 +205,10 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}:
+  /v1/{ownerId}/layer/{layerId}/instance/{instanceId}/levels/:
+    $ref: '#/paths/v0/{ownerId}/layer/{layerId}/instance/{instanceId}/levels/'
+
+  /v0/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: tile
     parameters:
@@ -184,7 +240,31 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png:
+  /v1/ownerID/legend/{layerId}/{StyleId}.json:
+    #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
+    x-swagger-router-controller: mock
+    parameters:
+      - $ref: '#/parameters/ownerId'
+      - $ref: '#/parameters/layerId'
+      - $ref: '#/parameters/styleId'
+    get:
+      operationID: getJSONLegend
+      produces: [application/json]
+      summary: JSON represention of a style as implemented by a particular layer. Can be used for rendering custom a legend.
+      description: Unlike image legends, the JSON representation of a style always exists.
+      tags:
+        - Legends
+        - Styles
+      responses:
+        200:
+          description: Implementation of a style as JSON.
+          # TODO document possible structure of jsonLegend
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /v0/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
     parameters:
@@ -199,7 +279,35 @@ paths:
       summary: A legend for PNG map tiles
       description: "Legends are inferred from plot configurations for each layer. When a legend is disabled on a per-layer basis (or if a legend cannot be rendered due to the plot type), then this endpoint will return a 204 No Content response. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`."
       tags:
-        - Tiles
+        - Legends
+      responses:
+        200:
+          description: A rendered map legend as a PNG
+        204:
+          description: "**No Content**: The layer/instance being requested does not have a legend."
+        # 403:
+        #   description: "**Unauthorised**: A request was made to retrieve a legend resource for which the user does not have adequate permissions."
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /v1/{ownerId}/legend/{layerId}/{styleId}/{size}/{orientation}.png:
+    #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
+    x-swagger-router-controller: mock
+    parameters:
+      - $ref: '#/parameters/ownerId'
+      - $ref: '#/parameters/layerId'
+      - $ref: '#/parameters/styleId'
+      - $ref: '#/parameters/size'
+      - $ref: '#/parameters/orientation'
+    get:
+      operationId: getPNGLegend
+      produces: [image/png]
+      summary: A legend for PNG map tiles
+      description: "Available legends reflect the styles implemented by a layer. When a legend is disabled on a per-style basis (or if a legend cannot be rendered due to the style), then this endpoint will return a 204 No Content response. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`."
+      tags:
+        - Legends
       responses:
         200:
           description: A rendered map legend as a PNG
@@ -319,6 +427,11 @@ definitions:
     description: All layers meeting your query, that that you are authenticated for, and which are currently available
     items:
       $ref: '#/definitions/Layer'
+  v1Layers:
+    type: array
+    description: All layers meeting your query, that that you are authenticated for, and which are currently available
+    items:
+      $ref: '#/definitions/v1Layer'
   Layer:
     type: object
     description: A layer representing a spatial dataset that can be rendered by WXTiles
@@ -355,6 +468,73 @@ definitions:
         $ref: '#/definitions/Metadata'
       resources:
         $ref: '#/definitions/Resources'
+  v1Layer:
+    type: object
+    description: A layer representing a spatial dataset that can be rendered by WXTiles
+    required:
+      - id
+      - bounds
+      - instances
+      - styles
+      - dimensions
+      - resources
+      - source
+      - description
+      - instanceDescription
+      - name
+      - organisation
+      - minNativeZoom
+      - maxNativeZoom
+    properties:
+      id:
+        type: string
+        description: Layer ID
+      instances:
+        type: array
+        description: A list of the instances of this layer.
+        items:
+          $ref: '#/definitions/PartialInstance'
+      styles:
+        type: array
+        description: A list of the styles the layer implements
+        items:
+          $ref: '#/definitions/Style'
+      dimensions:
+        type: array
+        description: A list of dimensions used by the layer. Neither the names nor order of the dimensions are standardised, following the CF convention. Instead they reflect the declarations of underlying dataset metadata.
+        items:
+          type: string
+          description: A dimension used by the layer. Typically these are spatial, time and possibly a vertical dimension.
+      bounds:
+        $ref: '#/definitions/Bounds'
+      instanceType:
+        type: string
+        description: One of a typology of instance types. Currently these are "cyclic" (for model cycles), and "observational" (for observational timestamps).
+      instanceDescription:
+        type: string
+        description: Free-form text explaining the role of instances for the associated layer
+      minNativeZoom:
+        $ref: '#/definitions/MinNativeZoom'
+      maxNativeZoom:
+        $ref: '#/definitions/MaxNativeZoom'
+      resources:
+        $ref: '#/definitions/Resources'
+  Style:
+    type: object
+    description: A named style representing one way of rendering a layer as tiles.
+    required:
+      - id
+      - jsonLegend
+    properties:
+      id:
+        type: string
+        description: Style ID
+      legend:
+        type: string
+        description: URL for requesting legends as PNG images that correspond to the PNG image tiles. The "size" and "orientation" elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are "small" and "large". Valid values for orientation are "horizontal" and "vertical".
+      jsonLegend:
+        type: string
+        description: URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. No component of this URL requires substitution.
   PartialInstance:
     type: object
     description: A named instance of a dataset, typically used to represent a forecast model cycle.
@@ -444,6 +624,20 @@ definitions:
       jsonlegend:
         type: string
         description: URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. The "size" and "orientation" elements in the path (enclosed in angle brackets) need to be substituted.
+  v1Resources:
+    type: object
+    description: Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text "instance" (enclosed in angle brackets) must be substituted by a valid instance ID.
+    properties:
+      tile:
+        type: string
+        description: Template URL for requesting styled, PNG image tiles. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests.
+      vtile:
+        type: string
+        description: Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests.
+      times:
+        $ref: '#/definitions/Times'
+      levels:
+        $ref: '#/definitions/Levels'
   Levels:
     type: array
     items:
