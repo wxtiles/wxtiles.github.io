@@ -1,0 +1,738 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API",
+    "version" : "3.0.0",
+    "title" : "WXTiles"
+  },
+  "host" : "api.wxtiles.com",
+  "basePath" : "/v0",
+  "tags" : [ {
+    "name" : "Tiles",
+    "description" : "WXTiles API"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "produces" : [ "application/json", "application/x-protobuf", "image/png" ],
+  "paths" : {
+    "/{ownerId}/layer/" : {
+      "get" : {
+        "tags" : [ "Tiles" ],
+        "summary" : "Information about available WXTiles layers",
+        "description" : "This endpoint returns information about all current *WXTiles* layers that can be requested, and metadata about map layers, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
+        "operationId" : "getLayers",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Matched layers' configurations",
+            "schema" : {
+              "$ref" : "#/definitions/Layers"
+            }
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "mock"
+    },
+    "/{ownerId}/layer/{layerId}/" : {
+      "get" : {
+        "tags" : [ "Tiles" ],
+        "summary" : "Information about a specific layer",
+        "description" : "This endpoint provides information about a specific *WXTiles* layer that can be requested as map tiles, and its metadata, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
+        "operationId" : "getLayer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "layerId",
+          "in" : "path",
+          "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Matched layers' configurations",
+            "schema" : {
+              "$ref" : "#/definitions/Layer"
+            }
+          },
+          "404" : {
+            "description" : "**Not Found**: the owner or layer does not exist"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "mock"
+    },
+    "/{ownerId}/layer/{layerId}/instance/{instanceId}/" : {
+      "get" : {
+        "tags" : [ "Tiles" ],
+        "summary" : "Information about a particular (potentially non-persistant) instance of a layer",
+        "description" : "This endpoint provides information about an instance of a specific *WXTiles* layer that can be requested as map tiles. Instances are typically added and removed as the data underlying a dataset changes with time (e.g. forecasts expire, and forecast horizons continuously move forward). Therefore a particular instance of a layer may not be persistant.",
+        "operationId" : "getInstance",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "layerId",
+          "in" : "path",
+          "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "instanceId",
+          "in" : "path",
+          "description" : "The id of the instance.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Matched layers' configurations",
+            "schema" : {
+              "$ref" : "#/definitions/Instance"
+            }
+          },
+          "404" : {
+            "description" : "**Not Found**: the owner, layer or instance does not exist"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "mock"
+    },
+    "/{ownerId}/layer/{layerId}/instance/{instanceId}/levels/" : {
+      "get" : {
+        "tags" : [ "Tiles" ],
+        "summary" : "A collection of vertical levels for which data exists and can be requested (as tiles) for an instance of a layer.",
+        "description" : "This endpoint exposes the array of vertical positions that data exists for a particular instance. Each element can be used to substitute the {level} part of a tile URL. Not all layer instances have a vertical (e.g. it may be surface wave height and therefore only apply at sea level). If a layer has no vertical dimension, the array will be empty.",
+        "operationId" : "getLevels",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "layerId",
+          "in" : "path",
+          "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "instanceId",
+          "in" : "path",
+          "description" : "The id of the instance.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Matched layers' configurations",
+            "schema" : {
+              "$ref" : "#/definitions/Levels"
+            }
+          },
+          "204" : {
+            "description" : "**No Content**: the request was successful, but the layer instance has no vertical dimension so there is nothing to return."
+          },
+          "404" : {
+            "description" : "**Not Found**: the owner, layer or instance does not exist"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "mock"
+    },
+    "/{ownerId}/layer/{layerId}/instance/{instanceId}/times/" : {
+      "get" : {
+        "tags" : [ "Tiles" ],
+        "summary" : "A collection of moments in time for which data exists and can be requested (as tiles) for an instance of a layer.",
+        "description" : "This endpoint exposes the array of moments that data exists for a particular instance. Each element can be used to substitute the <time> part of a tile URL. Not all layer instances have a temporal dimension (e.g. it may be static bathymetry, or an observational dataset with no forecast or hindcast). If a layer has no temporal dimension, the array will be empty. The times in the array may not be unique (this is almost always due to grouped datasets containing overlapping time steps).",
+        "operationId" : "getTimes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "layerId",
+          "in" : "path",
+          "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "instanceId",
+          "in" : "path",
+          "description" : "The id of the instance.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Matched layers' configurations",
+            "schema" : {
+              "$ref" : "#/definitions/Times"
+            }
+          },
+          "204" : {
+            "description" : "**No Content**: the request was successful, but the layer instance has no temporal dimension so there is nothing to return."
+          },
+          "404" : {
+            "description" : "**Not Found**: the owner, layer or instance does not exist"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "times"
+    },
+    "/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png" : {
+      "get" : {
+        "tags" : [ "Legends" ],
+        "summary" : "A legend for PNG map tiles",
+        "description" : "Legends are inferred from plot configurations for each layer. When a legend is disabled on a per-layer basis (or if a legend cannot be rendered due to the plot type), then this endpoint will return a 204 No Content response. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`.",
+        "operationId" : "getPNGLegend",
+        "produces" : [ "image/png" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "layerId",
+          "in" : "path",
+          "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "instanceId",
+          "in" : "path",
+          "description" : "The id of the instance.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "size",
+          "in" : "path",
+          "description" : "The size.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "small", "large" ],
+          "x-example" : "small"
+        }, {
+          "name" : "orientation",
+          "in" : "path",
+          "description" : "The orientation.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "horizontal", "vertical" ],
+          "x-example" : "horizontal"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A rendered map legend as a PNG"
+          },
+          "204" : {
+            "description" : "**No Content**: The layer/instance being requested does not have a legend."
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "mock"
+    },
+    "/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}" : {
+      "get" : {
+        "tags" : [ "Tiles" ],
+        "summary" : "A tiled map image, for use by map clients capable of consuming PNG map images in OGC TMS coordinate notation.",
+        "description" : "WXTiles produces map tiles, and PNG map tiles are the traditional format for representing these. Other possibilities include protocol-buffer vector tiles in the Mapbox vector tile specification, and others. This endpoint will most often be used by map clients (such as Leaflet, Mapbox GL JS, OpenLayers, and Google Maps), which know exactly which tiles to request for a given geographical map view and zoom level. **The WXTiles Javascript API is responsible for completing the resource URI via these client libraries, based on what a user is authenticated to request, and what these layers support, via requests to other endpoints. Manual requests are possible but are not recommended.** The resources for a particular layer can be discovered through a `GET` request to `/layer/<layerId>/` and inspecting the response's `resources` property. The `/layer/<layerId>/<instanceID>/times/` endpoints can be used to request the times that are valid (many layer instances have only one time and/or vertical level).",
+        "operationId" : "getTile",
+        "produces" : [ "image/png" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "layerId",
+          "in" : "path",
+          "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "instanceId",
+          "in" : "path",
+          "description" : "The id of the instance.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "time",
+          "in" : "path",
+          "description" : "The time.",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "level",
+          "in" : "path",
+          "description" : "The level.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "0"
+        }, {
+          "name" : "z",
+          "in" : "path",
+          "description" : "The z.",
+          "required" : true,
+          "type" : "integer",
+          "x-example" : 8
+        }, {
+          "name" : "x",
+          "in" : "path",
+          "description" : "The x.",
+          "required" : true,
+          "type" : "integer",
+          "x-example" : 1
+        }, {
+          "name" : "y2",
+          "in" : "path",
+          "description" : "The y.",
+          "required" : true,
+          "type" : "integer",
+          "x-example" : 1
+        }, {
+          "name" : "extension",
+          "in" : "path",
+          "description" : "The extension.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "png", "mvt" ],
+          "x-example" : "png"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A rendered map tile as a PNG",
+            "schema" : {
+              "type" : "file"
+            }
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "tile"
+    }
+  },
+  "securityDefinitions" : {
+    "apiKeyQuery" : {
+      "type" : "apiKey",
+      "name" : "apikey",
+      "in" : "query"
+    },
+    "apiKeyHeader" : {
+      "type" : "apiKey",
+      "name" : "apikey",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "Layers" : {
+      "type" : "array",
+      "description" : "All layers meeting your query, that that you are authenticated for, and which are currently available",
+      "items" : {
+        "$ref" : "#/definitions/Layer"
+      }
+    },
+    "Layer" : {
+      "type" : "object",
+      "required" : [ "bounds", "id", "instances", "maxNativeZoom", "meta", "minNativeZoom", "resources" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Layer ID"
+        },
+        "instances" : {
+          "type" : "array",
+          "description" : "A list of the instances of this layer.",
+          "items" : {
+            "$ref" : "#/definitions/PartialInstance"
+          }
+        },
+        "bounds" : {
+          "$ref" : "#/definitions/Bounds"
+        },
+        "instanceType" : {
+          "type" : "string",
+          "description" : "One of a typology of instance types. Currently these are \"cyclic\" (for model cycles), and \"observational\" (for observational timestamps)."
+        },
+        "instanceDescription" : {
+          "type" : "string",
+          "description" : "Free-form text explaining the role of instances for the associated layer"
+        },
+        "minNativeZoom" : {
+          "$ref" : "#/definitions/MinNativeZoom"
+        },
+        "maxNativeZoom" : {
+          "$ref" : "#/definitions/MaxNativeZoom"
+        },
+        "meta" : {
+          "$ref" : "#/definitions/Metadata"
+        },
+        "resources" : {
+          "$ref" : "#/definitions/Resources"
+        }
+      },
+      "description" : "A layer representing a spatial dataset that can be rendered by WXTiles"
+    },
+    "PartialInstance" : {
+      "type" : "object",
+      "required" : [ "created", "displayName", "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Instance ID"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Instance name, intended for display to end users"
+        },
+        "created" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "ISO 8601 datetime string representing when the instance configuration was created"
+        },
+        "start" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "ISO 8601 datetime string representing the earliest retrievable time-step for an instance, if an instance has a time dimension."
+        },
+        "end" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "ISO 8601 datetime string representing the latest retrievable time-step for an instance, if an instance has a time dimension."
+        }
+      },
+      "description" : "A named instance of a dataset, typically used to represent a forecast model cycle."
+    },
+    "Instance" : {
+      "type" : "object",
+      "required" : [ "instance", "levels", "times" ],
+      "properties" : {
+        "instance" : {
+          "$ref" : "#/definitions/PartialInstance"
+        },
+        "times" : {
+          "$ref" : "#/definitions/Times"
+        },
+        "levels" : {
+          "$ref" : "#/definitions/Levels"
+        }
+      },
+      "description" : "A named instance of a dataset, typically used to represent a forecast model cycle. Includes information on available times and vertical levels (if any)."
+    },
+    "Bounds" : {
+      "type" : "object",
+      "required" : [ "east", "north", "south", "west" ],
+      "properties" : {
+        "west" : {
+          "type" : "number",
+          "format" : "float",
+          "description" : "The western extent of the instance's dataset (degrees longitude)"
+        },
+        "east" : {
+          "type" : "number",
+          "format" : "float",
+          "description" : "The eastern extent of the instance's dataset (degrees longitude)"
+        },
+        "north" : {
+          "type" : "number",
+          "format" : "float",
+          "description" : "The northern extent of the instance's dataset (degrees latitude)"
+        },
+        "south" : {
+          "type" : "number",
+          "format" : "float",
+          "description" : "The southern extent of the instance's dataset (degrees longitude)"
+        }
+      },
+      "description" : "An object representing the layer instance's bounding box (derived from the dataset)"
+    },
+    "MinNativeZoom" : {
+      "type" : "number",
+      "format" : "integer",
+      "description" : "The smallest scale supported natively by the layer."
+    },
+    "MaxNativeZoom" : {
+      "type" : "number",
+      "format" : "integer",
+      "description" : "The largest scale supported natively by the layer."
+    },
+    "Resources" : {
+      "type" : "object",
+      "properties" : {
+        "tile" : {
+          "type" : "string",
+          "description" : "Template URL for requesting styled, PNG image tiles. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
+        },
+        "vtile" : {
+          "type" : "string",
+          "description" : "Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
+        },
+        "legend" : {
+          "type" : "string",
+          "description" : "URL for requesting legends as PNG images that correspond to the PNG image tiles. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are \"small\" and \"large\". Valid values for orientation are \"horizontal\" and \"vertical\"."
+        },
+        "jsonlegend" : {
+          "type" : "string",
+          "description" : "URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted."
+        }
+      },
+      "description" : "Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text \"instance\" (enclosed in angle brackets) must be substituted by a valid instance ID."
+    },
+    "Levels" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/Level"
+      }
+    },
+    "Level" : {
+      "type" : "string",
+      "description" : "A potential value of a vertical dimension of an instance. Values in this array is used to substitute <level> in a tile URL."
+    },
+    "Times" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/Time"
+      }
+    },
+    "Time" : {
+      "type" : "string",
+      "description" : "ISO 8601 string representing a datetime, a possible value of the temporal dimension of an instance. Values in this array is used to ubstitute \"time\" in a tile URL."
+    },
+    "Metadata" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "A short, human-readable description of a layer that is suitable for inclusion in a list of available layers."
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "A long description of a layer, possibly including HTML tags to navigate users to glossaries or other sources of additional information."
+        },
+        "layperson_description" : {
+          "type" : "string",
+          "description" : "A long description of a layer, which is intended for display to a \"layperson\" who should not be confronted with technical, meteological or other jargon when browsing layer information."
+        },
+        "organisation" : {
+          "type" : "string",
+          "description" : "Organisation responsible for publishing the data used in the layer."
+        },
+        "source" : {
+          "type" : "string",
+          "description" : "The source of the data (such as a model)."
+        },
+        "regions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "description" : "A three-digit numerical code used by the Statistics Division of the United Nations Secretariat. Represents geographical regions where the layer is considered applicable, from the global scale ('001'), to continental, sub-continental, and country scales. See http://unstats.un.org/unsd/methods/m49/m49.htm for the list of values in current use."
+          }
+        },
+        "unit_system" : {
+          "type" : "string",
+          "description" : "The system of units that the layer renders quantitative values in. Examples include \"metric\" and \"uscs\", for layers that render with metric and United States customary system (USCS) units, respectively. A null value indicates that the unit system is unspecified or does not fit into a category (e.g. knots). This does not indicate exactly which units a plot will render, only a broad classification. This can be used to filter duplicate layers that only differ in whether they render the same physical phenomenon as, for example, millimetres or inches. There is no restriction on what value this string may take."
+        }
+      },
+      "description" : "Metadata for a layer. WXTiles supports an arbitrary metadata document, but these specified keys are useful and will tend to exist, but none of them is mandatory, and a property may exist but have a null value."
+    },
+    "Error" : {
+      "type" : "object",
+      "properties" : {
+        "http-code" : {
+          "type" : "number",
+          "format" : "integer",
+          "description" : "HTTP status code"
+        },
+        "incident-number" : {
+          "type" : "string",
+          "description" : "Incident number that has been recorded."
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "Explanation why the request has caused an error"
+        }
+      }
+    }
+  },
+  "parameters" : {
+    "ownerId" : {
+      "name" : "ownerId",
+      "in" : "path",
+      "description" : "The owner of the dataset.",
+      "required" : true,
+      "type" : "string",
+      "x-example" : "wxtiles"
+    },
+    "layerId" : {
+      "name" : "layerId",
+      "in" : "path",
+      "description" : "The id of the layer.",
+      "required" : true,
+      "type" : "string",
+      "x-example" : "wxtiles"
+    },
+    "instanceId" : {
+      "name" : "instanceId",
+      "in" : "path",
+      "description" : "The id of the instance.",
+      "required" : true,
+      "type" : "string",
+      "x-example" : "wxtiles"
+    },
+    "time" : {
+      "name" : "time",
+      "in" : "path",
+      "description" : "The time.",
+      "required" : true,
+      "type" : "string",
+      "format" : "date-time",
+      "x-example" : "wxtiles"
+    },
+    "level" : {
+      "name" : "level",
+      "in" : "path",
+      "description" : "The level.",
+      "required" : true,
+      "type" : "string",
+      "x-example" : "0"
+    },
+    "z" : {
+      "name" : "z",
+      "in" : "path",
+      "description" : "The z.",
+      "required" : true,
+      "type" : "integer",
+      "x-example" : 8
+    },
+    "x" : {
+      "name" : "x",
+      "in" : "path",
+      "description" : "The x.",
+      "required" : true,
+      "type" : "integer",
+      "x-example" : 1
+    },
+    "y2" : {
+      "name" : "y2",
+      "in" : "path",
+      "description" : "The y.",
+      "required" : true,
+      "type" : "integer",
+      "x-example" : 1
+    },
+    "extension" : {
+      "name" : "extension",
+      "in" : "path",
+      "description" : "The extension.",
+      "required" : true,
+      "type" : "string",
+      "enum" : [ "png", "mvt" ],
+      "x-example" : "png"
+    },
+    "orientation" : {
+      "name" : "orientation",
+      "in" : "path",
+      "description" : "The orientation.",
+      "required" : true,
+      "type" : "string",
+      "enum" : [ "horizontal", "vertical" ],
+      "x-example" : "horizontal"
+    },
+    "size" : {
+      "name" : "size",
+      "in" : "path",
+      "description" : "The size.",
+      "required" : true,
+      "type" : "string",
+      "enum" : [ "small", "large" ],
+      "x-example" : "small"
+    }
+  },
+  "securityRequirement" : [ {
+    "apiKeyHeader" : [ ]
+  }, {
+    "apiKeyQuery" : [ ]
+  } ]
+}

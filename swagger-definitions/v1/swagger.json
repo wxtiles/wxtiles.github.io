@@ -2,11 +2,11 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API",
-    "version" : "1.2.0",
+    "version" : "3.0.0",
     "title" : "WXTiles"
   },
-  "host" : "api.wxtiles.com",
-  "basePath" : "/v0",
+  "host" : "127.16.1.15",
+  "basePath" : "/v1",
   "tags" : [ {
     "name" : "Tiles",
     "description" : "WXTiles API"
@@ -14,6 +14,48 @@
   "schemes" : [ "http", "https" ],
   "produces" : [ "application/json", "application/x-protobuf", "image/png" ],
   "paths" : {
+    "/ownerID/legend/{layerId}/{StyleId}.json" : {
+      "get" : {
+        "tags" : [ "Legends", "Styles" ],
+        "summary" : "JSON represention of a style as implemented by a particular layer. Can be used for rendering custom a legend.",
+        "description" : "Unlike image legends, the JSON representation of a style always exists.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ownerId",
+          "in" : "path",
+          "description" : "The owner of the dataset.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "layerId",
+          "in" : "path",
+          "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "styleId",
+          "in" : "path",
+          "description" : "The id of the style.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Implementation of a style as JSON."
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "mock"
+    },
     "/{ownerId}/layer/" : {
       "get" : {
         "tags" : [ "Tiles" ],
@@ -241,11 +283,11 @@
       },
       "x-swagger-router-controller" : "times"
     },
-    "/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png" : {
+    "/{ownerId}/legend/{layerId}/{styleId}/{size}/{orientation}.png" : {
       "get" : {
-        "tags" : [ "Tiles" ],
+        "tags" : [ "Legends" ],
         "summary" : "A legend for PNG map tiles",
-        "description" : "Legends are inferred from plot configurations for each layer. When a legend is disabled on a per-layer basis (or if a legend cannot be rendered due to the plot type), then this endpoint will return a 204 No Content response. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`.",
+        "description" : "Available legends reflect the styles implemented by a layer. When a legend is disabled on a per-style basis (or if a legend cannot be rendered due to the style), then this endpoint will return a 204 No Content response. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`.",
         "operationId" : "getPNGLegend",
         "produces" : [ "image/png" ],
         "parameters" : [ {
@@ -263,9 +305,9 @@
           "type" : "string",
           "x-example" : "wxtiles"
         }, {
-          "name" : "instanceId",
+          "name" : "styleId",
           "in" : "path",
-          "description" : "The id of the instance.",
+          "description" : "The id of the style.",
           "required" : true,
           "type" : "string",
           "x-example" : "wxtiles"
@@ -303,7 +345,7 @@
       },
       "x-swagger-router-controller" : "mock"
     },
-    "/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}" : {
+    "/{ownerId}/tile/{layerId}/{styleId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}" : {
       "get" : {
         "tags" : [ "Tiles" ],
         "summary" : "A tiled map image, for use by map clients capable of consuming PNG map images in OGC TMS coordinate notation.",
@@ -321,6 +363,13 @@
           "name" : "layerId",
           "in" : "path",
           "description" : "The id of the layer.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "wxtiles"
+        }, {
+          "name" : "styleId",
+          "in" : "path",
+          "description" : "The id of the style.",
           "required" : true,
           "type" : "string",
           "x-example" : "wxtiles"
@@ -416,7 +465,7 @@
     },
     "Layer" : {
       "type" : "object",
-      "required" : [ "bounds", "id", "instances", "maxNativeZoom", "meta", "minNativeZoom", "resources" ],
+      "required" : [ "bounds", "dimensions", "id", "instanceDescription", "instances", "maxNativeZoom", "minNativeZoom", "resources", "styles" ],
       "properties" : {
         "id" : {
           "type" : "string",
@@ -427,6 +476,21 @@
           "description" : "A list of the instances of this layer.",
           "items" : {
             "$ref" : "#/definitions/PartialInstance"
+          }
+        },
+        "styles" : {
+          "type" : "array",
+          "description" : "A list of the styles the layer implements",
+          "items" : {
+            "$ref" : "#/definitions/Style"
+          }
+        },
+        "dimensions" : {
+          "type" : "array",
+          "description" : "A list of dimensions used by the layer. Neither the names nor order of the dimensions are standardised, following the CF convention. Instead they reflect the declarations of underlying dataset metadata.",
+          "items" : {
+            "type" : "string",
+            "description" : "A dimension used by the layer. Typically these are spatial, time and possibly a vertical dimension."
           }
         },
         "bounds" : {
@@ -446,14 +510,30 @@
         "maxNativeZoom" : {
           "$ref" : "#/definitions/MaxNativeZoom"
         },
-        "meta" : {
-          "$ref" : "#/definitions/Metadata"
-        },
         "resources" : {
           "$ref" : "#/definitions/Resources"
         }
       },
       "description" : "A layer representing a spatial dataset that can be rendered by WXTiles"
+    },
+    "Style" : {
+      "type" : "object",
+      "required" : [ "id", "jsonLegend" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Style ID"
+        },
+        "legend" : {
+          "type" : "string",
+          "description" : "URL for requesting legends as PNG images that correspond to the PNG image tiles. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are \"small\" and \"large\". Valid values for orientation are \"horizontal\" and \"vertical\"."
+        },
+        "jsonLegend" : {
+          "type" : "string",
+          "description" : "URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. No component of this URL requires substitution."
+        }
+      },
+      "description" : "A named style representing one way of rendering a layer as tiles."
     },
     "PartialInstance" : {
       "type" : "object",
@@ -549,13 +629,11 @@
           "type" : "string",
           "description" : "Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
         },
-        "legend" : {
-          "type" : "string",
-          "description" : "URL for requesting legends as PNG images that correspond to the PNG image tiles. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are \"small\" and \"large\". Valid values for orientation are \"horizontal\" and \"vertical\"."
+        "times" : {
+          "$ref" : "#/definitions/Times"
         },
-        "jsonlegend" : {
-          "type" : "string",
-          "description" : "URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted."
+        "levels" : {
+          "$ref" : "#/definitions/Levels"
         }
       },
       "description" : "Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text \"instance\" (enclosed in angle brackets) must be substituted by a valid instance ID."
@@ -579,43 +657,6 @@
     "Time" : {
       "type" : "string",
       "description" : "ISO 8601 string representing a datetime, a possible value of the temporal dimension of an instance. Values in this array is used to ubstitute \"time\" in a tile URL."
-    },
-    "Metadata" : {
-      "type" : "object",
-      "properties" : {
-        "name" : {
-          "type" : "string",
-          "description" : "A short, human-readable description of a layer that is suitable for inclusion in a list of available layers."
-        },
-        "description" : {
-          "type" : "string",
-          "description" : "A long description of a layer, possibly including HTML tags to navigate users to glossaries or other sources of additional information."
-        },
-        "layperson_description" : {
-          "type" : "string",
-          "description" : "A long description of a layer, which is intended for display to a \"layperson\" who should not be confronted with technical, meteological or other jargon when browsing layer information."
-        },
-        "organisation" : {
-          "type" : "string",
-          "description" : "Organisation responsible for publishing the data used in the layer."
-        },
-        "source" : {
-          "type" : "string",
-          "description" : "The source of the data (such as a model)."
-        },
-        "regions" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string",
-            "description" : "A three-digit numerical code used by the Statistics Division of the United Nations Secretariat. Represents geographical regions where the layer is considered applicable, from the global scale ('001'), to continental, sub-continental, and country scales. See http://unstats.un.org/unsd/methods/m49/m49.htm for the list of values in current use."
-          }
-        },
-        "unit_system" : {
-          "type" : "string",
-          "description" : "The system of units that the layer renders quantitative values in. Examples include \"metric\" and \"uscs\", for layers that render with metric and United States customary system (USCS) units, respectively. A null value indicates that the unit system is unspecified or does not fit into a category (e.g. knots). This does not indicate exactly which units a plot will render, only a broad classification. This can be used to filter duplicate layers that only differ in whether they render the same physical phenomenon as, for example, millimetres or inches. There is no restriction on what value this string may take."
-        }
-      },
-      "description" : "Metadata for a layer. WXTiles supports an arbitrary metadata document, but these specified keys are useful and will tend to exist, but none of them is mandatory, and a property may exist but have a null value."
     },
     "Error" : {
       "type" : "object",
@@ -649,6 +690,14 @@
       "name" : "layerId",
       "in" : "path",
       "description" : "The id of the layer.",
+      "required" : true,
+      "type" : "string",
+      "x-example" : "wxtiles"
+    },
+    "styleId" : {
+      "name" : "styleId",
+      "in" : "path",
+      "description" : "The id of the style.",
       "required" : true,
       "type" : "string",
       "x-example" : "wxtiles"

@@ -7,7 +7,7 @@
     "test": "cd tests && npm run test && cd ..",
     "prebuild-swagger": "npm run test && npm install",
     "build-swagger": "npm run build-swagger-json && npm run build-swagger-js-client",
-    "build-swagger-json": "java -jar ./swagger-codegen-cli-2.2.1.jar generate -i ./swagger-definitions/swagger.yaml -l swagger -o ./swagger-definitions/",
+    "build-swagger-json": "java -jar ./swagger-codegen-cli-2.2.1.jar generate -i ./swagger-definitions/v0/swagger.yaml -l swagger -o ./swagger-definitions/v0/ && java -jar ./swagger-codegen-cli-2.2.1.jar generate -i ./swagger-definitions/v1/swagger.yaml -l swagger -o ./swagger-definitions/v1/",
     "build-swagger-js-client": "java -jar ./swagger-codegen-cli-2.2.1.jar generate -i ./swagger-definitions/swagger.yaml -l javascript -o ./clients/javascript",
     "build-docs": "npm run ssi && npm run browserify-docs && npm run build-css && echo \"Build Complete\"",
     "ssi": "node ./process-ssi.js",
