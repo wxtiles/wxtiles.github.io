@@ -303,7 +303,7 @@
       },
       "x-swagger-router-controller" : "mock"
     },
-    "/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}" : {
+    "/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}" : {
       "get" : {
         "tags" : [ "Tiles" ],
         "summary" : "A tiled map image, for use by map clients capable of consuming PNG map images in OGC TMS coordinate notation.",
@@ -361,7 +361,7 @@
           "type" : "integer",
           "x-example" : 1
         }, {
-          "name" : "y2",
+          "name" : "y",
           "in" : "path",
           "description" : "The y.",
           "required" : true,
@@ -694,8 +694,8 @@
       "type" : "integer",
       "x-example" : 1
     },
-    "y2" : {
-      "name" : "y2",
+    "y" : {
+      "name" : "y",
       "in" : "path",
       "description" : "The y.",
       "required" : true,

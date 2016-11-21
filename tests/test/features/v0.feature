@@ -1,6 +1,6 @@
-Feature: WXTiles API
+Feature: WXTiles API (v0)
 
-  As a client of the WXTiles API
+  As a client of the WXTiles API (v0)
   I want to run tests
   In order to validate the API
 
@@ -60,9 +60,9 @@ Feature: WXTiles API
     And request path param "instanceId" equals the "id" of the last instance of the layer request
     And request path param "time" equals the "end" of the last instance of the layer request
     And request path param "level" equals "0"
-    And request path param "z" equals "8"
-    And request path param "x" equals "1"
-    And request path param "y2" equals "1"
+    And request path param "z" equals "2"
+    And request path param "x" equals "0"
+    And request path param "y" equals "2"
     And request path param "extension" equals "png"
    When the request is executed
    Then response status is "ok"

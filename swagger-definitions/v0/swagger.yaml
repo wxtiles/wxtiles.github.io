@@ -154,7 +154,7 @@ paths:
             $ref: '#/definitions/Error'
 
 
-  /{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}:
+  /{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: tile
     parameters:
@@ -165,7 +165,7 @@ paths:
       - $ref: '#/parameters/level'
       - $ref: '#/parameters/z'
       - $ref: '#/parameters/x'
-      - $ref: '#/parameters/y2'
+      - $ref: '#/parameters/y'
       - $ref: '#/parameters/extension'
     get:
       operationId: getTile
@@ -277,8 +277,8 @@ parameters:
     in: path
     type: integer
     x-example: 1
-  y2:
-    name: y2
+  y:
+    name: y
     description: The y.
     required: true
     in: path

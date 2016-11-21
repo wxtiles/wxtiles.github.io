@@ -58,7 +58,7 @@
     },
     "/{ownerId}/layer/" : {
       "get" : {
-        "tags" : [ "Tiles" ],
+        "tags" : [ "Layers", "Tiles" ],
         "summary" : "Information about available WXTiles layers",
         "description" : "This endpoint returns information about all current *WXTiles* layers that can be requested, and metadata about map layers, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
         "operationId" : "getLayers",
@@ -90,7 +90,7 @@
     },
     "/{ownerId}/layer/{layerId}/" : {
       "get" : {
-        "tags" : [ "Tiles" ],
+        "tags" : [ "Layers", "Tiles" ],
         "summary" : "Information about a specific layer",
         "description" : "This endpoint provides information about a specific *WXTiles* layer that can be requested as map tiles, and its metadata, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.",
         "operationId" : "getLayer",
@@ -132,7 +132,7 @@
     },
     "/{ownerId}/layer/{layerId}/instance/{instanceId}/" : {
       "get" : {
-        "tags" : [ "Tiles" ],
+        "tags" : [ "Instances", "Tiles" ],
         "summary" : "Information about a particular (potentially non-persistant) instance of a layer",
         "description" : "This endpoint provides information about an instance of a specific *WXTiles* layer that can be requested as map tiles. Instances are typically added and removed as the data underlying a dataset changes with time (e.g. forecasts expire, and forecast horizons continuously move forward). Therefore a particular instance of a layer may not be persistant.",
         "operationId" : "getInstance",
@@ -181,7 +181,7 @@
     },
     "/{ownerId}/layer/{layerId}/instance/{instanceId}/levels/" : {
       "get" : {
-        "tags" : [ "Tiles" ],
+        "tags" : [ "Instances", "Levels", "Tiles" ],
         "summary" : "A collection of vertical levels for which data exists and can be requested (as tiles) for an instance of a layer.",
         "description" : "This endpoint exposes the array of vertical positions that data exists for a particular instance. Each element can be used to substitute the {level} part of a tile URL. Not all layer instances have a vertical (e.g. it may be surface wave height and therefore only apply at sea level). If a layer has no vertical dimension, the array will be empty.",
         "operationId" : "getLevels",
@@ -233,7 +233,7 @@
     },
     "/{ownerId}/layer/{layerId}/instance/{instanceId}/times/" : {
       "get" : {
-        "tags" : [ "Tiles" ],
+        "tags" : [ "Instances", "Times", "Tiles" ],
         "summary" : "A collection of moments in time for which data exists and can be requested (as tiles) for an instance of a layer.",
         "description" : "This endpoint exposes the array of moments that data exists for a particular instance. Each element can be used to substitute the <time> part of a tile URL. Not all layer instances have a temporal dimension (e.g. it may be static bathymetry, or an observational dataset with no forecast or hindcast). If a layer has no temporal dimension, the array will be empty. The times in the array may not be unique (this is almost always due to grouped datasets containing overlapping time steps).",
         "operationId" : "getTimes",
@@ -285,7 +285,7 @@
     },
     "/{ownerId}/legend/{layerId}/{styleId}/{size}/{orientation}.png" : {
       "get" : {
-        "tags" : [ "Legends" ],
+        "tags" : [ "Legends", "Styles" ],
         "summary" : "A legend for PNG map tiles",
         "description" : "Available legends reflect the styles implemented by a layer. When a legend is disabled on a per-style basis (or if a legend cannot be rendered due to the style), then this endpoint will return a 204 No Content response. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`.",
         "operationId" : "getPNGLegend",
@@ -345,7 +345,7 @@
       },
       "x-swagger-router-controller" : "mock"
     },
-    "/{ownerId}/tile/{layerId}/{styleId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}" : {
+    "/{ownerId}/tile/{layerId}/{styleId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}" : {
       "get" : {
         "tags" : [ "Tiles" ],
         "summary" : "A tiled map image, for use by map clients capable of consuming PNG map images in OGC TMS coordinate notation.",
@@ -410,7 +410,7 @@
           "type" : "integer",
           "x-example" : 1
         }, {
-          "name" : "y2",
+          "name" : "y",
           "in" : "path",
           "description" : "The y.",
           "required" : true,
@@ -465,11 +465,38 @@
     },
     "Layer" : {
       "type" : "object",
-      "required" : [ "bounds", "dimensions", "id", "instanceDescription", "instances", "maxNativeZoom", "minNativeZoom", "resources", "styles" ],
+      "required" : [ "bounds", "dimensions", "id", "instances", "maxNativeZoom", "minNativeZoom", "name", "resources", "styles" ],
       "properties" : {
         "id" : {
           "type" : "string",
           "description" : "Layer ID"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "A long description of a layer, possibly including HTML tags to navigate users to glossaries or other sources of additional information."
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "A short, human-readable description of a layer that is suitable for inclusion in a list of available layers."
+        },
+        "laypersonDescription" : {
+          "type" : "string",
+          "description" : "A long description of a layer, which is intended for display to a 'layperson' who should not be confronted with technical, meteological or other jargon when browsing layer information."
+        },
+        "organisation" : {
+          "type" : "string",
+          "description" : "Organisation responsible for publishing the data used in the layer."
+        },
+        "source" : {
+          "type" : "string",
+          "description" : "The source of the data (such as a model)."
+        },
+        "regions" : {
+          "type" : "array",
+          "description" : "A list of the regions that the layer should be considered applicable.",
+          "items" : {
+            "$ref" : "#/definitions/Region"
+          }
         },
         "instances" : {
           "type" : "array",
@@ -489,8 +516,7 @@
           "type" : "array",
           "description" : "A list of dimensions used by the layer. Neither the names nor order of the dimensions are standardised, following the CF convention. Instead they reflect the declarations of underlying dataset metadata.",
           "items" : {
-            "type" : "string",
-            "description" : "A dimension used by the layer. Typically these are spatial, time and possibly a vertical dimension."
+            "$ref" : "#/definitions/Dimension"
           }
         },
         "bounds" : {
@@ -498,7 +524,8 @@
         },
         "instanceType" : {
           "type" : "string",
-          "description" : "One of a typology of instance types. Currently these are \"cyclic\" (for model cycles), and \"observational\" (for observational timestamps)."
+          "description" : "One of a typology of instance types. In this version, 'cyclic' (model cycles) and 'observational' (for observations that will be repeated) are used.. Nullable (e.g. if instances are not applicable, or the type unspecified).",
+          "enum" : [ "cyclic", "observational" ]
         },
         "instanceDescription" : {
           "type" : "string",
@@ -512,28 +539,46 @@
         },
         "resources" : {
           "$ref" : "#/definitions/Resources"
+        },
+        "defaults" : {
+          "$ref" : "#/definitions/LayerDefaults"
         }
       },
       "description" : "A layer representing a spatial dataset that can be rendered by WXTiles"
     },
     "Style" : {
       "type" : "object",
-      "required" : [ "id", "jsonLegend" ],
+      "required" : [ "id", "resources" ],
       "properties" : {
         "id" : {
           "type" : "string",
-          "description" : "Style ID"
+          "description" : "Style ID."
         },
-        "legend" : {
+        "name" : {
           "type" : "string",
-          "description" : "URL for requesting legends as PNG images that correspond to the PNG image tiles. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are \"small\" and \"large\". Valid values for orientation are \"horizontal\" and \"vertical\"."
+          "description" : "Name of the style that is implemented by the layer."
         },
-        "jsonLegend" : {
+        "label" : {
           "type" : "string",
-          "description" : "URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. No component of this URL requires substitution."
+          "description" : "Text displayed alongside an image legend (often, but not always, a representation of the primary unit)."
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description of the style (in greater detail than the name)."
+        },
+        "resources" : {
+          "$ref" : "#/definitions/LegendResources"
         }
       },
       "description" : "A named style representing one way of rendering a layer as tiles."
+    },
+    "Dimension" : {
+      "type" : "string",
+      "description" : "A dimension used by the layer. Typically these may be spatial (latitude/longitude or x/y), time and possibly a vertical dimension."
+    },
+    "Region" : {
+      "type" : "string",
+      "description" : "A three-digit numerical code used by the Statistics Division of the United Nations Secretariat. Represents geographical regions where the layer is considered applicable, from the global scale ('001'), to continental, sub-continental, and country scales. See http://unstats.un.org/unsd/methods/m49/m49.htm for the list of values in current use. These are left-side zero-padded and therefore should be treated as strings and not integers."
     },
     "PartialInstance" : {
       "type" : "object",
@@ -623,20 +668,48 @@
       "properties" : {
         "tile" : {
           "type" : "string",
-          "description" : "Template URL for requesting styled, PNG image tiles. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
+          "description" : "Template URL for requesting styled, PNG image tiles. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support rendering as an image."
         },
         "vtile" : {
           "type" : "string",
-          "description" : "Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests."
+          "description" : "Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support rendering as a vector tile."
         },
         "times" : {
-          "$ref" : "#/definitions/Times"
+          "type" : "string",
+          "description" : "Tempalte URL for requesting available times for a layer instance. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support a time dimension."
         },
         "levels" : {
-          "$ref" : "#/definitions/Levels"
+          "type" : "string",
+          "description" : "Tempalte URL for requesting available levels for a layer instance. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support a a vertical dimension."
         }
       },
-      "description" : "Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text \"instance\" (enclosed in angle brackets) must be substituted by a valid instance ID."
+      "description" : "Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text 'instance' (enclosed in angle brackets) must be substituted by a valid instance ID."
+    },
+    "LayerDefaults" : {
+      "type" : "object",
+      "required" : [ "style" ],
+      "properties" : {
+        "style" : {
+          "type" : "string",
+          "description" : "ID of the default style implemented by a layer."
+        }
+      },
+      "description" : "Default options for the layer."
+    },
+    "LegendResources" : {
+      "type" : "object",
+      "required" : [ "jsonLegend" ],
+      "properties" : {
+        "legend" : {
+          "type" : "string",
+          "description" : "URL for requesting legends as PNG images that correspond to the PNG image tiles. The 'size' and 'orientation' elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are 'small' and 'large'. Valid values for orientation are 'horizontal' and 'vertical'."
+        },
+        "jsonLegend" : {
+          "type" : "string",
+          "description" : "URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. No component of this URL requires substitution."
+        }
+      },
+      "description" : "Template URLS for requesting additional resources for the layer's implementation of a style (e.g. a PNG legend)."
     },
     "Levels" : {
       "type" : "array",
@@ -656,7 +729,7 @@
     },
     "Time" : {
       "type" : "string",
-      "description" : "ISO 8601 string representing a datetime, a possible value of the temporal dimension of an instance. Values in this array is used to ubstitute \"time\" in a tile URL."
+      "description" : "ISO 8601 string representing a datetime, a possible value of the temporal dimension of an instance. Values in this array is used to ubstitute 'time' in a tile URL."
     },
     "Error" : {
       "type" : "object",
@@ -743,8 +816,8 @@
       "type" : "integer",
       "x-example" : 1
     },
-    "y2" : {
-      "name" : "y2",
+    "y" : {
+      "name" : "y",
       "in" : "path",
       "description" : "The y.",
       "required" : true,
