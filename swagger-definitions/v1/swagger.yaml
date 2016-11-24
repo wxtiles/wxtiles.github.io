@@ -398,6 +398,11 @@ definitions:
         description: A list of the regions that the layer should be considered applicable.
         items:
           $ref: '#/definitions/Region'
+      tags:
+        type: array
+        description: A list of tags that may be used to support free-text search.
+        items:
+          $ref: '#/definitions/Tag'
       instances:
         type: array
         description: A list of the instances of this layer.
@@ -459,6 +464,9 @@ definitions:
   Region:
     type: string
     description: A three-digit numerical code used by the Statistics Division of the United Nations Secretariat. Represents geographical regions where the layer is considered applicable, from the global scale ('001'), to continental, sub-continental, and country scales. See http://unstats.un.org/unsd/methods/m49/m49.htm for the list of values in current use. These are left-side zero-padded and therefore should be treated as strings and not integers.
+  Tag:
+    type: string
+    description: A string tag that could take any value; intended to support free-text search and filtering of layers. An example might be the tag 'rain' for a layer showing forecast precipitation.
   PartialInstance:
     type: object
     description: A named instance of a dataset, typically used to represent a forecast model cycle.
