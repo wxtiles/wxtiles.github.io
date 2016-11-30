@@ -14,11 +14,12 @@
   "schemes" : [ "http", "https" ],
   "produces" : [ "application/json", "application/x-protobuf", "image/png" ],
   "paths" : {
-    "/ownerID/legend/{layerId}/{StyleId}.json" : {
+    "/{ownerID}/legend/{layerId}/{styleId}.json" : {
       "get" : {
         "tags" : [ "Legends", "Styles" ],
         "summary" : "JSON represention of a style as implemented by a particular layer. Can be used for rendering custom a legend.",
         "description" : "Unlike image legends, the JSON representation of a style always exists.",
+        "operationId" : "getJSONLegend",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "ownerId",
@@ -498,6 +499,13 @@
             "$ref" : "#/definitions/Region"
           }
         },
+        "tags" : {
+          "type" : "array",
+          "description" : "A list of tags that may be used to support free-text search.",
+          "items" : {
+            "$ref" : "#/definitions/Tag"
+          }
+        },
         "instances" : {
           "type" : "array",
           "description" : "A list of the instances of this layer.",
@@ -579,6 +587,10 @@
     "Region" : {
       "type" : "string",
       "description" : "A three-digit numerical code used by the Statistics Division of the United Nations Secretariat. Represents geographical regions where the layer is considered applicable, from the global scale ('001'), to continental, sub-continental, and country scales. See http://unstats.un.org/unsd/methods/m49/m49.htm for the list of values in current use. These are left-side zero-padded and therefore should be treated as strings and not integers."
+    },
+    "Tag" : {
+      "type" : "string",
+      "description" : "A string tag that could take any value; intended to support free-text search and filtering of layers. An example might be the tag 'rain' for a layer showing forecast precipitation."
     },
     "PartialInstance" : {
       "type" : "object",

@@ -593,7 +593,7 @@
         },
         "layperson_description" : {
           "type" : "string",
-          "description" : "A long description of a layer, which is intended for display to a \"layperson\" who should not be confronted with technical, meteological or other jargon when browsing layer information."
+          "description" : "A long description of a layer, which is intended for display to a \"layperson\" who should not be confronted with technical, meteorological or other jargon when browsing layer information."
         },
         "organisation" : {
           "type" : "string",

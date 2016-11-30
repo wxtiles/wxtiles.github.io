@@ -194,7 +194,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /ownerID/legend/{layerId}/{StyleId}.json:
+  /{ownerID}/legend/{layerId}/{styleId}.json:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
     parameters:
@@ -202,7 +202,7 @@ paths:
       - $ref: '#/parameters/layerId'
       - $ref: '#/parameters/styleId'
     get:
-      operationID: getJSONLegend
+      operationId: getJSONLegend
       produces: [application/json]
       summary: JSON represention of a style as implemented by a particular layer. Can be used for rendering custom a legend.
       description: Unlike image legends, the JSON representation of a style always exists.
