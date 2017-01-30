@@ -17,46 +17,46 @@ Feature: WXTiles API (v1)
   Scenario: Get a single layer.
   Given an operation with Id "getLayer"
     And request path param "ownerId" equals "wxtiles"
-    And request path param "layerId" equals "ncep-wind-10m"
+    And request path param "layerId" equals "ncep-gfs-global-wind"
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Layer" model
 
   Scenario: Get an instance.
-  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-wind-10m"
+  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-gfs-global-wind"
     And an operation with Id "getInstance"
     And request path param "instanceId" equals the "id" of the last instance of the layer request
     And request path param "ownerId" equals "wxtiles"
-    And request path param "layerId" equals "ncep-wind-10m"
+    And request path param "layerId" equals "ncep-gfs-global-wind"
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Instance" model
 
   Scenario: Get the list of times.
-  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-wind-10m"
+  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-gfs-global-wind"
     And an operation with Id "getTimes"
     And request path param "ownerId" equals "wxtiles"
-    And request path param "layerId" equals "ncep-wind-10m"
+    And request path param "layerId" equals "ncep-gfs-global-wind"
     And request path param "instanceId" equals the "id" of the last instance of the layer request
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Times" model
 
   Scenario: Get the list of levels.
-  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-wind-10m"
+  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-gfs-global-wind"
     And an operation with Id "getLevels"
     And request path param "ownerId" equals "wxtiles"
-    And request path param "layerId" equals "ncep-wind-10m"
+    And request path param "layerId" equals "ncep-gfs-global-wind"
     And request path param "instanceId" equals the "id" of the last instance of the layer request
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Levels" model
 
   Scenario: Get a tile.
-  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-wind-10m"
+  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-gfs-global-wind"
   Given an operation with Id "getTile"
     And request path param "ownerId" equals "wxtiles"
-    And request path param "layerId" equals "ncep-wind-10m"
+    And request path param "layerId" equals "ncep-gfs-global-wind"
     And request path param "styleId" equals "wind-speed-direction-filled"
     And request path param "instanceId" equals the "id" of the last instance of the layer request
     And request path param "time" equals the "end" of the last instance of the layer request
@@ -70,10 +70,10 @@ Feature: WXTiles API (v1)
     And response type is "image/png"
 
   Scenario: Get the PNG legend.
-  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-wind-10m"
+  Given a request for a layer with an ownerId of "wxtiles" and a layerId of "ncep-gfs-global-wind"
     And an operation with Id "getPNGLegend"
     And request path param "ownerId" equals "wxtiles"
-    And request path param "layerId" equals "ncep-wind-10m"
+    And request path param "layerId" equals "ncep-gfs-global-wind"
     And request path param "styleId" equals "wind-speed-direction-filled"
     And request path param "instanceId" equals the "id" of the last instance of the layer request
     And request path param "size" equals "small"
