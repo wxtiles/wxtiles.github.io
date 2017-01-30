@@ -5,7 +5,7 @@
     "version" : "3.0.0",
     "title" : "WXTiles"
   },
-  "host" : "127.16.1.15",
+  "host" : "127.16.1.50",
   "basePath" : "/v1",
   "tags" : [ {
     "name" : "Tiles",
@@ -493,11 +493,9 @@
           "description" : "The source of the data (such as a model)."
         },
         "regions" : {
-          "type" : "array",
-          "description" : "A list of the regions that the layer should be considered applicable.",
-          "items" : {
-            "$ref" : "#/definitions/Region"
-          }
+          "type" : "object",
+          "description" : "UN M.49 area codes for which the layer should be considered applicable. Each property in the object is a three-digit numerical code (left-zero-padded if necessary), with a string value with the full textual representation of that numerical code. These codes are used by the Statistics Division of the United Nations Secretariat, See http://unstats.un.org/unsd/methods/m49/m49.htm",
+          "properties" : { }
         },
         "tags" : {
           "type" : "array",
@@ -583,10 +581,6 @@
     "Dimension" : {
       "type" : "string",
       "description" : "A dimension used by the layer. Typically these may be spatial (latitude/longitude or x/y), time and possibly a vertical dimension."
-    },
-    "Region" : {
-      "type" : "string",
-      "description" : "A three-digit numerical code used by the Statistics Division of the United Nations Secretariat. Represents geographical regions where the layer is considered applicable, from the global scale ('001'), to continental, sub-continental, and country scales. See http://unstats.un.org/unsd/methods/m49/m49.htm for the list of values in current use. These are left-side zero-padded and therefore should be treated as strings and not integers."
     },
     "Tag" : {
       "type" : "string",

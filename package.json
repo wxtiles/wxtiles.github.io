@@ -25,6 +25,6 @@
     "glob": "^7.1.0",
     "less": "^2.7.1",
     "ssi": "^0.3.0",
-    "wx-tiles": "github:wxtiles/wxtilesjs"
+    "wx-tiles": "github:wxtiles/js"
   }
 }

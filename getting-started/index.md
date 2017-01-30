@@ -31,7 +31,7 @@ WXTiles will render datasets into tiles and allow you to request those tiles for
 
 ![Leaflet example map with overlay](./getting-started/map-with-layer-small.png "Leaflet example map with overlay")
 
-![Reflectivity at lowest altitude legend](https://api.wxtiles.com/v1/wxtiles/legend/ncep-mrms-us-reflectivity-dbz/QCComposite/small/horizontal.png "Reflectivity at lowest altitude")
+![Reflectivity at lowest altitude legend](https://api.wxtiles.com/v1/wxtiles/legend/ncep-mrms-us-reflectivity/reflectivity/small/horizontal.png "Reflectivity at lowest altitude")
 
 ## Setting up Leaflet
 
@@ -188,7 +188,7 @@ The following examples use a callback to provide the data retrieved from the API
 ```js
 var callback = function(error, response)
 {
-  if(error) {
+  if (error) {
     //Do something with the error.
   }
   console.log(response);
@@ -210,36 +210,59 @@ This will get all the layers provided by WXTiles and log them to the console, wh
 ```json
 [
   {
-    "id": "ncep-mrms-us-rotation-track-30",
-    "instances": [
+    "styles": [
       {
-        "id": "RotationTrack30min",
-        "created": "2016-07-19T01:21:32.212193Z"
+        "name": "Rotation",
+        "label": "Low-level azimuthal shear (0.001/s)",
+        "id": "rotation",
+        "resources": {
+          "jsonLegend": "/wxtiles/legend/ncep-mrms-us-rotationtrack30/rotation.json",
+          "legend": "/wxtiles/legend/ncep-mrms-us-rotationtrack30/rotation/<size>/<orientation>.png"
+        },
+        "description": "Azimuthal shear"
       }
     ],
     "minNativeZoom": 1,
-    "maxNativeZoom": 11,
+    "name": "Low-level, 30 minute air rotation track",
+    "instanceDescription": null,
+    "tags": [],
+    "laypersonDescription": null,
+    "organisation": "NCEP",
+    "maxNativeZoom": 16,
     "bounds": {
       "west": -129.9975,
       "east": -60.002502,
       "north": 54.9975,
       "south": 20.002501
     },
-    "meta": {
-      "name": "Rotation track 0-2km AGL 30 minutes (MRMS)",
-      "description": "Rotation track 0-2km AGL 30 minutes, 500m above mean sea level",
-      "organisation": "NOAA",
-      "source": "MRMS",
-      "regions": [
-        "840"
-      ],
-      "unit_system": "metric"
+    "instanceType": "observational",
+    "regions": {
+      "840": "United States of America"
     },
+    "source": "MRMS",
+    "defaults": {
+      "style": "rotation"
+    },
+    "dimensions": [
+      "latitude",
+      "longitude",
+      "time"
+    ],
+    "id": "ncep-mrms-us-rotationtrack30",
     "resources": {
-      "tile": "\/wxtiles\/tile\/ncep-mrms-us-rotation-track-30\/<instance>\/<time>\/<level>\/{z}\/{x}\/{y}.png",
-      "legend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.png",
-      "jsonlegend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.json"
-    }
+      "tile": "/wxtiles/tile/ncep-mrms-us-rotationtrack30/<style>/<instance>/<time>/0/{z}/{x}/{y}.png",
+      "times": "/wxtiles/layer/ncep-mrms-us-rotationtrack30/instance/<instance>/times/"
+    },
+    "description": "Maximum azimuthal shear over the layer between 0 and 2km above ground level over the last 30 minutes. The spatial resolution is 0.005 by 0.005 degree with a 2 minute update. Highlights circulations associated with mesocyclones and/or tornadoes in addition to horizontal shear zones at low altitudes. Note that artificially large values are possible directly over radar sites.",
+    "instances": [
+      {
+        "start": "2017-01-27T02:00:33Z",
+        "end": "2017-01-27T02:58:12Z",
+        "id": "RotationTrack30min",
+        "displayName": "RotationTrack30min",
+        "created": "2017-01-30T03:22:06.601502Z"
+      }
+    ]
   }
 ]
 ```
@@ -247,10 +270,10 @@ The layer metadata includes an array of instances. In this case there is only on
 
 ### Getting times
 
-Once we have the `ownerId` (`"wxtiles"`), the `layerId` (`"ncep-mrms-us-rotation-track-30")`, and the `instanceId` (`"RotationTrack30min"`) we can query the API for a list of times that are currently available for the dataset.
+Once we have the `ownerId` (`"wxtiles"`), the `layerId` (`"ncep-mrms-us-rotation-track30"`), and the `instanceId` (`"RotationTrack30min"`) we can query the API for a list of times that are currently available for the dataset.
 
 ```js
-tilesApi.getTimes('wxtiles', 'ncep-mrms-us-rotation-track-30', 'RotationTrack30min', callback);
+tilesApi.getTimes('wxtiles', 'ncep-mrms-us-rotation-track30', 'RotationTrack30min', callback);
 ```
 
 This will produce:
@@ -278,23 +301,22 @@ This dataset does not have levels (i.e. a vertical dimension), so we just set th
 Now that we have the instance id and the times we can plug those into the tile URL. The response from the first request to get the layers included a resources field in the definition of each layer.
 
 ```json
- "resources": {
-      "tile": "\/wxtiles\/tile\/ncep-mrms-us-rotation-track-30\/<instance>\/<time>\/<level>\/{z}\/{x}\/{y}.png",
-      "legend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.png",
-      "jsonlegend": "\/wxtiles\/legend\/ncep-mrms-us-rotation-track-30\/<instance>\/<size>\/<orientation>.json"
+  "resources": {
+      "tile": "/wxtiles/tile/ncep-mrms-us-rotationtrack30/<style>/<instance>/<time>/0/{z}/{x}/{y}.png",
+      "times": "/wxtiles/layer/ncep-mrms-us-rotationtrack30/instance/<instance>/times/"
     }
 ```
 
 Using the tile path provided with the API root (https://api.wxtiles.com/v1) and substituting in an instance id and a time, and assuming that the level is 0, we can transform this URL ...
 
 ```
-/wxtiles/tile/ncep-mrms-us-rotation-track-30/<instance>/<time>/<level>/{z}/{x}/{y}.png
+/wxtiles/tile/ncep-mrms-us-rotation-track30/<Style>/<instance>/<time>/<level>/{z}/{x}/{y}.png
 ```
 
 ... into a URL that is ready to be passed to mapping libraries:
 
 ```
-https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
+https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-rotation-track30/rotation/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
 ```
 
 # Reference
@@ -304,7 +326,7 @@ https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-rotation-track-30/RotationT
 This is a URL of a tile:
 
 ```
-https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
+https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
 ```
 
 It produces this image:  
@@ -312,7 +334,7 @@ It produces this image:
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
 ```
-https://api.wxtiles.com/v1/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
+https://api.wxtiles.com/v1/{ownerId}/tile/{layerId}/{styleId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
 
 
@@ -320,6 +342,7 @@ https://api.wxtiles.com/v1/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/
 | -------------- 	| -------------							            | -------------
 | `ownerId`       | `wxtiles`								              | The owner of the layer.
 | `layerId`       | `ncep-mrms-us-reflectivity`         	| The ID of the layer.
+| `styleId`       | `reflectivity`                        | The ID of the style.
 | `instanceId`    | `QCComposite`							            | The ID of the instance.
 | `time`			    | `2016-07-17T21:16:37Z `               | The time slice in the dataset to display.
 | `level`			    | `0`										                | The vertical level in the dataset to display.
