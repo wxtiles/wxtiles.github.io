@@ -2,7 +2,7 @@
 set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="master"
-TARGET_BRANCH="gh-pages"
+TARGET_BRANCH="master"
 
 function doCompile {
   npm run prepare-deploy
@@ -16,8 +16,9 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
 fi
 
 # Save some useful information
-REPO=`git config remote.origin.url`
-SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+#REPO=`git config remote.origin.url`
+#SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+SSH_REPO="git@github.com:wxtiles/wxtiles.github.io.git"
 SHA=`git rev-parse --verify HEAD`
 
 # Run our compile script
