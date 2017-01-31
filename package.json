@@ -1,6 +1,6 @@
 {
   "name": "wxtiles-api-docs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "wxTiles API Docs",
   "scripts": {
     "pretest": "cd tests && npm install && cd ..",

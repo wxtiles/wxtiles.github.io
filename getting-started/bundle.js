@@ -3479,9 +3479,9 @@ module.exports = request;
     /**
      * The base URL against which to resolve every API call's (relative) path.
      * @type {String}
-     * @default http://api.wxtiles.com/v0
+     * @default http://127.16.1.15/v1
      */
-    this.basePath = 'http://api.wxtiles.com/v0'.replace(/\/+$/, '');
+    this.basePath = 'http://127.16.1.15/v1'.replace(/\/+$/, '');
 
     /**
      * The authentication methods to be included for all API calls.
@@ -3968,6 +3968,411 @@ module.exports = request;
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
+    define(['ApiClient', 'model/Instance', 'model/Error', 'model/Levels', 'model/Times'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'), require('../model/Instance'), require('../model/Error'), require('../model/Levels'), require('../model/Times'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.InstancesApi = factory(root.WxTiles.ApiClient, root.WxTiles.Instance, root.WxTiles.Error, root.WxTiles.Levels, root.WxTiles.Times);
+  }
+}(this, function(ApiClient, Instance, Error, Levels, Times) {
+  'use strict';
+
+  /**
+   * Instances service.
+   * @module api/InstancesApi
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new InstancesApi. 
+   * @alias module:api/InstancesApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+    /**
+     * Callback function to receive the result of the getInstance operation.
+     * @callback module:api/InstancesApi~getInstanceCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Instance} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Information about a particular (potentially non-persistant) instance of a layer
+     * This endpoint provides information about an instance of a specific *WXTiles* layer that can be requested as map tiles. Instances are typically added and removed as the data underlying a dataset changes with time (e.g. forecasts expire, and forecast horizons continuously move forward). Therefore a particular instance of a layer may not be persistant.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} instanceId The id of the instance.
+     * @param {module:api/InstancesApi~getInstanceCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Instance}
+     */
+    this.getInstance = function(ownerId, layerId, instanceId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getInstance";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getInstance";
+      }
+
+      // verify the required parameter 'instanceId' is set
+      if (instanceId == undefined || instanceId == null) {
+        throw "Missing the required parameter 'instanceId' when calling getInstance";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'instanceId': instanceId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Instance;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/layer/{layerId}/instance/{instanceId}/', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the getLevels operation.
+     * @callback module:api/InstancesApi~getLevelsCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Levels} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * A collection of vertical levels for which data exists and can be requested (as tiles) for an instance of a layer.
+     * This endpoint exposes the array of vertical positions that data exists for a particular instance. Each element can be used to substitute the {level} part of a tile URL. Not all layer instances have a vertical (e.g. it may be surface wave height and therefore only apply at sea level). If a layer has no vertical dimension, the array will be empty.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} instanceId The id of the instance.
+     * @param {module:api/InstancesApi~getLevelsCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Levels}
+     */
+    this.getLevels = function(ownerId, layerId, instanceId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getLevels";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getLevels";
+      }
+
+      // verify the required parameter 'instanceId' is set
+      if (instanceId == undefined || instanceId == null) {
+        throw "Missing the required parameter 'instanceId' when calling getLevels";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'instanceId': instanceId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Levels;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/layer/{layerId}/instance/{instanceId}/levels/', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the getTimes operation.
+     * @callback module:api/InstancesApi~getTimesCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Times} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * A collection of moments in time for which data exists and can be requested (as tiles) for an instance of a layer.
+     * This endpoint exposes the array of moments that data exists for a particular instance. Each element can be used to substitute the &lt;time&gt; part of a tile URL. Not all layer instances have a temporal dimension (e.g. it may be static bathymetry, or an observational dataset with no forecast or hindcast). If a layer has no temporal dimension, the array will be empty. The times in the array may not be unique (this is almost always due to grouped datasets containing overlapping time steps).
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} instanceId The id of the instance.
+     * @param {module:api/InstancesApi~getTimesCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Times}
+     */
+    this.getTimes = function(ownerId, layerId, instanceId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getTimes";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getTimes";
+      }
+
+      // verify the required parameter 'instanceId' is set
+      if (instanceId == undefined || instanceId == null) {
+        throw "Missing the required parameter 'instanceId' when calling getTimes";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'instanceId': instanceId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Times;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/layer/{layerId}/instance/{instanceId}/times/', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+  };
+
+  return exports;
+}));
+
+},{"../ApiClient":10,"../model/Error":21,"../model/Instance":22,"../model/Levels":28,"../model/Times":37}],12:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient', 'model/Error', 'model/Layer', 'model/Layers'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'), require('../model/Error'), require('../model/Layer'), require('../model/Layers'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.LayersApi = factory(root.WxTiles.ApiClient, root.WxTiles.Error, root.WxTiles.Layer, root.WxTiles.Layers);
+  }
+}(this, function(ApiClient, Error, Layer, Layers) {
+  'use strict';
+
+  /**
+   * Layers service.
+   * @module api/LayersApi
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new LayersApi. 
+   * @alias module:api/LayersApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+    /**
+     * Callback function to receive the result of the getLayer operation.
+     * @callback module:api/LayersApi~getLayerCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Layer} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Information about a specific layer
+     * This endpoint provides information about a specific *WXTiles* layer that can be requested as map tiles, and its metadata, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {module:api/LayersApi~getLayerCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Layer}
+     */
+    this.getLayer = function(ownerId, layerId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getLayer";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getLayer";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Layer;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/layer/{layerId}/', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the getLayers operation.
+     * @callback module:api/LayersApi~getLayersCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Layers} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Information about available WXTiles layers
+     * This endpoint returns information about all current *WXTiles* layers that can be requested, and metadata about map layers, including bounding boxes and the unit system (metric, USCS, etc.) that is used when rendering map tiles.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {module:api/LayersApi~getLayersCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Layers}
+     */
+    this.getLayers = function(ownerId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getLayers";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Layers;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/layer/', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+  };
+
+  return exports;
+}));
+
+},{"../ApiClient":10,"../model/Error":21,"../model/Layer":23,"../model/Layers":25}],13:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
     define(['ApiClient', 'model/Error'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
@@ -4000,6 +4405,65 @@ module.exports = request;
 
 
     /**
+     * Callback function to receive the result of the getJSONLegend operation.
+     * @callback module:api/LegendsApi~getJSONLegendCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * JSON represention of a style as implemented by a particular layer. Can be used for rendering custom a legend.
+     * Unlike image legends, the JSON representation of a style always exists.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} styleId The id of the style.
+     * @param {module:api/LegendsApi~getJSONLegendCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.getJSONLegend = function(ownerId, layerId, styleId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getJSONLegend";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getJSONLegend";
+      }
+
+      // verify the required parameter 'styleId' is set
+      if (styleId == undefined || styleId == null) {
+        throw "Missing the required parameter 'styleId' when calling getJSONLegend";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'styleId': styleId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/{ownerID}/legend/{layerId}/{styleId}.json', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the getPNGLegend operation.
      * @callback module:api/LegendsApi~getPNGLegendCallback
      * @param {String} error Error message, if any.
@@ -4009,15 +4473,15 @@ module.exports = request;
 
     /**
      * A legend for PNG map tiles
-     * Legends are inferred from plot configurations for each layer. When a legend is disabled on a per-layer basis (or if a legend cannot be rendered due to the plot type), then this endpoint will return a 204 No Content response. The size must be substituted by either &#x60;small&#x60; or &#x60;large&#x60;. The orientation must be substituted by either &#x60;horizontal&#x60; or &#x60;vertical&#x60;.
+     * Available legends reflect the styles implemented by a layer. When a legend is disabled on a per-style basis (or if a legend cannot be rendered due to the style), then this endpoint will return a 204 No Content response. The size must be substituted by either &#x60;small&#x60; or &#x60;large&#x60;. The orientation must be substituted by either &#x60;horizontal&#x60; or &#x60;vertical&#x60;.
      * @param {String} ownerId The owner of the dataset.
      * @param {String} layerId The id of the layer.
-     * @param {String} instanceId The id of the instance.
+     * @param {String} styleId The id of the style.
      * @param {module:model/String} size The size.
      * @param {module:model/String} orientation The orientation.
      * @param {module:api/LegendsApi~getPNGLegendCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.getPNGLegend = function(ownerId, layerId, instanceId, size, orientation, callback) {
+    this.getPNGLegend = function(ownerId, layerId, styleId, size, orientation, callback) {
       var postBody = null;
 
       // verify the required parameter 'ownerId' is set
@@ -4030,9 +4494,9 @@ module.exports = request;
         throw "Missing the required parameter 'layerId' when calling getPNGLegend";
       }
 
-      // verify the required parameter 'instanceId' is set
-      if (instanceId == undefined || instanceId == null) {
-        throw "Missing the required parameter 'instanceId' when calling getPNGLegend";
+      // verify the required parameter 'styleId' is set
+      if (styleId == undefined || styleId == null) {
+        throw "Missing the required parameter 'styleId' when calling getPNGLegend";
       }
 
       // verify the required parameter 'size' is set
@@ -4049,7 +4513,7 @@ module.exports = request;
       var pathParams = {
         'ownerId': ownerId,
         'layerId': layerId,
-        'instanceId': instanceId,
+        'styleId': styleId,
         'size': size,
         'orientation': orientation
       };
@@ -4066,7 +4530,7 @@ module.exports = request;
       var returnType = null;
 
       return this.apiClient.callApi(
-        '/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png', 'GET',
+        '/{ownerId}/legend/{layerId}/{styleId}/{size}/{orientation}.png', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -4076,7 +4540,325 @@ module.exports = request;
   return exports;
 }));
 
-},{"../ApiClient":10,"../model/Error":15}],12:[function(require,module,exports){
+},{"../ApiClient":10,"../model/Error":21}],14:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient', 'model/Levels', 'model/Error'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'), require('../model/Levels'), require('../model/Error'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.LevelsApi = factory(root.WxTiles.ApiClient, root.WxTiles.Levels, root.WxTiles.Error);
+  }
+}(this, function(ApiClient, Levels, Error) {
+  'use strict';
+
+  /**
+   * Levels service.
+   * @module api/LevelsApi
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new LevelsApi. 
+   * @alias module:api/LevelsApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+    /**
+     * Callback function to receive the result of the getLevels operation.
+     * @callback module:api/LevelsApi~getLevelsCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Levels} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * A collection of vertical levels for which data exists and can be requested (as tiles) for an instance of a layer.
+     * This endpoint exposes the array of vertical positions that data exists for a particular instance. Each element can be used to substitute the {level} part of a tile URL. Not all layer instances have a vertical (e.g. it may be surface wave height and therefore only apply at sea level). If a layer has no vertical dimension, the array will be empty.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} instanceId The id of the instance.
+     * @param {module:api/LevelsApi~getLevelsCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Levels}
+     */
+    this.getLevels = function(ownerId, layerId, instanceId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getLevels";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getLevels";
+      }
+
+      // verify the required parameter 'instanceId' is set
+      if (instanceId == undefined || instanceId == null) {
+        throw "Missing the required parameter 'instanceId' when calling getLevels";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'instanceId': instanceId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Levels;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/layer/{layerId}/instance/{instanceId}/levels/', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+  };
+
+  return exports;
+}));
+
+},{"../ApiClient":10,"../model/Error":21,"../model/Levels":28}],15:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient', 'model/Error'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'), require('../model/Error'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.StylesApi = factory(root.WxTiles.ApiClient, root.WxTiles.Error);
+  }
+}(this, function(ApiClient, Error) {
+  'use strict';
+
+  /**
+   * Styles service.
+   * @module api/StylesApi
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new StylesApi. 
+   * @alias module:api/StylesApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+    /**
+     * Callback function to receive the result of the getJSONLegend operation.
+     * @callback module:api/StylesApi~getJSONLegendCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * JSON represention of a style as implemented by a particular layer. Can be used for rendering custom a legend.
+     * Unlike image legends, the JSON representation of a style always exists.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} styleId The id of the style.
+     * @param {module:api/StylesApi~getJSONLegendCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.getJSONLegend = function(ownerId, layerId, styleId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getJSONLegend";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getJSONLegend";
+      }
+
+      // verify the required parameter 'styleId' is set
+      if (styleId == undefined || styleId == null) {
+        throw "Missing the required parameter 'styleId' when calling getJSONLegend";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'styleId': styleId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/{ownerID}/legend/{layerId}/{styleId}.json', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the getPNGLegend operation.
+     * @callback module:api/StylesApi~getPNGLegendCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * A legend for PNG map tiles
+     * Available legends reflect the styles implemented by a layer. When a legend is disabled on a per-style basis (or if a legend cannot be rendered due to the style), then this endpoint will return a 204 No Content response. The size must be substituted by either &#x60;small&#x60; or &#x60;large&#x60;. The orientation must be substituted by either &#x60;horizontal&#x60; or &#x60;vertical&#x60;.
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} styleId The id of the style.
+     * @param {module:model/String} size The size.
+     * @param {module:model/String} orientation The orientation.
+     * @param {module:api/StylesApi~getPNGLegendCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.getPNGLegend = function(ownerId, layerId, styleId, size, orientation, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getPNGLegend";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getPNGLegend";
+      }
+
+      // verify the required parameter 'styleId' is set
+      if (styleId == undefined || styleId == null) {
+        throw "Missing the required parameter 'styleId' when calling getPNGLegend";
+      }
+
+      // verify the required parameter 'size' is set
+      if (size == undefined || size == null) {
+        throw "Missing the required parameter 'size' when calling getPNGLegend";
+      }
+
+      // verify the required parameter 'orientation' is set
+      if (orientation == undefined || orientation == null) {
+        throw "Missing the required parameter 'orientation' when calling getPNGLegend";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'styleId': styleId,
+        'size': size,
+        'orientation': orientation
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['image/png'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/legend/{layerId}/{styleId}/{size}/{orientation}.png', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+  };
+
+  return exports;
+}));
+
+},{"../ApiClient":10,"../model/Error":21}],16:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -4367,6 +5149,7 @@ module.exports = request;
      * WXTiles produces map tiles, and PNG map tiles are the traditional format for representing these. Other possibilities include protocol-buffer vector tiles in the Mapbox vector tile specification, and others. This endpoint will most often be used by map clients (such as Leaflet, Mapbox GL JS, OpenLayers, and Google Maps), which know exactly which tiles to request for a given geographical map view and zoom level. **The WXTiles Javascript API is responsible for completing the resource URI via these client libraries, based on what a user is authenticated to request, and what these layers support, via requests to other endpoints. Manual requests are possible but are not recommended.** The resources for a particular layer can be discovered through a &#x60;GET&#x60; request to &#x60;/layer/&lt;layerId&gt;/&#x60; and inspecting the response&#39;s &#x60;resources&#x60; property. The &#x60;/layer/&lt;layerId&gt;/&lt;instanceID&gt;/times/&#x60; endpoints can be used to request the times that are valid (many layer instances have only one time and/or vertical level).
      * @param {String} ownerId The owner of the dataset.
      * @param {String} layerId The id of the layer.
+     * @param {String} styleId The id of the style.
      * @param {String} instanceId The id of the instance.
      * @param {Date} time The time.
      * @param {String} level The level.
@@ -4377,7 +5160,7 @@ module.exports = request;
      * @param {module:api/TilesApi~getTileCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link File}
      */
-    this.getTile = function(ownerId, layerId, instanceId, time, level, z, x, y, extension, callback) {
+    this.getTile = function(ownerId, layerId, styleId, instanceId, time, level, z, x, y, extension, callback) {
       var postBody = null;
 
       // verify the required parameter 'ownerId' is set
@@ -4388,6 +5171,11 @@ module.exports = request;
       // verify the required parameter 'layerId' is set
       if (layerId == undefined || layerId == null) {
         throw "Missing the required parameter 'layerId' when calling getTile";
+      }
+
+      // verify the required parameter 'styleId' is set
+      if (styleId == undefined || styleId == null) {
+        throw "Missing the required parameter 'styleId' when calling getTile";
       }
 
       // verify the required parameter 'instanceId' is set
@@ -4429,6 +5217,7 @@ module.exports = request;
       var pathParams = {
         'ownerId': ownerId,
         'layerId': layerId,
+        'styleId': styleId,
         'instanceId': instanceId,
         'time': time,
         'level': level,
@@ -4450,7 +5239,7 @@ module.exports = request;
       var returnType = File;
 
       return this.apiClient.callApi(
-        '/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}', 'GET',
+        '/{ownerId}/tile/{layerId}/{styleId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -4520,7 +5309,130 @@ module.exports = request;
   return exports;
 }));
 
-},{"../ApiClient":10,"../model/Error":15,"../model/Instance":16,"../model/Layer":17,"../model/Layers":18,"../model/Levels":20,"../model/Times":27}],13:[function(require,module,exports){
+},{"../ApiClient":10,"../model/Error":21,"../model/Instance":22,"../model/Layer":23,"../model/Layers":25,"../model/Levels":28,"../model/Times":37}],17:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient', 'model/Times', 'model/Error'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'), require('../model/Times'), require('../model/Error'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.TimesApi = factory(root.WxTiles.ApiClient, root.WxTiles.Times, root.WxTiles.Error);
+  }
+}(this, function(ApiClient, Times, Error) {
+  'use strict';
+
+  /**
+   * Times service.
+   * @module api/TimesApi
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new TimesApi. 
+   * @alias module:api/TimesApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+    /**
+     * Callback function to receive the result of the getTimes operation.
+     * @callback module:api/TimesApi~getTimesCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Times} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * A collection of moments in time for which data exists and can be requested (as tiles) for an instance of a layer.
+     * This endpoint exposes the array of moments that data exists for a particular instance. Each element can be used to substitute the &lt;time&gt; part of a tile URL. Not all layer instances have a temporal dimension (e.g. it may be static bathymetry, or an observational dataset with no forecast or hindcast). If a layer has no temporal dimension, the array will be empty. The times in the array may not be unique (this is almost always due to grouped datasets containing overlapping time steps).
+     * @param {String} ownerId The owner of the dataset.
+     * @param {String} layerId The id of the layer.
+     * @param {String} instanceId The id of the instance.
+     * @param {module:api/TimesApi~getTimesCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Times}
+     */
+    this.getTimes = function(ownerId, layerId, instanceId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'ownerId' is set
+      if (ownerId == undefined || ownerId == null) {
+        throw "Missing the required parameter 'ownerId' when calling getTimes";
+      }
+
+      // verify the required parameter 'layerId' is set
+      if (layerId == undefined || layerId == null) {
+        throw "Missing the required parameter 'layerId' when calling getTimes";
+      }
+
+      // verify the required parameter 'instanceId' is set
+      if (instanceId == undefined || instanceId == null) {
+        throw "Missing the required parameter 'instanceId' when calling getTimes";
+      }
+
+
+      var pathParams = {
+        'ownerId': ownerId,
+        'layerId': layerId,
+        'instanceId': instanceId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['apiKeyQuery', 'apiKeyHeader'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Times;
+
+      return this.apiClient.callApi(
+        '/{ownerId}/layer/{layerId}/instance/{instanceId}/times/', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+  };
+
+  return exports;
+}));
+
+},{"../ApiClient":10,"../model/Error":21,"../model/Times":37}],18:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -4548,12 +5460,12 @@ module.exports = request;
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Bounds', 'model/Error', 'model/Instance', 'model/Layer', 'model/Layers', 'model/Level', 'model/Levels', 'model/MaxNativeZoom', 'model/Metadata', 'model/MinNativeZoom', 'model/PartialInstance', 'model/Resources', 'model/Time', 'model/Times', 'api/LegendsApi', 'api/TilesApi'], factory);
+    define(['ApiClient', 'model/Bounds', 'model/Dimension', 'model/Error', 'model/Instance', 'model/Layer', 'model/LayerDefaults', 'model/Layers', 'model/LegendResources', 'model/Level', 'model/Levels', 'model/MaxNativeZoom', 'model/MinNativeZoom', 'model/PartialInstance', 'model/Region', 'model/Resources', 'model/Style', 'model/Tag', 'model/Time', 'model/Times', 'api/InstancesApi', 'api/LayersApi', 'api/LegendsApi', 'api/LevelsApi', 'api/StylesApi', 'api/TilesApi', 'api/TimesApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Bounds'), require('./model/Error'), require('./model/Instance'), require('./model/Layer'), require('./model/Layers'), require('./model/Level'), require('./model/Levels'), require('./model/MaxNativeZoom'), require('./model/Metadata'), require('./model/MinNativeZoom'), require('./model/PartialInstance'), require('./model/Resources'), require('./model/Time'), require('./model/Times'), require('./api/LegendsApi'), require('./api/TilesApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/Bounds'), require('./model/Dimension'), require('./model/Error'), require('./model/Instance'), require('./model/Layer'), require('./model/LayerDefaults'), require('./model/Layers'), require('./model/LegendResources'), require('./model/Level'), require('./model/Levels'), require('./model/MaxNativeZoom'), require('./model/MinNativeZoom'), require('./model/PartialInstance'), require('./model/Region'), require('./model/Resources'), require('./model/Style'), require('./model/Tag'), require('./model/Time'), require('./model/Times'), require('./api/InstancesApi'), require('./api/LayersApi'), require('./api/LegendsApi'), require('./api/LevelsApi'), require('./api/StylesApi'), require('./api/TilesApi'), require('./api/TimesApi'));
   }
-}(function(ApiClient, Bounds, Error, Instance, Layer, Layers, Level, Levels, MaxNativeZoom, Metadata, MinNativeZoom, PartialInstance, Resources, Time, Times, LegendsApi, TilesApi) {
+}(function(ApiClient, Bounds, Dimension, Error, Instance, Layer, LayerDefaults, Layers, LegendResources, Level, Levels, MaxNativeZoom, MinNativeZoom, PartialInstance, Region, Resources, Style, Tag, Time, Times, InstancesApi, LayersApi, LegendsApi, LevelsApi, StylesApi, TilesApi, TimesApi) {
   'use strict';
 
   /**
@@ -4599,6 +5511,11 @@ module.exports = request;
      */
     Bounds: Bounds,
     /**
+     * The Dimension model constructor.
+     * @property {module:model/Dimension}
+     */
+    Dimension: Dimension,
+    /**
      * The Error model constructor.
      * @property {module:model/Error}
      */
@@ -4614,10 +5531,20 @@ module.exports = request;
      */
     Layer: Layer,
     /**
+     * The LayerDefaults model constructor.
+     * @property {module:model/LayerDefaults}
+     */
+    LayerDefaults: LayerDefaults,
+    /**
      * The Layers model constructor.
      * @property {module:model/Layers}
      */
     Layers: Layers,
+    /**
+     * The LegendResources model constructor.
+     * @property {module:model/LegendResources}
+     */
+    LegendResources: LegendResources,
     /**
      * The Level model constructor.
      * @property {module:model/Level}
@@ -4634,11 +5561,6 @@ module.exports = request;
      */
     MaxNativeZoom: MaxNativeZoom,
     /**
-     * The Metadata model constructor.
-     * @property {module:model/Metadata}
-     */
-    Metadata: Metadata,
-    /**
      * The MinNativeZoom model constructor.
      * @property {module:model/MinNativeZoom}
      */
@@ -4649,10 +5571,25 @@ module.exports = request;
      */
     PartialInstance: PartialInstance,
     /**
+     * The Region model constructor.
+     * @property {module:model/Region}
+     */
+    Region: Region,
+    /**
      * The Resources model constructor.
      * @property {module:model/Resources}
      */
     Resources: Resources,
+    /**
+     * The Style model constructor.
+     * @property {module:model/Style}
+     */
+    Style: Style,
+    /**
+     * The Tag model constructor.
+     * @property {module:model/Tag}
+     */
+    Tag: Tag,
     /**
      * The Time model constructor.
      * @property {module:model/Time}
@@ -4664,21 +5601,46 @@ module.exports = request;
      */
     Times: Times,
     /**
+     * The InstancesApi service constructor.
+     * @property {module:api/InstancesApi}
+     */
+    InstancesApi: InstancesApi,
+    /**
+     * The LayersApi service constructor.
+     * @property {module:api/LayersApi}
+     */
+    LayersApi: LayersApi,
+    /**
      * The LegendsApi service constructor.
      * @property {module:api/LegendsApi}
      */
     LegendsApi: LegendsApi,
     /**
+     * The LevelsApi service constructor.
+     * @property {module:api/LevelsApi}
+     */
+    LevelsApi: LevelsApi,
+    /**
+     * The StylesApi service constructor.
+     * @property {module:api/StylesApi}
+     */
+    StylesApi: StylesApi,
+    /**
      * The TilesApi service constructor.
      * @property {module:api/TilesApi}
      */
-    TilesApi: TilesApi
+    TilesApi: TilesApi,
+    /**
+     * The TimesApi service constructor.
+     * @property {module:api/TimesApi}
+     */
+    TimesApi: TimesApi
   };
 
   return exports;
 }));
 
-},{"./ApiClient":10,"./api/LegendsApi":11,"./api/TilesApi":12,"./model/Bounds":14,"./model/Error":15,"./model/Instance":16,"./model/Layer":17,"./model/Layers":18,"./model/Level":19,"./model/Levels":20,"./model/MaxNativeZoom":21,"./model/Metadata":22,"./model/MinNativeZoom":23,"./model/PartialInstance":24,"./model/Resources":25,"./model/Time":26,"./model/Times":27}],14:[function(require,module,exports){
+},{"./ApiClient":10,"./api/InstancesApi":11,"./api/LayersApi":12,"./api/LegendsApi":13,"./api/LevelsApi":14,"./api/StylesApi":15,"./api/TilesApi":16,"./api/TimesApi":17,"./model/Bounds":19,"./model/Dimension":20,"./model/Error":21,"./model/Instance":22,"./model/Layer":23,"./model/LayerDefaults":24,"./model/Layers":25,"./model/LegendResources":26,"./model/Level":27,"./model/Levels":28,"./model/MaxNativeZoom":29,"./model/MinNativeZoom":30,"./model/PartialInstance":31,"./model/Region":32,"./model/Resources":33,"./model/Style":34,"./model/Tag":35,"./model/Time":36,"./model/Times":37}],19:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -4803,7 +5765,92 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],15:[function(require,module,exports){
+},{"../ApiClient":10}],20:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.Dimension = factory(root.WxTiles.ApiClient);
+  }
+}(this, function(ApiClient) {
+  'use strict';
+
+
+
+
+  /**
+   * The Dimension model module.
+   * @module model/Dimension
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new <code>Dimension</code>.
+   * A dimension used by the layer. Typically these may be spatial (latitude/longitude or x/y), time and possibly a vertical dimension.
+   * @alias module:model/Dimension
+   * @class
+   */
+  var exports = function() {
+    var _this = this;
+
+  };
+
+  /**
+   * Constructs a <code>Dimension</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/Dimension} obj Optional instance to populate.
+   * @return {module:model/Dimension} The populated <code>Dimension</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) {
+      obj = obj || new exports();
+
+    }
+    return obj;
+  }
+
+
+
+
+  return exports;
+}));
+
+
+
+},{"../ApiClient":10}],21:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -4914,7 +5961,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],16:[function(require,module,exports){
+},{"../ApiClient":10}],22:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5026,7 +6073,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10,"./Levels":20,"./PartialInstance":24,"./Times":27}],17:[function(require,module,exports){
+},{"../ApiClient":10,"./Levels":28,"./PartialInstance":31,"./Times":37}],23:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5054,18 +6101,18 @@ module.exports = request;
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Bounds', 'model/MaxNativeZoom', 'model/Metadata', 'model/MinNativeZoom', 'model/PartialInstance', 'model/Resources'], factory);
+    define(['ApiClient', 'model/Bounds', 'model/Dimension', 'model/LayerDefaults', 'model/MaxNativeZoom', 'model/MinNativeZoom', 'model/PartialInstance', 'model/Region', 'model/Resources', 'model/Style', 'model/Tag'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./Bounds'), require('./MaxNativeZoom'), require('./Metadata'), require('./MinNativeZoom'), require('./PartialInstance'), require('./Resources'));
+    module.exports = factory(require('../ApiClient'), require('./Bounds'), require('./Dimension'), require('./LayerDefaults'), require('./MaxNativeZoom'), require('./MinNativeZoom'), require('./PartialInstance'), require('./Region'), require('./Resources'), require('./Style'), require('./Tag'));
   } else {
     // Browser globals (root is window)
     if (!root.WxTiles) {
       root.WxTiles = {};
     }
-    root.WxTiles.Layer = factory(root.WxTiles.ApiClient, root.WxTiles.Bounds, root.WxTiles.MaxNativeZoom, root.WxTiles.Metadata, root.WxTiles.MinNativeZoom, root.WxTiles.PartialInstance, root.WxTiles.Resources);
+    root.WxTiles.Layer = factory(root.WxTiles.ApiClient, root.WxTiles.Bounds, root.WxTiles.Dimension, root.WxTiles.LayerDefaults, root.WxTiles.MaxNativeZoom, root.WxTiles.MinNativeZoom, root.WxTiles.PartialInstance, root.WxTiles.Region, root.WxTiles.Resources, root.WxTiles.Style, root.WxTiles.Tag);
   }
-}(this, function(ApiClient, Bounds, MaxNativeZoom, Metadata, MinNativeZoom, PartialInstance, Resources) {
+}(this, function(ApiClient, Bounds, Dimension, LayerDefaults, MaxNativeZoom, MinNativeZoom, PartialInstance, Region, Resources, Style, Tag) {
   'use strict';
 
 
@@ -5083,25 +6130,36 @@ module.exports = request;
    * @alias module:model/Layer
    * @class
    * @param id {String} Layer ID
+   * @param name {String} A short, human-readable description of a layer that is suitable for inclusion in a list of available layers.
    * @param instances {Array.<module:model/PartialInstance>} A list of the instances of this layer.
+   * @param styles {Array.<module:model/Style>} A list of the styles the layer implements
+   * @param dimensions {Array.<module:model/Dimension>} A list of dimensions used by the layer. Neither the names nor order of the dimensions are standardised, following the CF convention. Instead they reflect the declarations of underlying dataset metadata.
    * @param bounds {module:model/Bounds} 
    * @param minNativeZoom {module:model/MinNativeZoom} 
    * @param maxNativeZoom {module:model/MaxNativeZoom} 
-   * @param meta {module:model/Metadata} 
    * @param resources {module:model/Resources} 
    */
-  var exports = function(id, instances, bounds, minNativeZoom, maxNativeZoom, meta, resources) {
+  var exports = function(id, name, instances, styles, dimensions, bounds, minNativeZoom, maxNativeZoom, resources) {
     var _this = this;
 
     _this['id'] = id;
+
+    _this['name'] = name;
+
+
+
+
+
     _this['instances'] = instances;
+    _this['styles'] = styles;
+    _this['dimensions'] = dimensions;
     _this['bounds'] = bounds;
 
 
     _this['minNativeZoom'] = minNativeZoom;
     _this['maxNativeZoom'] = maxNativeZoom;
-    _this['meta'] = meta;
     _this['resources'] = resources;
+
   };
 
   /**
@@ -5118,8 +6176,35 @@ module.exports = request;
       if (data.hasOwnProperty('id')) {
         obj['id'] = ApiClient.convertToType(data['id'], 'String');
       }
+      if (data.hasOwnProperty('description')) {
+        obj['description'] = ApiClient.convertToType(data['description'], 'String');
+      }
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'String');
+      }
+      if (data.hasOwnProperty('laypersonDescription')) {
+        obj['laypersonDescription'] = ApiClient.convertToType(data['laypersonDescription'], 'String');
+      }
+      if (data.hasOwnProperty('organisation')) {
+        obj['organisation'] = ApiClient.convertToType(data['organisation'], 'String');
+      }
+      if (data.hasOwnProperty('source')) {
+        obj['source'] = ApiClient.convertToType(data['source'], 'String');
+      }
+      if (data.hasOwnProperty('regions')) {
+        obj['regions'] = ApiClient.convertToType(data['regions'], [Region]);
+      }
+      if (data.hasOwnProperty('tags')) {
+        obj['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+      }
       if (data.hasOwnProperty('instances')) {
         obj['instances'] = ApiClient.convertToType(data['instances'], [PartialInstance]);
+      }
+      if (data.hasOwnProperty('styles')) {
+        obj['styles'] = ApiClient.convertToType(data['styles'], [Style]);
+      }
+      if (data.hasOwnProperty('dimensions')) {
+        obj['dimensions'] = ApiClient.convertToType(data['dimensions'], [Dimension]);
       }
       if (data.hasOwnProperty('bounds')) {
         obj['bounds'] = Bounds.constructFromObject(data['bounds']);
@@ -5136,11 +6221,11 @@ module.exports = request;
       if (data.hasOwnProperty('maxNativeZoom')) {
         obj['maxNativeZoom'] = MaxNativeZoom.constructFromObject(data['maxNativeZoom']);
       }
-      if (data.hasOwnProperty('meta')) {
-        obj['meta'] = Metadata.constructFromObject(data['meta']);
-      }
       if (data.hasOwnProperty('resources')) {
         obj['resources'] = Resources.constructFromObject(data['resources']);
+      }
+      if (data.hasOwnProperty('defaults')) {
+        obj['defaults'] = LayerDefaults.constructFromObject(data['defaults']);
       }
     }
     return obj;
@@ -5152,17 +6237,62 @@ module.exports = request;
    */
   exports.prototype['id'] = undefined;
   /**
+   * A long description of a layer, possibly including HTML tags to navigate users to glossaries or other sources of additional information.
+   * @member {String} description
+   */
+  exports.prototype['description'] = undefined;
+  /**
+   * A short, human-readable description of a layer that is suitable for inclusion in a list of available layers.
+   * @member {String} name
+   */
+  exports.prototype['name'] = undefined;
+  /**
+   * A long description of a layer, which is intended for display to a 'layperson' who should not be confronted with technical, meteological or other jargon when browsing layer information.
+   * @member {String} laypersonDescription
+   */
+  exports.prototype['laypersonDescription'] = undefined;
+  /**
+   * Organisation responsible for publishing the data used in the layer.
+   * @member {String} organisation
+   */
+  exports.prototype['organisation'] = undefined;
+  /**
+   * The source of the data (such as a model).
+   * @member {String} source
+   */
+  exports.prototype['source'] = undefined;
+  /**
+   * A list of the regions that the layer should be considered applicable.
+   * @member {Array.<module:model/Region>} regions
+   */
+  exports.prototype['regions'] = undefined;
+  /**
+   * A list of tags that may be used to support free-text search.
+   * @member {Array.<module:model/Tag>} tags
+   */
+  exports.prototype['tags'] = undefined;
+  /**
    * A list of the instances of this layer.
    * @member {Array.<module:model/PartialInstance>} instances
    */
   exports.prototype['instances'] = undefined;
   /**
+   * A list of the styles the layer implements
+   * @member {Array.<module:model/Style>} styles
+   */
+  exports.prototype['styles'] = undefined;
+  /**
+   * A list of dimensions used by the layer. Neither the names nor order of the dimensions are standardised, following the CF convention. Instead they reflect the declarations of underlying dataset metadata.
+   * @member {Array.<module:model/Dimension>} dimensions
+   */
+  exports.prototype['dimensions'] = undefined;
+  /**
    * @member {module:model/Bounds} bounds
    */
   exports.prototype['bounds'] = undefined;
   /**
-   * One of a typology of instance types. Currently these are \"cyclic\" (for model cycles), and \"observational\" (for observational timestamps).
-   * @member {String} instanceType
+   * One of a typology of instance types. In this version, 'cyclic' (model cycles) and 'observational' (for observations that will be repeated) are used.. Nullable (e.g. if instances are not applicable, or the type unspecified).
+   * @member {module:model/Layer.InstanceTypeEnum} instanceType
    */
   exports.prototype['instanceType'] = undefined;
   /**
@@ -5179,13 +6309,125 @@ module.exports = request;
    */
   exports.prototype['maxNativeZoom'] = undefined;
   /**
-   * @member {module:model/Metadata} meta
-   */
-  exports.prototype['meta'] = undefined;
-  /**
    * @member {module:model/Resources} resources
    */
   exports.prototype['resources'] = undefined;
+  /**
+   * @member {module:model/LayerDefaults} defaults
+   */
+  exports.prototype['defaults'] = undefined;
+
+
+  /**
+   * Allowed values for the <code>instanceType</code> property.
+   * @enum {String}
+   * @readonly
+   */
+  exports.InstanceTypeEnum = {
+    /**
+     * value: "cyclic"
+     * @const
+     */
+    "cyclic": "cyclic",
+    /**
+     * value: "observational"
+     * @const
+     */
+    "observational": "observational"  };
+
+
+  return exports;
+}));
+
+
+
+},{"../ApiClient":10,"./Bounds":19,"./Dimension":20,"./LayerDefaults":24,"./MaxNativeZoom":29,"./MinNativeZoom":30,"./PartialInstance":31,"./Region":32,"./Resources":33,"./Style":34,"./Tag":35}],24:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.LayerDefaults = factory(root.WxTiles.ApiClient);
+  }
+}(this, function(ApiClient) {
+  'use strict';
+
+
+
+
+  /**
+   * The LayerDefaults model module.
+   * @module model/LayerDefaults
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new <code>LayerDefaults</code>.
+   * Default options for the layer.
+   * @alias module:model/LayerDefaults
+   * @class
+   * @param style {String} ID of the default style implemented by a layer.
+   */
+  var exports = function(style) {
+    var _this = this;
+
+    _this['style'] = style;
+  };
+
+  /**
+   * Constructs a <code>LayerDefaults</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/LayerDefaults} obj Optional instance to populate.
+   * @return {module:model/LayerDefaults} The populated <code>LayerDefaults</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) {
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('style')) {
+        obj['style'] = ApiClient.convertToType(data['style'], 'String');
+      }
+    }
+    return obj;
+  }
+
+  /**
+   * ID of the default style implemented by a layer.
+   * @member {String} style
+   */
+  exports.prototype['style'] = undefined;
 
 
 
@@ -5194,7 +6436,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10,"./Bounds":14,"./MaxNativeZoom":21,"./Metadata":22,"./MinNativeZoom":23,"./PartialInstance":24,"./Resources":25}],18:[function(require,module,exports){
+},{"../ApiClient":10}],25:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5284,7 +6526,111 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10,"./Layer":17}],19:[function(require,module,exports){
+},{"../ApiClient":10,"./Layer":23}],26:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.LegendResources = factory(root.WxTiles.ApiClient);
+  }
+}(this, function(ApiClient) {
+  'use strict';
+
+
+
+
+  /**
+   * The LegendResources model module.
+   * @module model/LegendResources
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new <code>LegendResources</code>.
+   * Template URLS for requesting additional resources for the layer&#39;s implementation of a style (e.g. a PNG legend).
+   * @alias module:model/LegendResources
+   * @class
+   * @param jsonLegend {String} URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. No component of this URL requires substitution.
+   */
+  var exports = function(jsonLegend) {
+    var _this = this;
+
+
+    _this['jsonLegend'] = jsonLegend;
+  };
+
+  /**
+   * Constructs a <code>LegendResources</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/LegendResources} obj Optional instance to populate.
+   * @return {module:model/LegendResources} The populated <code>LegendResources</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) {
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('legend')) {
+        obj['legend'] = ApiClient.convertToType(data['legend'], 'String');
+      }
+      if (data.hasOwnProperty('jsonLegend')) {
+        obj['jsonLegend'] = ApiClient.convertToType(data['jsonLegend'], 'String');
+      }
+    }
+    return obj;
+  }
+
+  /**
+   * URL for requesting legends as PNG images that correspond to the PNG image tiles. The 'size' and 'orientation' elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are 'small' and 'large'. Valid values for orientation are 'horizontal' and 'vertical'.
+   * @member {String} legend
+   */
+  exports.prototype['legend'] = undefined;
+  /**
+   * URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. No component of this URL requires substitution.
+   * @member {String} jsonLegend
+   */
+  exports.prototype['jsonLegend'] = undefined;
+
+
+
+  return exports;
+}));
+
+
+
+},{"../ApiClient":10}],27:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5369,7 +6715,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],20:[function(require,module,exports){
+},{"../ApiClient":10}],28:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5458,7 +6804,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10,"./Level":19}],21:[function(require,module,exports){
+},{"../ApiClient":10,"./Level":27}],29:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5543,154 +6889,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],22:[function(require,module,exports){
-/**
- * WXTiles
- * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
- *
- * OpenAPI spec version: 3.0.0
- * 
- *
- * NOTE: This class is auto generated by the swagger code generator program.
- * https://github.com/swagger-api/swagger-codegen.git
- * Do not edit the class manually.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define(['ApiClient'], factory);
-  } else if (typeof module === 'object' && module.exports) {
-    // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'));
-  } else {
-    // Browser globals (root is window)
-    if (!root.WxTiles) {
-      root.WxTiles = {};
-    }
-    root.WxTiles.Metadata = factory(root.WxTiles.ApiClient);
-  }
-}(this, function(ApiClient) {
-  'use strict';
-
-
-
-
-  /**
-   * The Metadata model module.
-   * @module model/Metadata
-   * @version 3.0.0
-   */
-
-  /**
-   * Constructs a new <code>Metadata</code>.
-   * Metadata for a layer. WXTiles supports an arbitrary metadata document, but these specified keys are useful and will tend to exist, but none of them is mandatory, and a property may exist but have a null value.
-   * @alias module:model/Metadata
-   * @class
-   */
-  var exports = function() {
-    var _this = this;
-
-
-
-
-
-
-
-
-  };
-
-  /**
-   * Constructs a <code>Metadata</code> from a plain JavaScript object, optionally creating a new instance.
-   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-   * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Metadata} obj Optional instance to populate.
-   * @return {module:model/Metadata} The populated <code>Metadata</code> instance.
-   */
-  exports.constructFromObject = function(data, obj) {
-    if (data) {
-      obj = obj || new exports();
-
-      if (data.hasOwnProperty('name')) {
-        obj['name'] = ApiClient.convertToType(data['name'], 'String');
-      }
-      if (data.hasOwnProperty('description')) {
-        obj['description'] = ApiClient.convertToType(data['description'], 'String');
-      }
-      if (data.hasOwnProperty('layperson_description')) {
-        obj['layperson_description'] = ApiClient.convertToType(data['layperson_description'], 'String');
-      }
-      if (data.hasOwnProperty('organisation')) {
-        obj['organisation'] = ApiClient.convertToType(data['organisation'], 'String');
-      }
-      if (data.hasOwnProperty('source')) {
-        obj['source'] = ApiClient.convertToType(data['source'], 'String');
-      }
-      if (data.hasOwnProperty('regions')) {
-        obj['regions'] = ApiClient.convertToType(data['regions'], ['String']);
-      }
-      if (data.hasOwnProperty('unit_system')) {
-        obj['unit_system'] = ApiClient.convertToType(data['unit_system'], 'String');
-      }
-    }
-    return obj;
-  }
-
-  /**
-   * A short, human-readable description of a layer that is suitable for inclusion in a list of available layers.
-   * @member {String} name
-   */
-  exports.prototype['name'] = undefined;
-  /**
-   * A long description of a layer, possibly including HTML tags to navigate users to glossaries or other sources of additional information.
-   * @member {String} description
-   */
-  exports.prototype['description'] = undefined;
-  /**
-   * A long description of a layer, which is intended for display to a \"layperson\" who should not be confronted with technical, meteorological or other jargon when browsing layer information.
-   * @member {String} layperson_description
-   */
-  exports.prototype['layperson_description'] = undefined;
-  /**
-   * Organisation responsible for publishing the data used in the layer.
-   * @member {String} organisation
-   */
-  exports.prototype['organisation'] = undefined;
-  /**
-   * The source of the data (such as a model).
-   * @member {String} source
-   */
-  exports.prototype['source'] = undefined;
-  /**
-   * @member {Array.<String>} regions
-   */
-  exports.prototype['regions'] = undefined;
-  /**
-   * The system of units that the layer renders quantitative values in. Examples include \"metric\" and \"uscs\", for layers that render with metric and United States customary system (USCS) units, respectively. A null value indicates that the unit system is unspecified or does not fit into a category (e.g. knots). This does not indicate exactly which units a plot will render, only a broad classification. This can be used to filter duplicate layers that only differ in whether they render the same physical phenomenon as, for example, millimetres or inches. There is no restriction on what value this string may take.
-   * @member {String} unit_system
-   */
-  exports.prototype['unit_system'] = undefined;
-
-
-
-  return exports;
-}));
-
-
-
-},{"../ApiClient":10}],23:[function(require,module,exports){
+},{"../ApiClient":10}],30:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5775,7 +6974,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],24:[function(require,module,exports){
+},{"../ApiClient":10}],31:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5908,7 +7107,92 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],25:[function(require,module,exports){
+},{"../ApiClient":10}],32:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.Region = factory(root.WxTiles.ApiClient);
+  }
+}(this, function(ApiClient) {
+  'use strict';
+
+
+
+
+  /**
+   * The Region model module.
+   * @module model/Region
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new <code>Region</code>.
+   * A three-digit numerical code used by the Statistics Division of the United Nations Secretariat. Represents geographical regions where the layer is considered applicable, from the global scale (&#39;001&#39;), to continental, sub-continental, and country scales. See http://unstats.un.org/unsd/methods/m49/m49.htm for the list of values in current use. These are left-side zero-padded and therefore should be treated as strings and not integers.
+   * @alias module:model/Region
+   * @class
+   */
+  var exports = function() {
+    var _this = this;
+
+  };
+
+  /**
+   * Constructs a <code>Region</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/Region} obj Optional instance to populate.
+   * @return {module:model/Region} The populated <code>Region</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) {
+      obj = obj || new exports();
+
+    }
+    return obj;
+  }
+
+
+
+
+  return exports;
+}));
+
+
+
+},{"../ApiClient":10}],33:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -5961,7 +7245,7 @@ module.exports = request;
 
   /**
    * Constructs a new <code>Resources</code>.
-   * Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text \&quot;instance\&quot; (enclosed in angle brackets) must be substituted by a valid instance ID.
+   * Template URLs for requesting tiles and other resources for this layer instance. Note that the tile coordinates (z, x, and y) must be given in OGC TMS, rather than the XYZ specification (see https://gist.github.com/tmcw/4954720 for the difference, which only affects the y coordinate). Not all given properties exist for all layers. The literal text &#39;instance&#39; (enclosed in angle brackets) must be substituted by a valid instance ID.
    * @alias module:model/Resources
    * @class
    */
@@ -5991,36 +7275,36 @@ module.exports = request;
       if (data.hasOwnProperty('vtile')) {
         obj['vtile'] = ApiClient.convertToType(data['vtile'], 'String');
       }
-      if (data.hasOwnProperty('legend')) {
-        obj['legend'] = ApiClient.convertToType(data['legend'], 'String');
+      if (data.hasOwnProperty('times')) {
+        obj['times'] = ApiClient.convertToType(data['times'], 'String');
       }
-      if (data.hasOwnProperty('jsonlegend')) {
-        obj['jsonlegend'] = ApiClient.convertToType(data['jsonlegend'], 'String');
+      if (data.hasOwnProperty('levels')) {
+        obj['levels'] = ApiClient.convertToType(data['levels'], 'String');
       }
     }
     return obj;
   }
 
   /**
-   * Template URL for requesting styled, PNG image tiles. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests.
+   * Template URL for requesting styled, PNG image tiles. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support rendering as an image.
    * @member {String} tile
    */
   exports.prototype['tile'] = undefined;
   /**
-   * Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests.
+   * Template URL for requesting vector tiles in the Mapbox vector tile (MVT) specification, as protocol buffers. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support rendering as a vector tile.
    * @member {String} vtile
    */
   exports.prototype['vtile'] = undefined;
   /**
-   * URL for requesting legends as PNG images that correspond to the PNG image tiles. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted. Valid values for size are \"small\" and \"large\". Valid values for orientation are \"horizontal\" and \"vertical\".
-   * @member {String} legend
+   * Tempalte URL for requesting available times for a layer instance. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support a time dimension.
+   * @member {String} times
    */
-  exports.prototype['legend'] = undefined;
+  exports.prototype['times'] = undefined;
   /**
-   * URL for requesting legends as JSON representations. These JSON representations are used internally to construct the image versions of the legend, and can be used to render custom legends client-side. The \"size\" and \"orientation\" elements in the path (enclosed in angle brackets) need to be substituted.
-   * @member {String} jsonlegend
+   * Tempalte URL for requesting available levels for a layer instance. Elements of the path enclosed in angle brackets need to be appropriately substituted when making requests. If not present, the layer does not support a a vertical dimension.
+   * @member {String} levels
    */
-  exports.prototype['jsonlegend'] = undefined;
+  exports.prototype['levels'] = undefined;
 
 
 
@@ -6029,7 +7313,223 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],26:[function(require,module,exports){
+},{"../ApiClient":10}],34:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient', 'model/LegendResources'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'), require('./LegendResources'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.Style = factory(root.WxTiles.ApiClient, root.WxTiles.LegendResources);
+  }
+}(this, function(ApiClient, LegendResources) {
+  'use strict';
+
+
+
+
+  /**
+   * The Style model module.
+   * @module model/Style
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new <code>Style</code>.
+   * A named style representing one way of rendering a layer as tiles.
+   * @alias module:model/Style
+   * @class
+   * @param id {String} Style ID.
+   * @param resources {module:model/LegendResources} 
+   */
+  var exports = function(id, resources) {
+    var _this = this;
+
+    _this['id'] = id;
+
+
+
+    _this['resources'] = resources;
+  };
+
+  /**
+   * Constructs a <code>Style</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/Style} obj Optional instance to populate.
+   * @return {module:model/Style} The populated <code>Style</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) {
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('id')) {
+        obj['id'] = ApiClient.convertToType(data['id'], 'String');
+      }
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'String');
+      }
+      if (data.hasOwnProperty('label')) {
+        obj['label'] = ApiClient.convertToType(data['label'], 'String');
+      }
+      if (data.hasOwnProperty('description')) {
+        obj['description'] = ApiClient.convertToType(data['description'], 'String');
+      }
+      if (data.hasOwnProperty('resources')) {
+        obj['resources'] = LegendResources.constructFromObject(data['resources']);
+      }
+    }
+    return obj;
+  }
+
+  /**
+   * Style ID.
+   * @member {String} id
+   */
+  exports.prototype['id'] = undefined;
+  /**
+   * Name of the style that is implemented by the layer.
+   * @member {String} name
+   */
+  exports.prototype['name'] = undefined;
+  /**
+   * Text displayed alongside an image legend (often, but not always, a representation of the primary unit).
+   * @member {String} label
+   */
+  exports.prototype['label'] = undefined;
+  /**
+   * Description of the style (in greater detail than the name).
+   * @member {String} description
+   */
+  exports.prototype['description'] = undefined;
+  /**
+   * @member {module:model/LegendResources} resources
+   */
+  exports.prototype['resources'] = undefined;
+
+
+
+  return exports;
+}));
+
+
+
+},{"../ApiClient":10,"./LegendResources":26}],35:[function(require,module,exports){
+/**
+ * WXTiles
+ * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
+ *
+ * OpenAPI spec version: 3.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.WxTiles) {
+      root.WxTiles = {};
+    }
+    root.WxTiles.Tag = factory(root.WxTiles.ApiClient);
+  }
+}(this, function(ApiClient) {
+  'use strict';
+
+
+
+
+  /**
+   * The Tag model module.
+   * @module model/Tag
+   * @version 3.0.0
+   */
+
+  /**
+   * Constructs a new <code>Tag</code>.
+   * A string tag that could take any value; intended to support free-text search and filtering of layers. An example might be the tag &#39;rain&#39; for a layer showing forecast precipitation.
+   * @alias module:model/Tag
+   * @class
+   */
+  var exports = function() {
+    var _this = this;
+
+  };
+
+  /**
+   * Constructs a <code>Tag</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/Tag} obj Optional instance to populate.
+   * @return {module:model/Tag} The populated <code>Tag</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) {
+      obj = obj || new exports();
+
+    }
+    return obj;
+  }
+
+
+
+
+  return exports;
+}));
+
+
+
+},{"../ApiClient":10}],36:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -6082,7 +7582,7 @@ module.exports = request;
 
   /**
    * Constructs a new <code>Time</code>.
-   * ISO 8601 string representing a datetime, a possible value of the temporal dimension of an instance. Values in this array is used to ubstitute \&quot;time\&quot; in a tile URL.
+   * ISO 8601 string representing a datetime, a possible value of the temporal dimension of an instance. Values in this array is used to ubstitute &#39;time&#39; in a tile URL.
    * @alias module:model/Time
    * @class
    */
@@ -6114,7 +7614,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10}],27:[function(require,module,exports){
+},{"../ApiClient":10}],37:[function(require,module,exports){
 /**
  * WXTiles
  * Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
@@ -6203,7 +7703,7 @@ module.exports = request;
 
 
 
-},{"../ApiClient":10,"./Time":26}],28:[function(require,module,exports){
+},{"../ApiClient":10,"./Time":36}],38:[function(require,module,exports){
 //Add some extra wrapping around the library autogenerated from the swagger.
 /**
    * @file A wrapper around the swagger autogenerated client.
@@ -6216,15 +7716,16 @@ var api = new apiClient.TilesApi();
 /**
  * Tiles service.
  * @module wxTiles
- * @version 1.2.0
+ * @version 3.0.0
  * @copyright MetOcean Solutions Ltd. 2016
  * @borrows  module:api/TilesApi#getLayers as wxTiles#getLayers
  * @borrows  module:api/TilesApi#getLayer
  * @borrows  module:api/TilesApi#getInstance
  * @borrows  module:api/TilesApi#getTimes
  * @borrows  module:api/TilesApi#getLevels
- * @borrows  module:api/LegendsApi#getPNGLegend
  * @borrows  module:api/TilesApi#getTile
+ * @borrows  module:api/LegendsApi#getPNGLegend
+ * @borrows  module:api/LegendsApi#getJSONLegend
  */
 module.exports = api;
 
@@ -6255,12 +7756,13 @@ module.exports.setApiKeyQuery = (apiKey) => {
  * This endpoint provides a tile url template to pass to map libraries like leaflet.
  * @param {String} ownerId The owner of the dataset.
  * @param {String} layerId The id of the layer.
- * @param {String} instanceId The id of the instance.
+ * @param {String} styleId The id of a style implemented by the layer.
+ * @param {String} instanceId The id of an instance held by the layer.
  * @param {Date} time The time.
  * @param {String} level The level.
  * @param {module:wrapper~getPNGTileURLCallback} callback The callback function, accepting three arguments: error, data, response
  */
-module.exports.getPNGTileURL = (ownerId, layerId, instanceId, time, level, callback) => {
+module.exports.getPNGTileURL = (ownerId, layerId, styleId, instanceId, time, level, callback) => {
 
 	//The layer might not have levels.
 	if(!level) {
@@ -6272,7 +7774,7 @@ module.exports.getPNGTileURL = (ownerId, layerId, instanceId, time, level, callb
 		time = 0;
 	}
 
-	var urlTemplate = `/${ownerId}/tile/${layerId}/${instanceId}/${time}/${level}/{z}/{x}/{y}.png`
+	var urlTemplate = `/${ownerId}/tile/${layerId}/${styleId}/${instanceId}/${time}/${level}/{z}/{x}/{y}.png`
 	var tileURL = api.apiClient.basePath + urlTemplate;
 
 	//Add the apiKey to the url if it is set.
@@ -6285,9 +7787,9 @@ module.exports.getPNGTileURL = (ownerId, layerId, instanceId, time, level, callb
 
 //Returns the URL for the legend.
 //Will include the apiKey query string, if set.
-module.exports.getPNGLegendURL = (ownerId, layerId, instanceId, size, orientation, callback) => {
+module.exports.getPNGLegendURL = (ownerId, layerId, styleId, size, orientation, callback) => {
 
-	var urlTemplate = `/${ownerId}/legend/${layerId}/${instanceId}/${size}/${orientation}.png`
+	var urlTemplate = `/${ownerId}/legend/${layerId}/${styleId}/${size}/${orientation}.png`
 	var legendURL = api.apiClient.basePath + urlTemplate;
 
 	//Add the apiKey to the url if it is set.
@@ -6301,7 +7803,7 @@ module.exports.getPNGLegendURL = (ownerId, layerId, instanceId, size, orientatio
 //Helper function for Google Maps.
 //Call this with your url and plug the returned object into google maps.
 //E.G:
-//var layerTilesUrl = wxTiles.getPNGTileURL("wxtiles", "aLayer", "anInstance", "aTime", 0);
+//var layerTilesUrl = wxTiles.getPNGTileURL("wxtiles", "aLayer", "aStyle", "anInstance", "aTime", 0);
 //var mapLayer = wxTiles.google.getImageMapType(layerTilesUrl);
 //googleMap.overlayMapTypes.setAt(layerKey, mapLayer);
 module.exports.googleMaps = {}
@@ -6315,7 +7817,7 @@ module.exports.googleMaps.getImageMapType = (layerTilesUrl) => {
   })
 }
 
-},{"./index.js":13}],"main":[function(require,module,exports){
+},{"./index.js":18}],"main":[function(require,module,exports){
 var leafletExample = require("./leaflet-example.js");
 
 var WxTiles = require('wx-tiles');
@@ -6340,4 +7842,4 @@ function mountExamples() {
 module.exports = {
 	mountExamples: mountExamples
 }
-},{"./leaflet-example.js":1,"wx-tiles":28}]},{},[]);
+},{"./leaflet-example.js":1,"wx-tiles":38}]},{},[]);
