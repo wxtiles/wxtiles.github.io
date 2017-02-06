@@ -394,8 +394,10 @@ definitions:
         type: string
         description: The source of the data (such as a model).
       regions:
-        type: object
-        description: UN M.49 area codes for which the layer should be considered applicable. Each property in the object is a three-digit numerical code (left-zero-padded if necessary), with a string value with the full textual representation of that numerical code. These codes are used by the Statistics Division of the United Nations Secretariat, See http://unstats.un.org/unsd/methods/m49/m49.htm
+        type: array
+        description: UN M.49 area codes for which the layer should be considered applicable.
+        items:
+          $ref: "#/definitions/Region"
       tags:
         type: array
         description: A list of tags that may be used to support free-text search.
@@ -459,6 +461,19 @@ definitions:
   Dimension:
     type: string
     description: A dimension used by the layer. Typically these may be spatial (latitude/longitude or x/y), time and possibly a vertical dimension.
+  Region:
+    type: object
+    description: A three-digit numerical code (left-padded with 0 if necessary), and the string value with the full textual representation of that numerical code. These codes are used by the Statistics Division of the United Nations Secretariat, See http://unstats.un.org/unsd/methods/m49/m49.htm
+    required:
+      - name
+      - m49
+    properties:
+      name:
+        type: string
+        description: Full name of a country or region.
+      m49:
+        type: string
+        description: Three character numerical code; the code used by the UN m49 classification.
   Tag:
     type: string
     description: A string tag that could take any value; intended to support free-text search and filtering of layers. An example might be the tag 'rain' for a layer showing forecast precipitation.
