@@ -10,8 +10,21 @@ Feature: WXTiles API (v1)
   Scenario: Get all layers.
   Given an operation with Id "getLayers"
     And request path param "ownerId" equals "wxtiles"
-    And request header "apikey" equals "will-be-obtained-from-environment"
-    And security header param "apikey" equals "will-be-obtained-from-environment"
+   When the request is executed
+   Then response code is "401"
+
+   Scenario: Get all layers.
+   Given an operation with Id "getLayers"
+     And request path param "ownerId" equals "wxtiles"
+     And request header "apikey" equals "badapikey"
+    When the request is executed
+    Then response code is "403"
+
+  Scenario: Get all layers.
+  Given an operation with Id "getLayers"
+    And request path param "ownerId" equals "wxtiles"
+    And request header "apikey" will be obtained from environment variable "APIKEY"
+    And security header param "apikey" will be obtained from environment variable "APIKEY"
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Layers" model
@@ -20,7 +33,7 @@ Feature: WXTiles API (v1)
   Given an operation with Id "getLayer"
     And request path param "ownerId" equals "wxtiles"
     And request path param "layerId" equals "ncep-gfs-global-wind10m"
-    And security header param "apikey" equals "will-be-obtained-from-environment"
+    And security header param "apikey" will be obtained from environment variable "APIKEY"
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Layer" model
@@ -31,7 +44,7 @@ Feature: WXTiles API (v1)
     And request path param "instanceId" equals the "id" of the last instance of the layer request
     And request path param "ownerId" equals "wxtiles"
     And request path param "layerId" equals "ncep-gfs-global-wind10m"
-    And security header param "apikey" equals "will-be-obtained-from-environment"
+    And security header param "apikey" will be obtained from environment variable "APIKEY"
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Instance" model
@@ -42,7 +55,7 @@ Feature: WXTiles API (v1)
     And request path param "ownerId" equals "wxtiles"
     And request path param "layerId" equals "ncep-gfs-global-wind10m"
     And request path param "instanceId" equals the "id" of the last instance of the layer request
-    And security header param "apikey" equals "will-be-obtained-from-environment"
+    And security header param "apikey" will be obtained from environment variable "APIKEY"
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Times" model
@@ -53,7 +66,7 @@ Feature: WXTiles API (v1)
     And request path param "ownerId" equals "wxtiles"
     And request path param "layerId" equals "ncep-gfs-global-wind10m"
     And request path param "instanceId" equals the "id" of the last instance of the layer request
-    And security header param "apikey" equals "will-be-obtained-from-environment"
+    And security header param "apikey" will be obtained from environment variable "APIKEY"
    When the request is executed
    Then response status is "ok"
     And the response body is a valid "Levels" model
@@ -71,7 +84,7 @@ Feature: WXTiles API (v1)
     And request path param "x" equals "0"
     And request path param "y" equals "2"
     And request path param "extension" equals "png"
-    And security header param "apikey" equals "will-be-obtained-from-environment"
+    And security header param "apikey" will be obtained from environment variable "APIKEY"
    When the request is executed
    Then response status is "ok"
     And response type is "image/png"
@@ -85,7 +98,7 @@ Feature: WXTiles API (v1)
     And request path param "instanceId" equals the "id" of the last instance of the layer request
     And request path param "size" equals "small"
     And request path param "orientation" equals "horizontal"
-    And security header param "apikey" equals "will-be-obtained-from-environment"
+    And security header param "apikey" will be obtained from environment variable "APIKEY"
    When the request is executed
    Then response status is "ok"
     And response type is "image/png"
