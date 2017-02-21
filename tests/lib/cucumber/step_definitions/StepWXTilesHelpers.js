@@ -24,10 +24,9 @@ module.exports = function () {
     });
 
 	Given(/^request path param "([^"]*)" equals the "([^"]*)" of the last instance of the layer request$/, function (param, instanceProperty, callback) {
-         var op = this.Api.getCurrentOperation();
+    var op = this.Api.getCurrentOperation();
 		var lastInstance = world.layerResponse.instances[world.layerResponse.instances.length - 1];
 		op.request.params.path[param] = lastInstance[instanceProperty];
 		callback();
     });
-
 };

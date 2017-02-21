@@ -25,14 +25,20 @@ module.exports = function() {
 
 		// add the query param
 		security.params.query[param] = value;
+    if (param === 'apikey') {
+      // Access environment variable API key
+      security.params.query[param] = process.env.APIKEY;
+    } else {
+      security.params.query[param] = value;
+    }
 
 		callback();
 	});
 
 	/**
-	 * ... and security query param '$param' equals '$value'
+	 * ... and security header param '$param' equals '$value'
 	 */
-	Given(/security header param "([^"]*)" equals "([^"]*)"$/, function (param, value, callback) {
+	Given(/security header param "([^"]*)" equals "([^"]*)"$/, function (header, value, callback) {
 
 		// get the API definition
 		var api = this.Api.getDefinition();
@@ -43,8 +49,13 @@ module.exports = function() {
 		// get the security instance
 		var security = api.security;
 
-		// add the query param
-		security.params.headers[param] = value;
+		// add the header
+    if (header === 'apikey') {
+      // Access environment variable API key
+      security.params.headers[header] = process.env.APIKEY;
+    } else {
+      security.params.headers[header] = value;
+    }
 
 		callback();
 	});

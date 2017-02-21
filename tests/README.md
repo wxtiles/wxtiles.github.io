@@ -14,6 +14,6 @@ To run the tests.
 ```sh
 export SWAGGER_HOST=127.0.0.1
 ```
-3. Run "npm run test"
+3. Run `APIKEY=YourAPIKey npm run test`. Note that the `APIKEY` environment variable must be a valid API key.
 
 These tests use: [apis-testing-bdd](http://apispots.com/projects/bdd/)

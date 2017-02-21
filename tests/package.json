@@ -29,7 +29,7 @@
   "main": "./server/server.js",
   "scripts": {
     "start": "node ./rest/server.js",
-    "test": "node ./node_modules/cucumber/bin/cucumber.js --require lib/cucumber --format pretty --verbose --backtrace test/features"
+    "test": "APIKEY=${APIKEY:=anon} node ./node_modules/cucumber/bin/cucumber.js --require lib/cucumber --format pretty --verbose --backtrace test/features"
   },
   "dependencies": {
     "async": "latest",
