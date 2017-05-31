@@ -22,30 +22,43 @@
 
   <!-- Flatdoc -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src='../flatdoc/legacy.js'></script>
-  <script src='../flatdoc/flatdoc.js'></script>
+  <script src='./flatdoc/legacy.js'></script>
+  <script src='./flatdoc/flatdoc.js'></script>
 
   <!-- Flatdoc theme -->
-  <link href='../flatdoc/style.css' rel='stylesheet'>
-  <script src='../flatdoc/script.js'></script>
+  <link href='./flatdoc/style.css' rel='stylesheet'>
+  <script src='./flatdoc/script.js'></script>
 
   <!-- Meta -->
-  <meta content="WXTiles JavaScript API" property="og:title">
-  <meta content="API documentation for the WXTiles JavaScript client library." name="description">
+  <meta content="WXTiles API" property="og:title">
+  <meta content="API documentation for the WXTiles service." name="description">
 
+  <!-- Leaflet Example -->
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />-->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>-->
+
+  <script src="./getting-started/bundle.js"></script>
+  <link rel="stylesheet" href="./getting-started/index.css" />
+  
   <link href='/templates/header.css' media='screen' rel='stylesheet' type='text/css' />
+
 
   <script>
     //Initializer    
     Flatdoc.run({
-      fetcher: Flatdoc.file('https://wxtiles.github.io/js/docs/wxTiles.md')
+      fetcher: Flatdoc.file('./getting-started/index.md')
+    });
+
+    $(document).on('flatdoc:ready', function() {
+       $(window).trigger('resize.sidestick');
     });
 
   </script>
 </head>
 
 <body role='flatdoc' class='no-literate'>
-   <header>
+
+      <header>
       <div class="container av-logo-container" >
         <div class="inner-container" >
           <strong class="logo" >
@@ -62,6 +75,8 @@
     </div>
     <div class="header_bg"></div>
   </header>
+    
+  
 
   <div class='content-root'>
     <div class='menubar'>

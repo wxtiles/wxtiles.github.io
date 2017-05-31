@@ -1,6 +1,7 @@
 node_modules/*
 .vscode/*
 clients/*
+npm-debug.log
 
 #We will decide our own license, thank you very much swagger-codegen
 swagger-definitions/LICENSE

@@ -1,9 +1,9 @@
 // var ssi = require("ssi");
- 
+
 // var inputDirectory = "./api-docs";
 // var outputDirectory = "/api-docs/out";
 // var matcher = "/**/*.shtml";
- 
+
 // var includes = new ssi(inputDirectory, outputDirectory, matcher);
 // includes.compile();
 
@@ -34,12 +34,9 @@ fileNames.forEach((filePath) => {
 	var fileContent = fs.readFileSync(filePath, 'utf8');
 	fileContent = ssiParser.parse(filePath, fileContent);
 
-	//Change the extension.
-	var newFilePath = path.parse(filePath);
-	newFilePath.base = null;
-	newFilePath.ext = '.html';
-	newFilePath = path.format(newFilePath);
+	// //Change the extension.
+  newFilePath = filePath.substr(0, filePath.lastIndexOf(".")) + ".html";
 
-	//And write the new tile out.
+	//And write the new file out.
 	fs.writeFileSync(newFilePath, fileContent.contents, 'utf8');
 });

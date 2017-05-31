@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: WXTiles
   description: Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
-  version: "1.2.0"
+  version: "3.0.0"
 # the domain of the service
 host: api.wxtiles.com
 # array of all schemes that your API supports
@@ -124,6 +124,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+
   /{ownerId}/layer/{layerId}/instance/{instanceId}/levels/:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
@@ -152,7 +153,8 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y2}.{extension}:
+
+  /{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: tile
     parameters:
@@ -163,7 +165,7 @@ paths:
       - $ref: '#/parameters/level'
       - $ref: '#/parameters/z'
       - $ref: '#/parameters/x'
-      - $ref: '#/parameters/y2'
+      - $ref: '#/parameters/y'
       - $ref: '#/parameters/extension'
     get:
       operationId: getTile
@@ -199,7 +201,7 @@ paths:
       summary: A legend for PNG map tiles
       description: "Legends are inferred from plot configurations for each layer. When a legend is disabled on a per-layer basis (or if a legend cannot be rendered due to the plot type), then this endpoint will return a 204 No Content response. The size must be substituted by either `small` or `large`. The orientation must be substituted by either `horizontal` or `vertical`."
       tags:
-        - Tiles
+        - Legends
       responses:
         200:
           description: A rendered map legend as a PNG
@@ -275,8 +277,8 @@ parameters:
     in: path
     type: integer
     x-example: 1
-  y2:
-    name: y2
+  y:
+    name: y
     description: The y.
     required: true
     in: path
@@ -473,7 +475,7 @@ definitions:
         description: A long description of a layer, possibly including HTML tags to navigate users to glossaries or other sources of additional information.
       layperson_description:
         type: string
-        description: A long description of a layer, which is intended for display to a "layperson" who should not be confronted with technical, meteological or other jargon when browsing layer information.
+        description: A long description of a layer, which is intended for display to a "layperson" who should not be confronted with technical, meteorological or other jargon when browsing layer information.
       organisation:
         type: string
         description: Organisation responsible for publishing the data used in the layer.

@@ -28,7 +28,22 @@ module.exports = function() {
 	/**
 	 * ... request header '$header' equals '$value'
 	 */
-	Given(/^request header "([^"]*)" equals "([^"]*)"$/, function (header, value, callback) {
+	Given(/^request header "([^"]*)" will be obtained from environment variable "([^"]*)"$/, function (header, value, callback) {
+		// set the header
+		var op = this.Api.getCurrentOperation();
+
+		// replace any placeholders
+		value = strformat(value, nconf.get());
+
+		// Access environment variable API key
+		op.request.headers[header] = process.env[value];
+		callback();
+	});
+
+	/**
+	 * ... request header '$header' equals '$value'
+	 */
+	Given(/^request header "([^"]*)" equals "([^"]*)"?$/, function (header, value, callback) {
 		// set the header
 		var op = this.Api.getCurrentOperation();
 
@@ -36,7 +51,6 @@ module.exports = function() {
 		value = strformat(value, nconf.get());
 
 		op.request.headers[header] = value;
-
 		callback();
 	});
 
