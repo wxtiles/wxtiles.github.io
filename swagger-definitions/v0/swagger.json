@@ -395,15 +395,15 @@
     }
   },
   "securityDefinitions" : {
-    "apiKeyQuery" : {
-      "type" : "apiKey",
-      "name" : "apikey",
-      "in" : "query"
-    },
     "apiKeyHeader" : {
       "type" : "apiKey",
       "name" : "apikey",
       "in" : "header"
+    },
+    "apiKeyQuery" : {
+      "type" : "apiKey",
+      "name" : "apikey",
+      "in" : "query"
     }
   },
   "definitions" : {
