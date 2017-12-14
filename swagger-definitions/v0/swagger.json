@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API",
-    "version" : "3.0.0",
+    "version" : "0.3",
     "title" : "WXTiles"
   },
   "host" : "api.wxtiles.com",
