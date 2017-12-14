@@ -874,10 +874,5 @@
       "enum" : [ "small", "large" ],
       "x-example" : "small"
     }
-  },
-  "securityRequirement" : [ {
-    "apiKeyHeader" : [ ]
-  }, {
-    "apiKeyQuery" : [ ]
-  } ]
+  }
 }
