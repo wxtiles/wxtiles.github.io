@@ -6,9 +6,9 @@ We are currently supporting two versions of the API, V0 and V1. The API endpoint
 #API Documentation
 The REST API documentation details all valid enpdpoints expected response codes, and the structure of responses.
 
-##[V0 API docs](./api-docs/v0)
+## [V0 API docs](./api-docs/v0)
 
-##[V1 API docs](./api-docs/v1)
+## [V1 API docs](./api-docs/v1)
 
 # JS Client Documentation
 View the API documentation for the wxTilesjs library [here](./wxtilesjs-docs).
