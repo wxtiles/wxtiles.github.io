@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API",
-    "version" : "0.3",
+    "version" : "0.3.0",
     "title" : "WXTiles"
   },
   "host" : "api.wxtiles.com",
@@ -395,15 +395,15 @@
     }
   },
   "securityDefinitions" : {
-    "apiKeyHeader" : {
-      "type" : "apiKey",
-      "name" : "apikey",
-      "in" : "header"
-    },
     "apiKeyQuery" : {
       "type" : "apiKey",
       "name" : "apikey",
       "in" : "query"
+    },
+    "apiKeyHeader" : {
+      "type" : "apiKey",
+      "name" : "apikey",
+      "in" : "header"
     }
   },
   "definitions" : {
