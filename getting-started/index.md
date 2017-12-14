@@ -7,6 +7,7 @@ We are currently supporting two versions of the API, V0 and V1. The API endpoint
 The REST API documentation details all valid enpdpoints expected response codes, and the structure of responses.
 
 V0 API docs are [here](./api-docs/v0)
+
 V1 API docs are [here](./api-docs/v1)
 
 # JS Client Documentation
@@ -17,24 +18,24 @@ Access to the WXTiles API requires an API Key. This key can be obtained by signi
 
 The API Key must be submitted with every request to the WXTiles API. This can be done by either adding an `apikey` header:
 
-V0:
+**V0:**
 ```shell
 curl https://api.wxtiles.com/v0/wxtiles/layer/ --header 'apikey: your_api_key_here'
 ```
 
-V1:
+**V1:**
 ```shell
 curl https://api.wxtiles.com/v1/wxtiles/layer/ --header 'apikey: your_api_key_here'
 ```
 
 
 or by adding an `apikey` parameter to the query string of a URL:
-V0:
+**V0:**
 ```shell
 curl https://api.wxtiles.com/v0/wxtiles/layer/?apikey=your_api_key_here
 ```
 
-V1:
+**V1:**
 ```shell
 curl https://api.wxtiles.com/v1/wxtiles/layer/?apikey=your_api_key_here
 ```
@@ -109,34 +110,34 @@ Each *layer* also has at least one *instance*. Instances typically represent for
 Now that we have a map we can add a WXTiles overlay, which will also be an `L.tileLayer`. The MRMS radar reflectivity layer we want to add is observational, and has a single instance: `"QCComposite"`, and no vertical dimension, but it does have a time dimension. (In fact, this particular product is updated every two minutes with the latest observations.) This layer has multiple styles, but for this example we will pick the default style, called `"reflectivity"`, which has a semi-continuous rainbow colour scheme from -10 to 75 dBZ. Given that we know a time and that the ID of this layer is `"ncep-mrms-us-reflectivity"` we can fill in all the parameters in the url to request PNG tiles to place on our map.
 
 So this template tile URL:
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v0/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/{ownerId}/tile/{layerId}/{styleId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
 
 Will become this:
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png
 ```
 
 And then we add our API key to the query string:
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png?apikey=your_api_key_here
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png?apikey=your_api_key_here
 ```
@@ -144,7 +145,7 @@ https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/reflectivity/Q
 
 The `{z}`, `{x}`, and `{y}` parameters will be filled in by the map library when it requests tiles. Now we just need construct another layer with our URL and add it to the map.
 
-V0:
+**V0:**
 ```js
 var radar = L.tileLayer('https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png', {
 		maxNativeZoom: 11,
@@ -152,7 +153,7 @@ var radar = L.tileLayer('https://api.wxtiles.com/v0/wxtiles/tile/ncep-mrms-us-re
 	}).addTo(leafletMap);
 ```
 
-V1:
+**V1:**
 ```js
 var radar = L.tileLayer('https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/reflectivity/QCComposite/2016-07-17T21:16:37Z/0/{z}/{x}/{y}.png', {
 		maxNativeZoom: 11,
@@ -169,12 +170,12 @@ Note: We must set `tms` to `true` so that Leaflet knows to flip the `y` coordina
 In order for your map readers to interpret the data we need to display a legend for the layer we have added to the map. WXTiles provides a legend as a PNG image for most layers that it renders. If we know the information needed to get a tile URL, then we can get the legend.  
 
 A legend URL for an image legend looks like:
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v1/{ownerId}/legend/{layerId}/{instanceId}/{size}/{orientation}.png
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/{ownerId}/legend/{layerId}/{styleId}/{size}/{orientation}.png
 ```
@@ -187,12 +188,12 @@ So when we substitute:
 * and add our API key
 
 Then we end up with:
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v1/wxtiles/legend/ncep-mrms-us-reflectivity/QCComposite/small/horizontal.png?apikey=your_api_key_here
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/wxtiles/legend/ncep-mrms-us-reflectivity/reflectivity/small/horizontal.png?apikey=your_api_key_here
 ```
@@ -262,7 +263,7 @@ tilesApi.getLayers('wxtiles', {}, callback);
 ```
 
 This will get all the layers provided by WXTiles and log them to the console, which (for a single layer) will look something like this:
-V1:
+**V1:**
 ```json
 [
   {
@@ -370,12 +371,12 @@ Using the tile path provided with the API root (https://api.wxtiles.com/v1) and 
 ```
 
 ... into a URL that is ready to be passed to mapping libraries:
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-rotation-track30/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-rotation-track30/rotation/RotationTrack30min/2016-07-18T14:04:35Z/0/{z}/{x}/{y}.png
 ```
@@ -385,12 +386,12 @@ https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-rotation-track30/rotation/R
 ###Anatomy of a tile URL
 
 This is a URL of a tile:
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/wxtiles/tile/ncep-mrms-us-reflectivity/reflectivity/QCComposite/2016-07-17T21:16:37Z/0/10/306/642.png
 ```
@@ -399,12 +400,12 @@ It produces this image:
 ![An example tile](./getting-started/example-tile.png "An example tile")
 
 The URL of a tile contains a number of parameters that must be substituted into the url. This is what the url template looks like before parameter substitution.
-V0:
+**V0:**
 ```
 https://api.wxtiles.com/v1/{ownerId}/tile/{layerId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
 
-V1:
+**V1:**
 ```
 https://api.wxtiles.com/v1/{ownerId}/tile/{layerId}/{styleId}/{instanceId}/{time}/{level}/{z}/{x}/{y}.{extension}
 ```
