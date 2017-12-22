@@ -4,8 +4,7 @@ info:
   description: Make and explore beautiful, rapidly-refreshed weather maps with the WXTiles API
   version: "1.0"
 # the domain of the service
-# host: api.wxtiles.com
-host: 172.16.1.50
+host: api.wxtiles.com
 # array of all schemes that your API supports
 schemes:
   - http
