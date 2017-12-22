@@ -194,7 +194,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /{ownerID}/legend/{layerId}/{styleId}.json:
+  /{ownerId}/legend/{layerId}/{styleId}.json:
     #Ignore the x-swagger-router-controller value, it is just to get mocking to work.
     x-swagger-router-controller: mock
     parameters:
