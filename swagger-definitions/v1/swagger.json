@@ -605,7 +605,7 @@
     },
     "PartialInstance" : {
       "type" : "object",
-      "required" : [ "created", "displayName", "id" ],
+      "required" : [ "displayName", "id" ],
       "properties" : {
         "id" : {
           "type" : "string",
@@ -614,12 +614,7 @@
         "displayName" : {
           "type" : "string",
           "description" : "Instance name, intended for display to end users"
-        },
-        "created" : {
-          "type" : "string",
-          "format" : "date-time",
-          "description" : "ISO 8601 datetime string representing when the instance configuration was created"
-        },
+        },        
         "start" : {
           "type" : "string",
           "format" : "date-time",
