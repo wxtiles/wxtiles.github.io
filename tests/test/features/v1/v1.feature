@@ -18,7 +18,7 @@ Feature: WXTiles API (v1)
      And request path param "ownerId" equals "wxtiles"
      And request header "apikey" equals "badapikey"
     When the request is executed
-    Then response code is "403"
+    Then response code is "401"
 
   Scenario: Get all layers.
   Given an operation with Id "getLayers"
